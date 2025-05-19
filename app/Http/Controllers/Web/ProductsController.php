@@ -248,6 +248,21 @@ public function addstock(Request $request, product $product)
 }
 
 
+public function markAsFavorite($id)
+{
+    if (!auth()->user()->can('add_fav')) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $product = Product::findOrFail($id);
+    
+    if (!$product->favorite) {
+        $product->favorite = 1;
+        $product->save();
+    }
+
+    return redirect()->back()->with('success', 'Product marked as favorite.');
+}
 
 
 
