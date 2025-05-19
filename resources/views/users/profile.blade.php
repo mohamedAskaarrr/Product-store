@@ -142,7 +142,7 @@
 
     .table td {
         border-color: #D4AF37;
-        color: #f5f5f5;
+        color: #3a2a2a;
     }
 
     .badge.bg-gold {
