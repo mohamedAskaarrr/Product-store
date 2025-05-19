@@ -24,6 +24,15 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+  @role('Customer')
+<div class="container my-3">
+    <a href="{{ route('products.fav') }}" class="btn btn-outline-primary btn-gold">
+        <i class="fas fa-heart me-1"></i> View Favourites
+    </a>
+</div>
+@endrole
+
+
   <style>
     :root {
       --primary-color: #D4AF37;

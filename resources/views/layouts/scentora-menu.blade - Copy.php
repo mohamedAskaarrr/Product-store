@@ -68,6 +68,12 @@
           </ul>
         </li>
         @endguest
+        @role('Customer')
+        <a href="{{ route('products.fav') }}" class="btn btn-outline-primary">
+        View Favourites
+        </a>
+        @endrole
+
         <li class="nav-item ms-2">
           <a class="btn btn-gold" href="{{ route('products.basket') }}">
             <i class="fas fa-shopping-cart me-1"></i>Basket (3)

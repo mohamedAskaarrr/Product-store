@@ -318,16 +318,14 @@ public function removeFromBasket(Basket $basket)
 
 public function showFavourites()
 {
-    if (!auth()->user()->can('add_favourite')) {
-        abort(403, 'Unauthorized.');
-    }
+    // if (!auth()->user()->can('add_fav')) {
+    //     abort(403, 'Unauthorized.');
+    // }
 
-    $products = Product::where('favorite', 1)->get();
+    $products = Product::where('favourite', 1)->get();
 
     return view('products.fav', compact('products'));
 }
-
-
 
 
 

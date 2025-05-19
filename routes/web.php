@@ -111,3 +111,6 @@ Route::patch('/products/{id}/mark-favorite', [ProductsController::class, 'markAs
     ->name('products.markAsFavorite');
     
 
+
+Route::get('/fav', [ProductsController::class, 'showFavourites'])
+->name('fav');
