@@ -80,13 +80,6 @@ class UsersController extends Controller {
         }
         return redirect('/');
        
-        // // Clear any existing session before logging in
-        // Auth::logout();
-        
-        // // Log in the new user
-        // Auth::login($user);
-
-        // return redirect('/');
     }
 
     public function login(Request $request) {
