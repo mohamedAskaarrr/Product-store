@@ -453,6 +453,10 @@
         font-weight: 500;
         box-shadow: none;
         padding-left: 0.5rem;
+        height: 44px;
+        min-width: 120px;
+        display: flex;
+        align-items: center;
     }
     .search-pill-input:focus, .search-pill .form-select:focus {
         outline: none;
@@ -460,12 +464,15 @@
         background: transparent;
         color: #fffbe6;
     }
-    .input-group-text.search-icon, .input-group-text.price-icon, .input-group-text.sort-icon {
+    .input-group-text {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        border-radius: 50px 0 0 50px;
         background: none;
         border: none;
         color: #D4AF37;
         font-size: 1.1rem;
-        border-radius: 50px 0 0 50px;
         padding-left: 16px;
         padding-right: 8px;
     }
@@ -487,6 +494,17 @@
     }
     .search-pill .form-select {
         padding-right: 2rem;
+        height: 44px;
+        min-width: 120px;
+        display: flex;
+        align-items: center;
+    }
+    .input-group.search-pill {
+        min-width: 180px;
+        max-width: 220px;
+        flex: 1 1 180px;
+        height: 44px;
+        align-items: center;
     }
     @media (max-width: 900px) {
         .modern-search-bar form { flex-direction: column !important; align-items: stretch !important; }
