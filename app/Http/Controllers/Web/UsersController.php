@@ -230,7 +230,7 @@ class UsersController extends Controller {
         $user->name = $request->name;
         $user->save();
 
-        if (auth()->user()->can('add_credit') && $request->credit > 0) {
+        if (auth()->user()->can('manage_customer_credit') && $request->credit > 0) {
             $user->credit += $request->credit;
             $user->save();
         }
