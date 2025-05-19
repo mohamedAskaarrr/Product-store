@@ -96,6 +96,7 @@
                         </div>
                     </div>
 
+
                     @if($product->stock > 0)
                         <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
                             @csrf
@@ -103,6 +104,39 @@
                                 Buy
                             </button>
                         </form>
+
+                
+               
+            
+           
+                        
+
+                    </table>
+
+                    @if($product->available_stock > 0)
+                    <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success">
+                            Buy
+                        </button>
+                    </form>
+                        @role('Customer')
+                        <td>
+                            @if (!$product->favorite)
+                                <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-sm btn-warning">Favourite</button>
+                                </form>
+                            @else
+                                <span class="badge bg-success">Favourited</span>
+                            @endif
+                        </td>
+                    @endrole
+
+                    @else
+                    <button class="btn btn-secondary" disabled>Out of Stock</button>
+
                     @endif
 
                     @role('Customer')
