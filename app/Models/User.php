@@ -12,7 +12,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasRoles;
     // ...
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
