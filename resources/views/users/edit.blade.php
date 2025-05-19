@@ -209,8 +209,8 @@ $(document).ready(function(){
                             @foreach($roles as $role)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="roles[]" 
-                                           value="{{ $role->id }}" id="role_{{ $role->id }}"
-                                           {{ $user->roles->contains($role->id) ? 'checked' : '' }}>
+                                           value="{{ $role->name }}" id="role_{{ $role->id }}"
+                                           {{ $user->hasRole($role->name) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="role_{{ $role->id }}">
                                         {{ $role->name }}
                                     </label>

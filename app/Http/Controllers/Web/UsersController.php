@@ -209,7 +209,9 @@ class UsersController extends Controller {
     }
 
     public function save(Request $request, User $user) {
-
+        // Add this debug code
+        \Log::info('Roles being assigned: ' . json_encode($request->roles));
+        
         if(auth()->id()!=$user->id) {
             if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
         }
@@ -220,15 +222,11 @@ class UsersController extends Controller {
         $user->save();
 
         if(auth()->user()->hasPermissionTo('show_users')) {
-
             $user->syncRoles($request->roles);
             $user->syncPermissions($request->permissions);
 
             Artisan::call('cache:clear');
         }
-
-        //$user->syncRoles([1]);
-        //Artisan::call('cache:clear');
 
         return redirect(route('profile', ['user'=>$user->id]));
     }
