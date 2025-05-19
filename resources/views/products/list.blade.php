@@ -25,11 +25,10 @@
 @extends('layouts.master')
 @section('title', 'Products')
 @section('content')
-<div class="container py-5">
-    <!-- Header Section -->
-    <div class="row align-items-center mb-4">
-        <div class="col-md-8">
-            <h1 class="display-4 mb-0">🛍️ Products</h1>
+<div class="container py-4">
+    <div class="row align-items-center mb-3">
+        <div class="col-md-10">
+            <h1 >🛍️ Products</h1>
         </div>
         <div class="col-md-4 text-end">
             @can('add_products')
@@ -96,18 +95,26 @@
                             <span class="show-less" onclick="toggleDescription(this)">Show less</span>
                         </div>
                     </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        @if($product->available_stock > 0)
-                        <form action="{{ route('products.addTobasket', $product->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-shopping-cart"></i> Buy
-                            </button>
-                        </form>
-                        @else
-                        <button class="btn btn-secondary" disabled>Out of Stock</button>
-                        @endif
+                </form>
+
+                
+               @endrole
+            
+           
+                        
+
+                    </table>
+
+                    @if($product->available_stock > 0)
+                    <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success">
+                            Buy
+                        </button>
+                    </form>
+                    @else
+                    <button class="btn btn-secondary" disabled>Out of Stock</button>
+                    @endif
 
                         <div class="btn-group">
                             @can('edit_products')
