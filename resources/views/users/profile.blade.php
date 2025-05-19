@@ -92,8 +92,11 @@
                             <i class="fas fa-edit"></i> Edit Profile
                         </a>
                         @endif
-                        <a href="{{ route('edit_password', $user->id) }}" class="btn btn-gold">
+                        <a href="{{ route('edit_password', $user->id) }}" class="btn btn-gold me-2">
                             <i class="fas fa-key"></i> Change Password
+                        </a>
+                        <a href="{{ route('purchase_history', $user->id) }}" class="btn btn-gold">
+                            <i class="fas fa-history"></i> Purchase History
                         </a>
                     </div>
                 </div>

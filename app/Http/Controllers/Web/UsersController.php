@@ -452,29 +452,31 @@ class UsersController extends Controller {
         return redirect()->back()->with('success', 'Stock updated successfully');
     }
 
-    // View product details
     public function show(Product $product)
     {
         return view('products.show', compact('product'));
     }
 
-    // View purchase history
-    public function purchaseHistory()
+    public function purchaseHistory(User $user)
     {
-        if(!auth()->user()) {
-            return redirect()->route('login');
+        if (!auth()->user() || (auth()->id() != $user->id && !auth()->user()->hasPermissionTo('show_users'))) {
+            abort(403, 'Unauthorized');
         }
-        
-        $purchases = DB::table('purchases')
+
+        $purchases = \DB::table('purchases')
             ->join('products', 'purchases.product_id', '=', 'products.id')
-            ->where('purchases.user_id', auth()->id())
-            ->select('purchases.*', 'products.name', 'products.photo')
+            ->where('purchases.user_id', $user->id)
+            ->select(
+                'purchases.*',
+                'products.name as product_name',
+                'products.photo as product_photo'
+            )
+            ->orderByDesc('purchases.created_at')
             ->get();
-            
-        return view('products.purchase-history', compact('purchases'));
+
+        return view('users.purchase_history', compact('user', 'purchases'));
     }
 
-    // Process purchase
     public function processPurchase(Request $request, Product $product)
     {
         if(!auth()->user()) {
@@ -492,13 +494,10 @@ class UsersController extends Controller {
         }
         
         DB::transaction(function() use ($product, $request, $totalPrice) {
-            // Deduct user credit
             auth()->user()->decrement('credit', $totalPrice);
             
-            // Reduce product stock
             $product->decrement('stock', $request->quantity);
             
-            // Create purchase record
             DB::table('purchases')->insert([
                 'user_id' => auth()->id(),
                 'product_id' => $product->id,
@@ -512,7 +511,6 @@ class UsersController extends Controller {
         return redirect()->route('purchase.history')->with('success', 'Purchase completed successfully');
     }
 
-    // Remove from basket
     public function removeFromBasket(Product $product)
     {
         $user = Auth::user();
@@ -520,22 +518,17 @@ class UsersController extends Controller {
             return redirect()->route('login');
         }
         
-        // Get the basket item
         $basketItem = Basket::where('user_id', $user->id)
                            ->where('product_id', $product->id)
                            ->first();
                            
         if ($basketItem) {
-            // Calculate refund amount
             $refundAmount = $product->price * $basketItem->quantity;
             
-            // Start transaction
             DB::beginTransaction();
             try {
-                // Refund the credit to the user
                 $user->increment('credit', $refundAmount);
                 
-                // Remove from basket
                 $basketItem->delete();
                 
                 DB::commit();
@@ -549,7 +542,6 @@ class UsersController extends Controller {
         return redirect()->route('products.basket')->with('error', 'Product not found in basket');
     }
 
-    // Update basket quantity
     public function updateBasketQuantity(Request $request, Product $product)
     {
         $user = Auth::user();
@@ -568,7 +560,6 @@ class UsersController extends Controller {
         return redirect()->route('products.basket')->with('success', 'Basket updated');
     }
 
-    // Advanced search
     public function search(Request $request)
     {
         $query = Product::query();
@@ -594,14 +585,12 @@ class UsersController extends Controller {
         return view('products.search', compact('products'));
     }
 
-    // Featured products
     public function featured()
     {
         $products = Product::where('featured', true)->get();
         return view('products.featured', compact('products'));
     }
 
-// Add review
 public function addReview(Request $request, Product $product)
 {
     if(!auth()->user()) {
@@ -613,7 +602,6 @@ public function addReview(Request $request, Product $product)
         'comment' => 'required|string|max:1000'
     ]);
     
-    // Note: You'll need to create a reviews table in the database
     DB::table('reviews')->insert([
         'user_id' => auth()->id(),
         'product_id' => $product->id,
