@@ -205,17 +205,44 @@ public function checkout()
         return redirect()->route('login')->with('warning', 'You need to be logged in to checkout.');
     }
 
-    $basketItems = Basket::where('user_id', $user->id)->get();
+    $basketItems = Basket::where('user_id', $user->id)
+        ->join('products', 'basket.product_id', '=', 'products.id')
+        ->select('basket.*', 'products.price')
+        ->get();
     
     if ($basketItems->isEmpty()) {
         return redirect()->route('products.basket')->with('warning', 'Your basket is empty.');
     }
 
-    // Process the checkout (you can add your checkout logic here)
-    // For now, we'll just clear the basket
-    Basket::where('user_id', $user->id);
-    
-    return redirect()->route('products.basket')->with('success', 'Thank you for your purchase!');
+    DB::beginTransaction();
+    try {
+        foreach ($basketItems as $item) {
+            \Log::info('Processing basket item:', [
+                'user_id' => $user->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->price
+            ]);
+
+            DB::table('purchases')->insert([
+                'user_id' => $user->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'total_price' => $item->quantity * $item->price,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+
+        Basket::where('user_id', $user->id)->delete();
+        
+        DB::commit();
+        return redirect()->route('products.basket')->with('success', 'Thank you for your purchase! Your basket has been cleared.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        \Log::error('Checkout error: ' . $e->getMessage());
+        return redirect()->route('products.basket')->with('error', 'An error occurred during checkout. Please try again.');
+    }
 }
 
 

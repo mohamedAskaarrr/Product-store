@@ -13,13 +13,11 @@
             <i class="fas fa-shopping-bag me-1"></i>Shop
           </a>
         </li>
-        {{--
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('/about') }}">
+          <a class="nav-link" href="{{ route('about') }}">
             <i class="fas fa-info-circle me-1"></i>About Us
           </a>
         </li>
-        --}}
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/products') }}">
             <i class="fas fa-spray-can me-1"></i>Fragrances
@@ -70,7 +68,15 @@
         @endguest
         <li class="nav-item ms-2">
           <a class="btn btn-gold" href="{{ route('products.basket') }}">
-            <i class="fas fa-shopping-cart me-1"></i>Basket (3)
+            <i class="fas fa-shopping-cart me-1"></i>Basket
+            @auth
+              @php
+                $basketCount = \App\Models\Basket::where('user_id', auth()->id())->sum('quantity');
+              @endphp
+              @if($basketCount > 0)
+                <span class="badge bg-danger">{{ $basketCount }}</span>
+              @endif
+            @endauth
           </a>
         </li>
       </ul>

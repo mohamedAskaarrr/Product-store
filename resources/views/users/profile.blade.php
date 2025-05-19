@@ -87,11 +87,11 @@
                         </table>
                     </div>
                     <div class="mt-4">
-                        @can('edit_users')
+                        @if(auth()->id() == $user->id || auth()->user()->hasPermissionTo('edit_users'))
                         <a href="{{ route('users_edit', $user->id) }}" class="btn btn-gold me-2">
                             <i class="fas fa-edit"></i> Edit Profile
                         </a>
-                        @endcan
+                        @endif
                         <a href="{{ route('edit_password', $user->id) }}" class="btn btn-gold">
                             <i class="fas fa-key"></i> Change Password
                         </a>
