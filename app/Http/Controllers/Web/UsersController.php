@@ -442,4 +442,45 @@ public function redirectToGoogle()
       return redirect()->route('login')->withErrors(['email' => 'Google login failed. Please try again.']);
   }
  }
+
+public function create()
+{
+    if(!auth()->user()->hasPermissionTo('admin_users')) {
+        abort(401);
+    }
+
+    $roles = Role::all();
+    $permissions = Permission::all();
+    
+    return view('users.create', compact('roles', 'permissions'));
+}
+
+public function store(Request $request)
+{
+    if(!auth()->user()->hasPermissionTo('admin_users')) {
+        abort(401);
+    }
+
+    $request->validate([
+        'name' => ['required', 'string', 'min:5'],
+        'email' => ['required', 'email', 'unique:users'],
+        'password' => ['required', 'confirmed', Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
+    ]);
+
+    $user = new User();
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->password = bcrypt($request->password);
+    $user->save();
+
+    if($request->has('roles')) {
+        $user->syncRoles($request->roles);
+    }
+
+    if($request->has('permissions')) {
+        $user->syncPermissions($request->permissions);
+    }
+
+    return redirect()->route('users')->with('success', 'User created successfully');
+}
 }

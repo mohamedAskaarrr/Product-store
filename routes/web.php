@@ -95,3 +95,6 @@ Route::get('sqli',function(Request $request){
 Route::get('/about', function () {
     return view('about');
 })->name('about'); //Will be used when the about me part is uncommented and finished the page
+
+Route::get('users/create', [UsersController::class, 'create'])->name('users_create');
+Route::post('users/store', [UsersController::class, 'store'])->name('users_store');

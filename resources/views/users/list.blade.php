@@ -10,6 +10,11 @@
             <h2 class="text-gold"><i class="fas fa-users me-2"></i>Users List</h2>
         </div>
         <div class="col-md-6 text-end">
+            @can('admin_users')
+            <a href="{{ route('users_create') }}" class="btn btn-gold mb-3">
+                <i class="fas fa-user-plus"></i> Add New User
+            </a>
+            @endcan
             <form action="{{ route('users') }}" method="GET" class="d-flex gap-2">
                 <input type="text" name="keywords" class="form-control" placeholder="Search users..." value="{{ request()->keywords }}">
                 <button type="submit" class="btn btn-gold">
