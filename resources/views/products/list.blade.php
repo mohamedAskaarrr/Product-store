@@ -78,6 +78,63 @@
             .products-heading { font-size: 1.5rem; }
             .products-subtitle { font-size: 0.95rem; }
         }
+        .credit-pill-nav {
+            background: linear-gradient(90deg, #2c1e1e 60%, #D4AF37 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 32px;
+            padding: 7px 26px 7px 14px;
+            color: #fffbe6;
+            font-weight: 600;
+            font-size: 1.13rem;
+            box-shadow: 0 2px 12px rgba(212, 175, 55, 0.10);
+            transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+            margin-right: 18px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .credit-pill-nav:hover, .credit-pill-nav:focus {
+            background: linear-gradient(90deg, #D4AF37 80%, #fffbe6 100%);
+            color: #2c1e1e;
+            box-shadow: 0 4px 24px rgba(212, 175, 55, 0.18);
+            transform: scale(1.04);
+            text-decoration: none;
+        }
+        .credit-pill-icon {
+            background: #fffbe6;
+            color: #D4AF37;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.10);
+        }
+        .credit-pill-label {
+            color: #b89b76;
+            font-size: 1.02rem;
+            margin-right: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .credit-pill-amount {
+            color: #fffbe6;
+            font-size: 1.13rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #D4AF37 60%, #fffbe6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        @media (max-width: 600px) {
+            .credit-pill-nav { padding: 6px 12px 6px 8px; font-size: 0.98rem; }
+            .credit-pill-icon { width: 26px; height: 26px; font-size: 1rem; margin-right: 6px; }
+            .credit-pill-label { display: none; }
+        }
     </style>
 </head>
 

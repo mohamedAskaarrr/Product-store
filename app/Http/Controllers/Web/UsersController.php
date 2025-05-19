@@ -71,6 +71,7 @@ class UsersController extends Controller {
 	    $user->password = bcrypt($request->password); //Secure
 	    $user->save();
         $user->assignRole('Customer');
+        $user->givePermissionTo('add_fav');
 
 
         $title = "Verification Link";
