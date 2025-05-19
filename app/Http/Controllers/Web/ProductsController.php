@@ -289,8 +289,8 @@ public function markAsFavorite($id)
 
     $product = Product::findOrFail($id);
     
-    if (!$product->favorite) {
-        $product->favorite = 1;
+    if (!$product->favourite) {
+        $product->favourite = 1;
         $product->save();
     }
 
