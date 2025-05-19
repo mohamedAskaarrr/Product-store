@@ -13,11 +13,18 @@
             <i class="fas fa-shopping-bag me-1"></i>Shop
           </a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="{{ route('about') }}">
             <i class="fas fa-info-circle me-1"></i>About Us
           </a>
         </li>
+        <li class="nav-item">
+        <a href="{{ route('fav') }}"  class="nav-link">
+        <i class="fas fa-heart me-1"></i> View Favourites
+        </a>
+        </li>
+          
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/products') }}">
             <i class="fas fa-spray-can me-1"></i>Fragrances

@@ -110,4 +110,9 @@ Route::patch('/products/{id}/mark-favorite', [ProductsController::class, 'markAs
 Route::patch('/products/{id}/mark-favorite', [ProductsController::class, 'markAsFavorite'])
     ->name('products.markAsFavorite');
     
+// settings page route
+Route::get('/settings', [UsersController::class, 'settings'])->middleware('auth');
 
+
+Route::get('/fav', [ProductsController::class, 'showFavourites'])
+->name('fav');

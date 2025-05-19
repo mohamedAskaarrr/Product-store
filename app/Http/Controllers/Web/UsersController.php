@@ -12,6 +12,7 @@ use Artisan;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationEmail;
+// use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
@@ -600,28 +601,32 @@ class UsersController extends Controller {
         return view('products.featured', compact('products'));
     }
 
-    // Add review
-    public function addReview(Request $request, Product $product)
-    {
-        if(!auth()->user()) {
-            return redirect()->route('login');
-        }
-        
-        $request->validate([
-            'rating' => 'required|numeric|min:1|max:5',
-            'comment' => 'required|string|max:1000'
-        ]);
-        
-        // Note: You'll need to create a reviews table in the database
-        DB::table('reviews')->insert([
-            'user_id' => auth()->id(),
-            'product_id' => $product->id,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-        
-        return redirect()->back()->with('success', 'Review added successfully');
+// Add review
+public function addReview(Request $request, Product $product)
+{
+    if(!auth()->user()) {
+        return redirect()->route('login');
     }
+    
+    $request->validate([
+        'rating' => 'required|numeric|min:1|max:5',
+        'comment' => 'required|string|max:1000'
+    ]);
+    
+    // Note: You'll need to create a reviews table in the database
+    DB::table('reviews')->insert([
+        'user_id' => auth()->id(),
+        'product_id' => $product->id,
+        'rating' => $request->rating,
+        'comment' => $request->comment,
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+    
+    return redirect()->back()->with('success', 'Review added successfully');
+}
+
+public function settings() {
+    return view('users.settings');
+}
 }
