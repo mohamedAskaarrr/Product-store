@@ -95,48 +95,39 @@
                             <span class="show-less" onclick="toggleDescription(this)">Show less</span>
                         </div>
                     </div>
-                </form>
-
-                
-               @endrole
-            
-           
-                        
-
-                    </table>
 
                     @if($product->available_stock > 0)
-                    <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-success">
-                            Buy
-                        </button>
-                    </form>
-                        @role('Customer')
-                        <td>
-                            @if (!$product->favorite)
-                                <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-sm btn-warning">Favourite</button>
-                                </form>
-                            @else
-                                <span class="badge bg-success">Favourited</span>
-                            @endif
-                        </td>
-                    @endrole
-
-                    @else
-                    <button class="btn btn-secondary" disabled>Out of Stock</button>
+                        <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success">
+                                Buy
+                            </button>
+                        </form>
                     @endif
 
-                        <div class="btn-group">
-                            @can('edit_products')
+                    @role('Customer')
+                        @if (!$product->favorite)
+                            <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-sm btn-warning">Favourite</button>
+                            </form>
+                        @else
+                            <span class="badge bg-success">Favourited</span>
+                        @endif
+                    @endrole
+
+                    @if($product->available_stock <= 0)
+                        <button class="btn btn-secondary" disabled>Out of Stock</button>
+                    @endif
+
+                    <div class="btn-group">
+                        @can('edit_products')
                             <a href="{{ route('products_edit', $product->id) }}" class="btn btn-outline-light">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            @endcan
-                            @can('delete_products')
+                        @endcan
+                        @can('delete_products')
                             <form action="{{ route('products_delete', $product->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
@@ -144,20 +135,19 @@
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
-                            @endcan
-                        </div>
+                        @endcan
                     </div>
 
                     @role('Employee')
-                    <form action="{{ route('products.addstock', $product->id) }}" method="POST" class="mt-3">
-                        @csrf
-                        <div class="input-group">
-                            <input type="number" class="form-control" name="stock" placeholder="Add stock">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </form>
+                        <form action="{{ route('products.addstock', $product->id) }}" method="POST" class="mt-3">
+                            @csrf
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="stock" placeholder="Add stock">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </form>
                     @endrole
                 </div>
             </div>
