@@ -231,10 +231,10 @@ $(document).ready(function(){
                             @foreach($permissions as $permission)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="permissions[]" 
-                                           value="{{ $permission->id }}" id="permission_{{ $permission->id }}"
-                                           {{ $user->permissions->contains($permission->id) ? 'checked' : '' }}>
+                                           value="{{ $permission->name }}" id="permission_{{ $permission->id }}"
+                                           {{ $permission->taken ? 'checked' : '' }}>
                                     <label class="form-check-label" for="permission_{{ $permission->id }}">
-                                        {{ $permission->name }}
+                                        {{ $permission->display_name ?? $permission->name }}
                                     </label>
                                 </div>
                             @endforeach

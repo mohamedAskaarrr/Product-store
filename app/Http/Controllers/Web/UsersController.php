@@ -195,12 +195,11 @@ class UsersController extends Controller {
     }
 
     public function edit(Request $request, User $user = null) {
-   
-        $user = $user??auth()->user();
-        if(auth()->id()!=$user?->id) {
+        $user = $user ?? auth()->user();
+        if(auth()->id() != $user?->id) {
             if(!auth()->user()->hasPermissionTo('edit_users')) abort(401);
         }
-    
+
         $roles = [];
         foreach(Role::all() as $role) {
             $role->taken = ($user->hasRole($role->name));
@@ -208,9 +207,8 @@ class UsersController extends Controller {
         }
 
         $permissions = [];
-        $directPermissionsIds = $user->permissions()->pluck('id')->toArray();
         foreach(Permission::all() as $permission) {
-            $permission->taken = in_array($permission->id, $directPermissionsIds);
+            $permission->taken = $user->hasPermissionTo($permission->name);
             $permissions[] = $permission;
         }      
 
@@ -218,9 +216,7 @@ class UsersController extends Controller {
     }
 
     public function save(Request $request, User $user) {
-        \Log::info('Roles being assigned: ' . json_encode($request->roles));
-        
-        if(auth()->id()!=$user->id) {
+        if(auth()->id() != $user->id) {
             if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
         }
 
@@ -239,8 +235,15 @@ class UsersController extends Controller {
         }
 
         if(auth()->user()->hasPermissionTo('show_users')) {
-            $user->syncRoles($request->roles);
-            $user->syncPermissions($request->permissions);
+            // Sync roles using role names
+            if($request->has('roles')) {
+                $user->syncRoles($request->roles);
+            }
+
+            // Sync permissions using permission names
+            if($request->has('permissions')) {
+                $user->syncPermissions($request->permissions);
+            }
 
             Artisan::call('cache:clear');
         }
