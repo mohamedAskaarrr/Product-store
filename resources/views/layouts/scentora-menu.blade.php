@@ -104,12 +104,12 @@
   }
 
   .dropdown-item {
-    color: #f5f5f5;
+    color: #222;
   }
 
   .dropdown-item:hover {
     background-color: #D4AF37;
-    color: #2c1e1e;
+    color: #222;
   }
 
   .btn-gold {
