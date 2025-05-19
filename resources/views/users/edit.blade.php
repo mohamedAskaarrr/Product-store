@@ -203,6 +203,12 @@ $(document).ready(function(){
                             <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
                         </div>
 
+                        <div class="form-group mb-3">
+                            <label for="credit" class="form-label">Add Credit</label>
+                            <input type="number" class="form-control" id="credit" name="credit" min="0" step="0.01" value="0" required>
+                            <small class="form-text text-muted">Current credit: {{ $user->credit }}</small>
+                        </div>
+
                         @if(Auth::user()->hasPermissionTo('admin_users'))
                         <div class="form-group mb-4">
                             <label class="form-label d-block">Roles</label>

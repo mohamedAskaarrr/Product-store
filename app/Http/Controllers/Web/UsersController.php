@@ -215,17 +215,23 @@ class UsersController extends Controller {
     }
 
     public function save(Request $request, User $user) {
-        // Add this debug code
         \Log::info('Roles being assigned: ' . json_encode($request->roles));
         
         if(auth()->id()!=$user->id) {
             if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
         }
 
+        $request->validate([
+            'credit' => 'required|numeric|min:0',
+        ]);
+
         $user->name = $request->name;
         $user->save();
-        $user->credit += $request->credit;
-        $user->save();
+
+        if ($request->credit > 0) {
+            $user->credit += $request->credit;
+            $user->save();
+        }
 
         if(auth()->user()->hasPermissionTo('show_users')) {
             $user->syncRoles($request->roles);
