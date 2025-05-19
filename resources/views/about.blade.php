@@ -3,7 +3,7 @@
 @section('title', 'About Us')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-4" style="min-height: 80vh;">
     <div class="about-card shadow-lg p-4">
         <h1 class="text-gold mb-4 text-center">About Scentora - Your World of Fragrances</h1>
 
@@ -58,6 +58,8 @@
         background-color: #2c1e1e;
         border: 1px solid #D4AF37;
         border-radius: 10px;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .content-card {
@@ -83,18 +85,6 @@
 
     .text-gold {
         color: #D4AF37;
-    }
-
-    .fas {
-        font-size: 2em;
-    }
-
-    h1, h2 {
-        font-weight: 600;
-    }
-
-    p {
-        line-height: 1.6;
     }
 </style>
 @endsection
