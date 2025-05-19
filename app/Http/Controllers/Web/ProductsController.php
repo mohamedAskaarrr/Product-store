@@ -312,9 +312,20 @@ public function removeFromBasket(Basket $basket)
     } catch (\Exception $e) {
         return redirect()->back()->with('error', 'Failed to remove item from basket.');
     }
+    
 }
 
 
+public function showFavourites()
+{
+    if (!auth()->user()->can('add_favourite')) {
+        abort(403, 'Unauthorized.');
+    }
+
+    $products = Product::where('favorite', 1)->get();
+
+    return view('products.fav', compact('products'));
+}
 
 
 
