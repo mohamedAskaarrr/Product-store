@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #2c1e1e;">
+<nav class="navbar navbar-expand-lg fixed-navbar" style="background-color: #2c1e1e;">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold fs-3" href="{{ route('home') }}">
       <i class="fas fa-spray-can me-2 text-success"></i><span class="text-primary">Scentora</span>
@@ -41,6 +41,14 @@
           </a>
         </li>
         @else
+        <!-- Credit Section -->
+        <li class="nav-item d-flex align-items-center me-3">
+          <div class="navbar-credit-box d-flex align-items-center px-3 py-1">
+            <span class="credit-icon-navbar me-2"><i class="fa-solid fa-wallet"></i></span>
+            <span class="credit-label-navbar">Credit:</span>
+            <span class="credit-amount-navbar ms-2">${{ number_format(Auth::user()->credit ?? 0, 2) }}</span>
+          </div>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-bs-toggle="dropdown">
             <i class="fas fa-user-circle me-1"></i>{{ Auth::user()->name }}
@@ -123,5 +131,49 @@
     background-color: #B38F28;
     color: #2c1e1e;
     transform: scale(1.05);
+  }
+
+  .navbar-credit-box {
+    background: #2c1e1e;
+    border: 1.5px solid #D4AF37;
+    border-radius: 18px;
+    color: #D4AF37;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.10);
+  }
+  .credit-icon-navbar {
+    background: linear-gradient(135deg, #D4AF37 60%, #b89b76 100%);
+    color: #2c1e1e;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-right: 6px;
+  }
+  .credit-label-navbar {
+    color: #D4AF37;
+    font-weight: 600;
+    margin-right: 2px;
+  }
+  .credit-amount-navbar {
+    color: #fffbe6;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .fixed-navbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1200;
+    box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
+  }
+  body {
+    padding-top: 76px; /* Adjust to match navbar height */
   }
 </style>
