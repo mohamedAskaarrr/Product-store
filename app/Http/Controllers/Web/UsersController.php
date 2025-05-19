@@ -625,4 +625,8 @@ public function addReview(Request $request, Product $product)
     
     return redirect()->back()->with('success', 'Review added successfully');
 }
+
+public function settings() {
+    return view('users.settings');
+}
 }
