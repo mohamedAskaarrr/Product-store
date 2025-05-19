@@ -108,31 +108,37 @@ class ProductsController extends Controller {
         return redirect()->back()->with('warning', '⚠️ Product out of stock.');
     }
 
-    DB::table('users')->where('id', $user->id)->decrement('credit', $product->price);
-    DB::table('products')->where('id', $product->id)->decrement('stock', 1);
+    // Start transaction
+    DB::beginTransaction();
+    try {
+        // Deduct credit and stock
+        DB::table('users')->where('id', $user->id)->decrement('credit', $product->price);
+        DB::table('products')->where('id', $product->id)->decrement('stock', 1);
 
-	$user = Auth::user();
+        // Find existing basket item or create new one
+        $basket = Basket::where('user_id', $user->id)
+                       ->where('product_id', $product->id)
+                       ->first();
 
-	$basket = Basket::firstOrCreate([
-        'user_id' => $user->id,
-        'product_id' => $product->id,
-        'product_name' => $product->name,
-		
-        'quantity' => 1
+        if ($basket) {
+            // Update quantity if item exists
+            $basket->increment('quantity');
+        } else {
+            // Create new basket item
+            Basket::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'product_name' => $product->name,
+                'quantity' => 1
+            ]);
+        }
 
-    ]);
-
-
-    
-
-    // Uncomment this if you want to use the many-to-many relationship
-    // $basket->products()->syncWithoutDetaching([
-    //     $product->id => ['quantity' => \DB::raw('quantity + 1')]
-    // ]);
-
-	
-    // return redirect()->route('products.basket')->with('success', 'Product added to basket!');
-    return redirect()->route('products_list')->with('success', 'Thank you for your purchase!');
+        DB::commit();
+        return redirect()->route('products_list')->with('success', 'Product added to basket!');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->back()->with('error', 'Failed to add product to basket.');
+    }
 }
 
 
@@ -262,6 +268,50 @@ public function markAsFavorite($id)
     }
 
     return redirect()->back()->with('success', 'Product marked as favorite.');
+}
+
+public function removeFromBasket(Basket $basket)
+{
+    if (!auth()->check()) {
+        return redirect()->route('login')->with('error', 'Please login to manage your basket.');
+    }
+
+    // Check if the basket item belongs to the current user
+    if ($basket->user_id !== auth()->id()) {
+        return redirect()->back()->with('error', 'Unauthorized action.');
+    }
+
+    try {
+        // Get the product to calculate refund amount
+        $product = Product::find($basket->product_id);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        // Calculate refund amount
+        $refundAmount = $product->price * $basket->quantity;
+
+        // Start transaction
+        DB::beginTransaction();
+        try {
+            // Refund the credit to the user
+            auth()->user()->increment('credit', $refundAmount);
+            
+            // Return the stock
+            $product->increment('stock', $basket->quantity);
+            
+            // Remove from basket
+            $basket->delete();
+            
+            DB::commit();
+            return redirect()->route('products.basket')->with('success', 'Item removed from basket and credit refunded.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to process refund.');
+        }
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Failed to remove item from basket.');
+    }
 }
 
 

@@ -28,7 +28,7 @@
 <div class="container py-4">
     <div class="row align-items-center mb-3">
         <div class="col-md-10">
-            <h1 >🛍️ Products </h1>
+            <h1>🛍️ Products</h1>
         </div>
         <div class="col-md-4 text-end">
             @can('add_products')
@@ -96,93 +96,61 @@
                         </div>
                     </div>
 
-
-                    @if($product->stock > 0)
-                        <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-success">
-                                Buy
-                            </button>
-                        </form>
-
-                
-               
-            
-           
-                        
-
-                    </table>
-
-                    @if($product->available_stock > 0)
-                    <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-success">
-                            Buy
-                        </button>
-                    </form>
-                        @role('Customer')
-                        <td>
-                            @if (!$product->favorite)
-                                <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-sm btn-warning">Favourite</button>
-                                </form>
-                            @else
-                                <span class="badge bg-success">Favourited</span>
-                            @endif
-                        </td>
-                    @endrole
-
-                    @else
-                    <button class="btn btn-secondary" disabled>Out of Stock</button>
-
-                    @endif
-
-                    @role('Customer')
-                        @if (!$product->favorite)
-                            <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST">
+                    <div class="mt-3">
+                        @if($product->stock > 0)
+                            <form action="{{ route('products.addTobasket', $product->id) }}" method="POST" class="d-inline">
                                 @csrf
-                                @method('PATCH')
-                                <button type="submit" class="btn btn-sm btn-warning">Favourite</button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-shopping-cart"></i> Buy
+                                </button>
                             </form>
                         @else
-                            <span class="badge bg-success">Favourited</span>
+                            <button class="btn btn-secondary" disabled>Out of Stock</button>
                         @endif
-                    @endrole
 
-                    @if($product->stock <= 0)
-                        <button class="btn btn-secondary" disabled>Out of Stock</button>
-                    @endif
+                        @role('Customer')
+                            @if (!$product->favorite)
+                                <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="fas fa-heart"></i> Favorite
+                                    </button>
+                                </form>
+                            @else
+                                <span class="badge bg-success">Favorited</span>
+                            @endif
+                        @endrole
 
-                    <div class="btn-group">
-                        @can('edit_products')
-                            <a href="{{ route('products_edit', $product->id) }}" class="btn btn-outline-light">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                        @endcan
-                        @can('delete_products')
-                            <form action="{{ route('products_delete', $product->id) }}" method="POST" class="d-inline">
+                        <div class="btn-group mt-2">
+                            @can('edit_products')
+                                <a href="{{ route('products_edit', $product->id) }}" class="btn btn-outline-light">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            @endcan
+                            @can('delete_products')
+                                <form action="{{ route('products_delete', $product->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this product?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            @endcan
+                        </div>
+
+                        @role('Employee')
+                            <form action="{{ route('products.addstock', $product->id) }}" method="POST" class="mt-3">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this product?')">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="stock" placeholder="Add stock">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
                             </form>
-                        @endcan
+                        @endrole
                     </div>
-
-                    @role('Employee')
-                        <form action="{{ route('products.addstock', $product->id) }}" method="POST" class="mt-3">
-                            @csrf
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="stock" placeholder="Add stock">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </form>
-                    @endrole
                 </div>
             </div>
         </div>
@@ -250,99 +218,36 @@
         transition: max-height 0.3s ease;
     }
 
-    .description {
-        font-size: 0.85rem;
-        color: #d1d1d1;
-        margin-bottom: 0;
-        line-height: 1.4;
+    .description-container.expanded {
+        max-height: none;
     }
 
     .description-fade {
         position: absolute;
         bottom: 0;
         left: 0;
-        width: 100%;
+        right: 0;
         height: 2em;
         background: linear-gradient(transparent, var(--card-bg));
-        pointer-events: none;
     }
 
     .view-more, .show-less {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        font-size: 0.75rem;
         color: var(--secondary-color);
-        background-color: var(--card-bg);
-        padding: 0 5px;
         cursor: pointer;
-        opacity: 0.8;
-        transition: opacity 0.3s ease;
-    }
-
-    .view-more:hover, .show-less:hover {
-        opacity: 1;
-    }
-
-    .show-less {
+        font-size: 0.9rem;
         display: none;
     }
 
-    .description-container.expanded {
-        max-height: 1000px; /* Large enough to show full content */
-    }
-
-    .description-container.expanded .description-fade {
-        display: none;
-    }
-
-    .description-container.expanded .view-more {
-        display: none;
+    .description-container:not(.expanded) .view-more {
+        display: block;
     }
 
     .description-container.expanded .show-less {
         display: block;
     }
 
-    .form-control, .form-select {
-        background-color: var(--dark-bg);
-        border: 1px solid var(--secondary-color);
-        color: var(--text-color);
-    }
-
-    .form-control:focus, .form-select:focus {
-        background-color: var(--dark-bg);
-        border-color: var(--secondary-color);
-        color: var(--text-color);
-        box-shadow: 0 0 0 0.25rem rgba(198, 164, 126, 0.25);
-    }
-
-    .btn-success {
-        background: linear-gradient(45deg, var(--secondary-color), #b89b76);
-        border: none;
-    }
-
-    .btn-outline-light {
-        border-color: var(--secondary-color);
-        color: var(--secondary-color);
-    }
-
-    .btn-outline-light:hover {
-        background-color: var(--secondary-color);
-        color: var(--dark-bg);
-    }
-
-    .badge {
-        font-size: 0.8rem;
-        padding: 0.5em 1em;
-    }
-
-    .input-group .form-control {
-        border-right: none;
-    }
-
-    .input-group .btn {
-        border-left: none;
+    .description-container.expanded .description-fade {
+        display: none;
     }
 </style>
 

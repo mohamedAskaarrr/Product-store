@@ -519,11 +519,33 @@ class UsersController extends Controller {
             return redirect()->route('login');
         }
         
-        Basket::where('user_id', $user->id)
-              ->where('product_id', $product->id)
-              ->delete();
-              
-        return redirect()->route('products.basket')->with('success', 'Product removed from basket');
+        // Get the basket item
+        $basketItem = Basket::where('user_id', $user->id)
+                           ->where('product_id', $product->id)
+                           ->first();
+                           
+        if ($basketItem) {
+            // Calculate refund amount
+            $refundAmount = $product->price * $basketItem->quantity;
+            
+            // Start transaction
+            DB::beginTransaction();
+            try {
+                // Refund the credit to the user
+                $user->increment('credit', $refundAmount);
+                
+                // Remove from basket
+                $basketItem->delete();
+                
+                DB::commit();
+                return redirect()->route('products.basket')->with('success', 'Product removed from basket and credit refunded');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->route('products.basket')->with('error', 'Failed to process refund');
+            }
+        }
+        
+        return redirect()->route('products.basket')->with('error', 'Product not found in basket');
     }
 
     // Update basket quantity
