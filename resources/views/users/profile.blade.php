@@ -48,12 +48,17 @@
                                 <th>Email</th>
                                 <td>{{ $user->email }}</td>
                             </tr>
+
+
+ 
                             <tr>
                                 <th>Credit Balance</th>
                                 <td>
                                     <span class="badge bg-gold">${{ number_format($user->credit ?? 0, 2) }}</span>
                                 </td>
                             </tr>
+
+                            
                             <tr>
                                 <th>Member Since</th>
                                 <td>{{ $user->created_at ? $user->created_at->format('F j, Y') : 'N/A' }}</td>
@@ -98,6 +103,16 @@
                         <a href="{{ route('purchase_history', $user->id) }}" class="btn btn-gold">
                             <i class="fas fa-history"></i> Purchase History
                         </a>
+
+                        @role('Customer')
+                            <li class="nav-item">
+                            <a href="{{ route('fav') }}" class="btn btn-gold">
+                            <i  class="fas fa-key"></i> View Favourites
+                            </a>
+                            </li>
+                        @endrole
+                        
+                        
                     </div>
                 </div>
             </div>

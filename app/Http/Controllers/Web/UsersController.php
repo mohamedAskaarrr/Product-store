@@ -71,6 +71,7 @@ class UsersController extends Controller {
 	    $user->password = bcrypt($request->password); //Secure
 	    $user->save();
         $user->assignRole('Customer');
+        $user->givePermissionTo('add_fav');
 
 
         $title = "Verification Link";
@@ -324,57 +325,44 @@ class UsersController extends Controller {
     public function handleGoogleCallback() {
         try {
             $googleUser = Socialite::driver('google')->user();
+            \Log::info('Google user data received', ['email' => $googleUser->email]);
             
             // First try to find a user with this Google ID
             $user = User::where('google_id', $googleUser->id)->first();
             
-            // If not found by Google ID, try to find by email
             if (!$user) {
                 $user = User::where('email', $googleUser->email)->first();
                 
-                // If user exists but doesn't have Google ID, update it
                 if ($user) {
+                    \Log::info('Updating existing user with Google data');
                     $user->google_id = $googleUser->id;
                     $user->google_token = $googleUser->token;
                     $user->google_refresh_token = $googleUser->refreshToken;
-                    $user->email_verified_at = now(); // Mark email as verified
+                    $user->email_verified_at = now();
                     $user->save();
                 } else {
-                    // Create a new user if none exists with this email
+                    \Log::info('Creating new user from Google data');
                     $user = User::create([
                         'google_id' => $googleUser->id,
                         'name' => $googleUser->name,
                         'email' => $googleUser->email,
                         'google_token' => $googleUser->token,
                         'google_refresh_token' => $googleUser->refreshToken,
-                        'email_verified_at' => now(), // Mark email as verified
-                        'password' => bcrypt(Str::random(16)) // Generate a random password
+                        'email_verified_at' => now(),
+                        'password' => bcrypt(Str::random(16))
                     ]);
-                    
-                    // Assign the Customer role to the new user
                     $user->assignRole('Customer');
                 }
-            } else {
-                // Update existing Google user with latest token info
-                $user->google_token = $googleUser->token;
-                $user->google_refresh_token = $googleUser->refreshToken;
-                $user->save();
             }
             
-            // Clear any existing session before logging in
-            Auth::logout();
-            
-            // Log in the user 
             Auth::login($user);
-        
             return redirect('/');
-        }
-        catch(\Exception $e) {
-            // Log the error for debugging
-            \Log::error('Google login error: ' . $e->getMessage());
             
-            // Redirect to login page with error message
-            return redirect()->route('login')->withErrors(['email' => 'Google login failed. Please try again.']);
+        } catch (\Exception $e) {
+            \Log::error('Google login error: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+            return redirect()->route('login')
+                ->withErrors(['email' => 'Google login failed: ' . $e->getMessage()]);
         }
     }
 
