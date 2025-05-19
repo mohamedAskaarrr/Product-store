@@ -17,6 +17,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
+use App\Models\Product;
+use App\Models\Basket;
 
 
 class UsersController extends Controller {
@@ -475,5 +477,183 @@ public function store(Request $request)
     }
 
     return redirect()->route('users')->with('success', 'User created successfully');
+}
+
+// Add product function
+public function createProduct()
+{
+    if(!auth()->user()->hasPermissionTo('add_products')) {
+        abort(401);
+    }
+    return view('products.create');
+}
+
+// Update stock function
+public function updateStock(Request $request, Product $product)
+{
+    if(!auth()->user()->hasPermissionTo('manage_inventory')) {
+        abort(401);
+    }
+    
+    $request->validate([
+        'stock' => 'required|numeric|min:0'
+    ]);
+    
+    $product->stock = $request->stock;
+    $product->save();
+    
+    return redirect()->back()->with('success', 'Stock updated successfully');
+}
+
+// View product details
+public function show(Product $product)
+{
+    return view('products.show', compact('product'));
+}
+
+// View purchase history
+public function purchaseHistory()
+{
+    if(!auth()->user()) {
+        return redirect()->route('login');
+    }
+    
+    $purchases = DB::table('purchases')
+        ->join('products', 'purchases.product_id', '=', 'products.id')
+        ->where('purchases.user_id', auth()->id())
+        ->select('purchases.*', 'products.name', 'products.photo')
+        ->get();
+        
+    return view('products.purchase-history', compact('purchases'));
+}
+
+// Process purchase
+public function processPurchase(Request $request, Product $product)
+{
+    if(!auth()->user()) {
+        return redirect()->route('login');
+    }
+    
+    $request->validate([
+        'quantity' => 'required|numeric|min:1|max:' . $product->stock
+    ]);
+    
+    $totalPrice = $product->price * $request->quantity;
+    
+    if(auth()->user()->credit < $totalPrice) {
+        return redirect()->back()->with('error', 'Insufficient credit');
+    }
+    
+    DB::transaction(function() use ($product, $request, $totalPrice) {
+        // Deduct user credit
+        auth()->user()->decrement('credit', $totalPrice);
+        
+        // Reduce product stock
+        $product->decrement('stock', $request->quantity);
+        
+        // Create purchase record
+        DB::table('purchases')->insert([
+            'user_id' => auth()->id(),
+            'product_id' => $product->id,
+            'quantity' => $request->quantity,
+            'total_price' => $totalPrice,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    });
+    
+    return redirect()->route('purchase.history')->with('success', 'Purchase completed successfully');
+}
+
+// Remove from basket
+public function removeFromBasket(Product $product)
+{
+    $user = Auth::user();
+    if (!$user) {
+        return redirect()->route('login');
+    }
+    
+    Basket::where('user_id', $user->id)
+          ->where('product_id', $product->id)
+          ->delete();
+          
+    return redirect()->route('products.basket')->with('success', 'Product removed from basket');
+}
+
+// Update basket quantity
+public function updateBasketQuantity(Request $request, Product $product)
+{
+    $user = Auth::user();
+    if (!$user) {
+        return redirect()->route('login');
+    }
+    
+    $request->validate([
+        'quantity' => 'required|numeric|min:1|max:' . $product->stock
+    ]);
+    
+    Basket::where('user_id', $user->id)
+          ->where('product_id', $product->id)
+          ->update(['quantity' => $request->quantity]);
+          
+    return redirect()->route('products.basket')->with('success', 'Basket updated');
+}
+
+// Advanced search
+public function search(Request $request)
+{
+    $query = Product::query();
+    
+    if($request->has('name')) {
+        $query->where('name', 'like', '%' . $request->name . '%');
+    }
+    
+    if($request->has('min_price')) {
+        $query->where('price', '>=', $request->min_price);
+    }
+    
+    if($request->has('max_price')) {
+        $query->where('price', '<=', $request->max_price);
+    }
+    
+    if($request->has('model')) {
+        $query->where('model', 'like', '%' . $request->model . '%');
+    }
+    
+    $products = $query->paginate(12);
+    
+    return view('products.search', compact('products'));
+}
+
+// Featured products
+public function featured()
+{
+    $products = Product::where('featured', true)->get();
+    return view('products.featured', compact('products'));
+}
+
+// Add review
+public function addReview(Request $request, Product $product)
+{
+    if(!auth()->user()) {
+        return redirect()->route('login');
+    }
+    
+    $request->validate([
+        'rating' => 'required|numeric|min:1|max:5',
+        'comment' => 'required|string|max:1000'
+    ]);
+    
+    // Note: You'll need to create a reviews table in the database
+    DB::table('reviews')->insert([
+        'user_id' => auth()->id(),
+        'product_id' => $product->id,
+        'rating' => $request->rating,
+        'comment' => $request->comment,
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+    
+    return redirect()->back()->with('success', 'Review added successfully');
 }
 }
