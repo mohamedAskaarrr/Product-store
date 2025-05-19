@@ -93,6 +93,7 @@ Route::get('sqli',function(Request $request){
 });
 
 
+
 Route::get('/about', function () {
     return view('about');
 })->name('about'); //Will be used when the about me part is uncommented and finished the page
@@ -102,3 +103,8 @@ Route::get('/about', function () {
 Route::patch('/products/{id}/mark-favorite', [ProductsController::class, 'markAsFavorite'])
     ->name('products.markAsFavorite');
     
+
+Route::patch('/products/{id}/mark-favorite', [ProductsController::class, 'markAsFavorite'])
+    ->name('products.markAsFavorite');
+    
+

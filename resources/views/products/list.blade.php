@@ -28,7 +28,7 @@
 <div class="container py-4">
     <div class="row align-items-center mb-3">
         <div class="col-md-10">
-            <h1 >🛍️ Products</h1>
+            <h1 >🛍️ Products </h1>
         </div>
         <div class="col-md-4 text-end">
             @can('add_products')
@@ -112,6 +112,20 @@
                             Buy
                         </button>
                     </form>
+                        @role('Customer')
+                        <td>
+                            @if (!$product->favorite)
+                                <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-sm btn-warning">Favourite</button>
+                                </form>
+                            @else
+                                <span class="badge bg-success">Favourited</span>
+                            @endif
+                        </td>
+                    @endrole
+
                     @else
                     <button class="btn btn-secondary" disabled>Out of Stock</button>
                     @endif
