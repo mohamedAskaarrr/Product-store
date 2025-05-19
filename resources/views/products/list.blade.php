@@ -19,46 +19,85 @@
     
     <!-- FontAwesome Icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        body {
+            padding-top: 90px !important;
+        }
+        .products-page-wrapper {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 16px 8px 16px;
+        }
+        .products-page-wrapper > .section-spacer:first-child,
+        .products-page-wrapper > .section-spacer:first-child .row,
+        .products-page-wrapper > .section-spacer:first-child h1,
+        .products-page-wrapper h1 {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        .products-page-wrapper > .section-spacer:first-child {
+            margin-bottom: 1.2rem !important;
+        }
+        .products-heading-section {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            align-items: flex-end;
+        }
+        .products-icon {
+            font-size: 2.8rem;
+            color: #D4AF37;
+            background: linear-gradient(135deg, #D4AF37 60%, #fffbe6 100%);
+            border-radius: 16px;
+            padding: 8px 16px 8px 12px;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .products-heading {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fffbe6 30%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: 1px;
+            margin-bottom: 0.2rem;
+        }
+        .products-subtitle {
+            color: #b89b76;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-left: 2px;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 600px) {
+            .products-heading-section { flex-direction: column; align-items: flex-start; }
+            .products-icon { font-size: 2rem; padding: 6px 10px; }
+            .products-heading { font-size: 1.5rem; }
+            .products-subtitle { font-size: 0.95rem; }
+        }
+    </style>
 </head>
 
 <body>
 @extends('layouts.master')
 @section('title', 'Products')
 @section('content')
-<style>
-    /* Sticky Navbar */
-    .navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1050;
-        box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
-    }
-    body {
-        padding-top: 70px; /* Adjust if your navbar is taller/shorter */
-    }
-    /* Page Structure */
-    .products-page-wrapper {
-        max-width: 1300px;
-        margin: 0 auto;
-        padding: 0 16px 32px 16px;
-    }
-    .section-spacer {
-        margin-bottom: 2.5rem;
-    }
-</style>
 <div class="products-page-wrapper">
     <div class="section-spacer">
-        <div class="row align-items-center mb-3">
+        <div class="row align-items-center">
             <div class="col-md-10">
-                <h1>🛍️ Products</h1>
+                <div class="products-heading-section d-flex align-items-center mb-4">
+                    <span class="products-icon me-3"><i class="fas fa-shopping-bag"></i></span>
+                    <div>
+                        <h1 class="products-heading mb-1">Products</h1>
+                        <div class="products-subtitle">Browse our exclusive collection</div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 text-end">
-                @can('add_products')
-                <a href="{{ route('products_edit') }}" class="btn btn-success">
-                    <i class="fas fa-plus-circle"></i> Add Product
-                </a>
-                @endcan
-            </div>
+            
         </div>
 
         <!-- Modern Compact Search and Filter Section -->
@@ -475,6 +514,108 @@ function toggleModernDescription(element) {
     }
 }
 </script>
+
+@php
+    use App\Models\User;
+    use App\Models\Product;
+    $isAdmin = auth()->user() && auth()->user()->hasRole('Admin');
+    $totalUsers = User::count();
+    $totalProducts = Product::count();
+@endphp
+
+@if($isAdmin)
+
+<div class="admin-dashboard-card d-flex flex-wrap align-items-center justify-content-between mb-4 p-3">
+    <div class="dashboard-stat">
+        <div class="stat-label">Total Products</div>
+        <div class="stat-value">{{ $totalProducts }}</div>
+    </div>
+    <div class="dashboard-actions">
+        <a href="{{ route('users') }}" class="btn btn-outline-light me-2" title="Manage Users">
+            <i class="fas fa-users"></i> Users
+        </a>
+        <a href="{{ route('products_edit') }}" class="btn btn-success btn-lg px-4" title="Add Product">
+            <i class="fas fa-plus-circle"></i> Add Product
+        </a>
+    </div>
+</div>
+@endif
+
+<style>
+.admin-panel-badge {
+    text-align: left;
+}
+.admin-dashboard-card {
+    background: linear-gradient(90deg, #3a2828 90%, #D4AF37 100%);
+    border: 2px solid #D4AF37;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.08);
+    margin-bottom: 2rem;
+    color: #fffbe6;
+    gap: 2rem;
+}
+.dashboard-stat {
+    min-width: 140px;
+    text-align: center;
+}
+.stat-label {
+    font-size: 1.1rem;
+    color: #b89b76;
+    font-weight: 500;
+}
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #D4AF37;
+}
+.dashboard-actions .btn {
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.dashboard-actions .btn-success {
+    background: linear-gradient(90deg, #D4AF37 70%, #fffbe6 100%);
+    color: #2c1e1e;
+    border: none;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.10);
+}
+.dashboard-actions .btn-success:hover {
+    background: linear-gradient(90deg, #fffbe6 70%, #D4AF37 100%);
+    color: #2c1e1e;
+}
+.dashboard-actions .btn-outline-light {
+    border: 2px solid #D4AF37;
+    color: #D4AF37;
+    background: transparent;
+}
+.dashboard-actions .btn-outline-light:hover {
+    background: #D4AF37;
+    color: #2c1e1e;
+}
+/* Action button tooltips and hover */
+.modern-actions .btn[title] {
+    position: relative;
+}
+.modern-actions .btn[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    left: 50%;
+    bottom: 120%;
+    transform: translateX(-50%);
+    background: #D4AF37;
+    color: #2c1e1e;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.10);
+    z-index: 10;
+    opacity: 1;
+    pointer-events: none;
+}
+</style>
 @endsection
 </body>
 </html>

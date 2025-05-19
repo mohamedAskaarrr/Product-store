@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-navbar" style="background-color: #2c1e1e;">
+<nav class="navbar navbar-expand-lg simple-navbar fixed-navbar" style="background-color: #2c1e1e;">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold fs-3" href="{{ route('home') }}">
       <i class="fas fa-spray-can me-2 text-success"></i><span class="text-primary">Scentora</span>
@@ -93,64 +93,59 @@
 </nav>
 
 <style>
-  .navbar {
-    background-color: #2c1e1e !important;
+  .simple-navbar {
+    background: #2c1e1e !important;
+    border-bottom: 2px solid #D4AF37;
+    border-radius: 0;
+    box-shadow: none;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition: background 0.3s;
   }
-
-  .nav-link {
-    color: #f5f5f5 !important;
-    font-weight: 500;
-    transition: color 0.3s ease, transform 0.3s ease;
-  }
-
-  .nav-link:hover {
-    color: #D4AF37 !important;
-    transform: translateY(-2px);
-  }
-
   .navbar-brand {
+    color: #fffbe6 !important;
+    letter-spacing: 1px;
+  }
+  .nav-link, .dropdown-item {
+    color: #fffbe6 !important;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .nav-link:hover, .dropdown-item:hover {
     color: #D4AF37 !important;
+    background: none !important;
   }
-
   .dropdown-menu {
-    background-color: #2c1e1e;
-    border: 1px solid #D4AF37;
-  }
-
-  .dropdown-item {
-    color: #f5f5f5;
-  }
-
-  .dropdown-item:hover {
-    background-color: #D4AF37;
-    color: #2c1e1e;
-  }
-
-  .btn-gold {
-    background-color: #D4AF37;
-    color: #2c1e1e;
-    border: none;
-    transition: all 0.3s ease;
-  }
-
-  .btn-gold:hover {
-    background-color: #B38F28;
-    color: #2c1e1e;
-    transform: scale(1.05);
-  }
-
-  .navbar-credit-box {
     background: #2c1e1e;
     border: 1.5px solid #D4AF37;
-    border-radius: 18px;
-    color: #D4AF37;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.10);
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(212,175,55,0.10);
+  }
+  .btn-gold, .navbar-credit-box {
+    background: #D4AF37;
+    color: #2c1e1e !important;
+    border: none;
+    font-weight: 700;
+    border-radius: 22px;
+    box-shadow: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-gold:hover {
+    background: #B38F28;
+    color: #2c1e1e !important;
+  }
+  .navbar-credit-box {
+    border: 2px solid #fffbe6;
+    background: #D4AF37;
+    color: #2c1e1e;
+    font-weight: 700;
+    border-radius: 22px;
+    box-shadow: none;
+    margin-right: 10px;
   }
   .credit-icon-navbar {
-    background: linear-gradient(135deg, #D4AF37 60%, #b89b76 100%);
-    color: #2c1e1e;
+    background: #fffbe6;
+    color: #D4AF37;
     border-radius: 50%;
     width: 32px;
     height: 32px;
@@ -159,6 +154,7 @@
     justify-content: center;
     font-size: 1.2rem;
     margin-right: 6px;
+    box-shadow: none;
   }
   .credit-label-navbar {
     color: #D4AF37;
@@ -166,10 +162,19 @@
     margin-right: 2px;
   }
   .credit-amount-navbar {
-    color: #fffbe6;
+    color: #2c1e1e;
     font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: 0.5px;
+  }
+  .navbar-toggler {
+    border: 2px solid #D4AF37;
+    background: #fffbe6;
+    color: #2c1e1e;
+    border-radius: 12px;
+  }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(212,175,55,0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
   }
   .fixed-navbar {
     position: fixed !important;

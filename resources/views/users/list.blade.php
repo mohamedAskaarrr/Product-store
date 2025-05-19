@@ -7,7 +7,10 @@
 <div class="container py-4">
     <div class="row mb-4">
         <div class="col-md-6">
-            <h2 class="text-gold"><i class="fas fa-users me-2"></i>Users List</h2>
+            <h1 class="products-heading">
+                <i class="fas fa-shopping-bag"></i> Products
+                <span class="products-subtitle">Browse our collection</span>
+            </h1>
         </div>
         <div class="col-md-6 text-end">
             @can('admin_users')
