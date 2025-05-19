@@ -26,18 +26,21 @@ class UsersController extends Controller {
 	use ValidatesRequests;
 
     public function list(Request $request) {
-          
-        if(!auth()->user()->hasPermissionTo('show_users'))abort(401);
+        if (!auth()->check()) {
+            return redirect()->route('login')->withErrors('Please login to access this page.');
+        }
+        
+        if(!auth()->user()->hasPermissionTo('show_users')) {
+            abort(401, 'Unauthorized access.');
+        }
 
         $query = User::query();
         if (auth()->user()->hasRole('Employee')){
             $query->role('Customer');
         }
         
-        if(!auth()->user()->hasPermissionTo('show_users'))abort(401);
-        $query = User::select('*');
         $query->when($request->keywords, 
-        fn($q)=> $q->where("name", "like", "%$request->keywords%"));
+            fn($q)=> $q->where("name", "like", "%$request->keywords%"));
         $users = $query->get();
         return view('users.list', compact('users'));
     }
