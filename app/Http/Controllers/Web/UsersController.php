@@ -220,19 +220,21 @@ class UsersController extends Controller {
             if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
         }
 
-        if (auth()->user()->can('add_credit')) {
-            $request->validate([
-                'credit' => 'required|numeric|min:0',
-            ]);
-        }
+        $request->validate([
+            'name' => 'required|string|min:5',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'credit' => 'required|numeric|min:0',
+        ]);
 
         $user->name = $request->name;
-        $user->save();
-
-        if (auth()->user()->can('manage_customer_credit') && $request->credit > 0) {
-            $user->credit += $request->credit;
-            $user->save();
+        $user->email = $request->email;
+        
+        // Update credit if user has permission
+        if(auth()->user()->hasPermissionTo('manage_customer_credit')) {
+            $user->credit = $request->credit;
         }
+        
+        $user->save();
 
         if(auth()->user()->hasPermissionTo('show_users')) {
             // Sync roles using role names
@@ -248,7 +250,7 @@ class UsersController extends Controller {
             Artisan::call('cache:clear');
         }
 
-        return redirect(route('profile', ['user'=>$user->id]));
+        return redirect(route('profile', ['user'=>$user->id]))->with('success', 'User updated successfully');
     }
 
     public function delete(User $user)
@@ -300,378 +302,304 @@ class UsersController extends Controller {
         return redirect(route('profile', ['user'=>$user->id]));
     }
 
+    public function unblockUser(User $user)
+    {
+        if (auth()->user()->role !== 'employee') {
+            abort(403, 'Unauthorized');
+        }
 
+        $user->is_blocked = false;
+        $user->login_attempts = 0;
+        $user->save();
 
-
-
-
-
-
-
-
-
-
-public function addCredit(Request $request, User $user)
-{
-    // Check if the authenticated user has the 'Employee' or 'Admin' role
-    if (!auth()->user()->hasRole('Employee') && !auth()->user()->hasRole('Admin')) {
-        return response()->json([
-            'success' => false,
-            'message' => 'You do not have permission to add credit to this user.'
-        ], 403); // 403 Forbidden
+        return redirect()->back()->with('success', 'User has been unblocked.');
     }
 
-    // Validate the request to ensure 'credit' is a positive numeric value
-    $request->validate([
-        'credit' => 'required|numeric|gt:0' // Credit must be greater than 0
-    ]);
-
-    // Ensure the user has a valid credit value (set default to 0 if null)
-    $user->credit = $user->credit ?? 0;
-
-    // Add the new credit to the existing credit balance
-    $user->credit += $request->credit;
-
-    // Save the updated credit balance
-    if ($user->save()) {
-        // Return a success response with the updated credit balance
-        return response()->json([
-            'success' => true,
-            'message' => 'Credit added successfully!',
-            'new_credit' => $user->credit
-        ]);
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
     }
 
-
-    return response()->json([
-        'success' => false,
-        'message' => 'Failed to update credit.'
-    ]);
-
-
-    $user = User::where('email', $request->email)->first();
-
-    if ($user && $user->is_blocked) {
-        return back()->withErrors(['email' => 'Your account is blocked. Please contact an employee.']);
-    }
-    
-    if (!Auth::attempt($credentials)) {
-        if ($user) {
-            $user->increment('login_attempts');
-            if ($user->login_attempts >= 5) {
-                $user->is_blocked = true;
+    public function handleGoogleCallback() {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+            
+            // First try to find a user with this Google ID
+            $user = User::where('google_id', $googleUser->id)->first();
+            
+            // If not found by Google ID, try to find by email
+            if (!$user) {
+                $user = User::where('email', $googleUser->email)->first();
+                
+                // If user exists but doesn't have Google ID, update it
+                if ($user) {
+                    $user->google_id = $googleUser->id;
+                    $user->google_token = $googleUser->token;
+                    $user->google_refresh_token = $googleUser->refreshToken;
+                    $user->email_verified_at = now(); // Mark email as verified
+                    $user->save();
+                } else {
+                    // Create a new user if none exists with this email
+                    $user = User::create([
+                        'google_id' => $googleUser->id,
+                        'name' => $googleUser->name,
+                        'email' => $googleUser->email,
+                        'google_token' => $googleUser->token,
+                        'google_refresh_token' => $googleUser->refreshToken,
+                        'email_verified_at' => now(), // Mark email as verified
+                        'password' => bcrypt(Str::random(16)) // Generate a random password
+                    ]);
+                    
+                    // Assign the Customer role to the new user
+                    $user->assignRole('Customer');
+                }
+            } else {
+                // Update existing Google user with latest token info
+                $user->google_token = $googleUser->token;
+                $user->google_refresh_token = $googleUser->refreshToken;
                 $user->save();
             }
+            
+            // Clear any existing session before logging in
+            Auth::logout();
+            
+            // Log in the user 
+            Auth::login($user);
+        
+            return redirect('/');
         }
-    
-        return back()->withErrors(['email' => 'Invalid credentials.']);
-    }
-    
-    // If login is successful:
-    $user->login_attempts = 0; // reset attempts
-    $user->save();
-    
-
-
-
-}
-
-public function unblockUser(User $user)
-{
-    if (auth()->user()->role !== 'employee') {
-        abort(403, 'Unauthorized');
+        catch(\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Google login error: ' . $e->getMessage());
+            
+            // Redirect to login page with error message
+            return redirect()->route('login')->withErrors(['email' => 'Google login failed. Please try again.']);
+        }
     }
 
-    $user->is_blocked = false;
-    $user->login_attempts = 0;
-    $user->save();
+    public function create()
+    {
+        if(!auth()->user()->hasPermissionTo('admin_users')) {
+            abort(401);
+        }
 
-    return redirect()->back()->with('success', 'User has been unblocked.');
-}
-
-
-
-
-public function redirectToGoogle()
- {
- return Socialite::driver('google')->redirect();
- }
-
-
-
- public function handleGoogleCallback() {
-  try {
-         $googleUser = Socialite::driver('google')->user();
-         
-         // First try to find a user with this Google ID
-         $user = User::where('google_id', $googleUser->id)->first();
-         
-         // If not found by Google ID, try to find by email
-         if (!$user) {
-             $user = User::where('email', $googleUser->email)->first();
-             
-             // If user exists but doesn't have Google ID, update it
-             if ($user) {
-                 $user->google_id = $googleUser->id;
-                 $user->google_token = $googleUser->token;
-                 $user->google_refresh_token = $googleUser->refreshToken;
-                 $user->email_verified_at = now(); // Mark email as verified
-                 $user->save();
-             } else {
-                 // Create a new user if none exists with this email
-                 $user = User::create([
-                     'google_id' => $googleUser->id,
-                     'name' => $googleUser->name,
-                     'email' => $googleUser->email,
-                     'google_token' => $googleUser->token,
-                     'google_refresh_token' => $googleUser->refreshToken,
-                     'email_verified_at' => now(), // Mark email as verified
-                     'password' => bcrypt(Str::random(16)) // Generate a random password
-                 ]);
-                 
-                 // Assign the Customer role to the new user
-                 $user->assignRole('Customer');
-             }
-         } else {
-             // Update existing Google user with latest token info
-             $user->google_token = $googleUser->token;
-             $user->google_refresh_token = $googleUser->refreshToken;
-             $user->save();
-         }
-         
-        // Clear any existing session before logging in
-        Auth::logout();
+        $roles = Role::all();
+        $permissions = Permission::all();
         
-        // Log in the user 
-        Auth::login($user);
-    
-        return redirect('/');
-  }
-  catch(\Exception $e) {
-      // Log the error for debugging
-      \Log::error('Google login error: ' . $e->getMessage());
-      
-      // Redirect to login page with error message
-      return redirect()->route('login')->withErrors(['email' => 'Google login failed. Please try again.']);
-  }
- }
-
-public function create()
-{
-    if(!auth()->user()->hasPermissionTo('admin_users')) {
-        abort(401);
+        return view('users.create', compact('roles', 'permissions'));
     }
 
-    $roles = Role::all();
-    $permissions = Permission::all();
-    
-    return view('users.create', compact('roles', 'permissions'));
-}
+    public function store(Request $request)
+    {
+        if(!auth()->user()->hasPermissionTo('admin_users')) {
+            abort(401);
+        }
 
-public function store(Request $request)
-{
-    if(!auth()->user()->hasPermissionTo('admin_users')) {
-        abort(401);
+        $request->validate([
+            'name' => ['required', 'string', 'min:5'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'confirmed', Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        if($request->has('roles')) {
+            // Convert role names to array and sync roles
+            $roleNames = is_array($request->roles) ? $request->roles : [$request->roles];
+            $user->syncRoles($roleNames);
+        }
+
+        if($request->has('permissions')) {
+            // Convert permission names to array and sync permissions
+            $permissionNames = is_array($request->permissions) ? $request->permissions : [$request->permissions];
+            $user->syncPermissions($permissionNames);
+        }
+
+        // Clear the permission cache
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        return redirect()->route('users')->with('success', 'User created successfully');
     }
 
-    $request->validate([
-        'name' => ['required', 'string', 'min:5'],
-        'email' => ['required', 'email', 'unique:users'],
-        'password' => ['required', 'confirmed', Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
-    ]);
-
-    $user = new User();
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->password = bcrypt($request->password);
-    $user->save();
-
-    if($request->has('roles')) {
-        $user->syncRoles($request->roles);
+    // Add product function
+    public function createProduct()
+    {
+        if(!auth()->user()->hasPermissionTo('add_products')) {
+            abort(401);
+        }
+        return view('products.create');
     }
 
-    if($request->has('permissions')) {
-        $user->syncPermissions($request->permissions);
-    }
-
-    return redirect()->route('users')->with('success', 'User created successfully');
-}
-
-// Add product function
-public function createProduct()
-{
-    if(!auth()->user()->hasPermissionTo('add_products')) {
-        abort(401);
-    }
-    return view('products.create');
-}
-
-// Update stock function
-public function updateStock(Request $request, Product $product)
-{
-    if(!auth()->user()->hasPermissionTo('manage_inventory')) {
-        abort(401);
-    }
-    
-    $request->validate([
-        'stock' => 'required|numeric|min:0'
-    ]);
-    
-    $product->stock = $request->stock;
-    $product->save();
-    
-    return redirect()->back()->with('success', 'Stock updated successfully');
-}
-
-// View product details
-public function show(Product $product)
-{
-    return view('products.show', compact('product'));
-}
-
-// View purchase history
-public function purchaseHistory()
-{
-    if(!auth()->user()) {
-        return redirect()->route('login');
-    }
-    
-    $purchases = DB::table('purchases')
-        ->join('products', 'purchases.product_id', '=', 'products.id')
-        ->where('purchases.user_id', auth()->id())
-        ->select('purchases.*', 'products.name', 'products.photo')
-        ->get();
+    // Update stock function
+    public function updateStock(Request $request, Product $product)
+    {
+        if(!auth()->user()->hasPermissionTo('manage_inventory')) {
+            abort(401);
+        }
         
-    return view('products.purchase-history', compact('purchases'));
-}
+        $request->validate([
+            'stock' => 'required|numeric|min:0'
+        ]);
+        
+        $product->stock = $request->stock;
+        $product->save();
+        
+        return redirect()->back()->with('success', 'Stock updated successfully');
+    }
 
-// Process purchase
-public function processPurchase(Request $request, Product $product)
-{
-    if(!auth()->user()) {
-        return redirect()->route('login');
+    // View product details
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
     }
-    
-    $request->validate([
-        'quantity' => 'required|numeric|min:1|max:' . $product->stock
-    ]);
-    
-    $totalPrice = $product->price * $request->quantity;
-    
-    if(auth()->user()->credit < $totalPrice) {
-        return redirect()->back()->with('error', 'Insufficient credit');
+
+    // View purchase history
+    public function purchaseHistory()
+    {
+        if(!auth()->user()) {
+            return redirect()->route('login');
+        }
+        
+        $purchases = DB::table('purchases')
+            ->join('products', 'purchases.product_id', '=', 'products.id')
+            ->where('purchases.user_id', auth()->id())
+            ->select('purchases.*', 'products.name', 'products.photo')
+            ->get();
+            
+        return view('products.purchase-history', compact('purchases'));
     }
-    
-    DB::transaction(function() use ($product, $request, $totalPrice) {
-        // Deduct user credit
-        auth()->user()->decrement('credit', $totalPrice);
+
+    // Process purchase
+    public function processPurchase(Request $request, Product $product)
+    {
+        if(!auth()->user()) {
+            return redirect()->route('login');
+        }
         
-        // Reduce product stock
-        $product->decrement('stock', $request->quantity);
+        $request->validate([
+            'quantity' => 'required|numeric|min:1|max:' . $product->stock
+        ]);
         
-        // Create purchase record
-        DB::table('purchases')->insert([
+        $totalPrice = $product->price * $request->quantity;
+        
+        if(auth()->user()->credit < $totalPrice) {
+            return redirect()->back()->with('error', 'Insufficient credit');
+        }
+        
+        DB::transaction(function() use ($product, $request, $totalPrice) {
+            // Deduct user credit
+            auth()->user()->decrement('credit', $totalPrice);
+            
+            // Reduce product stock
+            $product->decrement('stock', $request->quantity);
+            
+            // Create purchase record
+            DB::table('purchases')->insert([
+                'user_id' => auth()->id(),
+                'product_id' => $product->id,
+                'quantity' => $request->quantity,
+                'total_price' => $totalPrice,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        });
+        
+        return redirect()->route('purchase.history')->with('success', 'Purchase completed successfully');
+    }
+
+    // Remove from basket
+    public function removeFromBasket(Product $product)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+        
+        Basket::where('user_id', $user->id)
+              ->where('product_id', $product->id)
+              ->delete();
+              
+        return redirect()->route('products.basket')->with('success', 'Product removed from basket');
+    }
+
+    // Update basket quantity
+    public function updateBasketQuantity(Request $request, Product $product)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+        
+        $request->validate([
+            'quantity' => 'required|numeric|min:1|max:' . $product->stock
+        ]);
+        
+        Basket::where('user_id', $user->id)
+              ->where('product_id', $product->id)
+              ->update(['quantity' => $request->quantity]);
+              
+        return redirect()->route('products.basket')->with('success', 'Basket updated');
+    }
+
+    // Advanced search
+    public function search(Request $request)
+    {
+        $query = Product::query();
+        
+        if($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+        
+        if($request->has('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+        
+        if($request->has('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+        
+        if($request->has('model')) {
+            $query->where('model', 'like', '%' . $request->model . '%');
+        }
+        
+        $products = $query->paginate(12);
+        
+        return view('products.search', compact('products'));
+    }
+
+    // Featured products
+    public function featured()
+    {
+        $products = Product::where('featured', true)->get();
+        return view('products.featured', compact('products'));
+    }
+
+    // Add review
+    public function addReview(Request $request, Product $product)
+    {
+        if(!auth()->user()) {
+            return redirect()->route('login');
+        }
+        
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+            'comment' => 'required|string|max:1000'
+        ]);
+        
+        // Note: You'll need to create a reviews table in the database
+        DB::table('reviews')->insert([
             'user_id' => auth()->id(),
             'product_id' => $product->id,
-            'quantity' => $request->quantity,
-            'total_price' => $totalPrice,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
             'created_at' => now(),
             'updated_at' => now()
         ]);
-    });
-    
-    return redirect()->route('purchase.history')->with('success', 'Purchase completed successfully');
-}
-
-// Remove from basket
-public function removeFromBasket(Product $product)
-{
-    $user = Auth::user();
-    if (!$user) {
-        return redirect()->route('login');
+        
+        return redirect()->back()->with('success', 'Review added successfully');
     }
-    
-    Basket::where('user_id', $user->id)
-          ->where('product_id', $product->id)
-          ->delete();
-          
-    return redirect()->route('products.basket')->with('success', 'Product removed from basket');
-}
-
-// Update basket quantity
-public function updateBasketQuantity(Request $request, Product $product)
-{
-    $user = Auth::user();
-    if (!$user) {
-        return redirect()->route('login');
-    }
-    
-    $request->validate([
-        'quantity' => 'required|numeric|min:1|max:' . $product->stock
-    ]);
-    
-    Basket::where('user_id', $user->id)
-          ->where('product_id', $product->id)
-          ->update(['quantity' => $request->quantity]);
-          
-    return redirect()->route('products.basket')->with('success', 'Basket updated');
-}
-
-// Advanced search
-public function search(Request $request)
-{
-    $query = Product::query();
-    
-    if($request->has('name')) {
-        $query->where('name', 'like', '%' . $request->name . '%');
-    }
-    
-    if($request->has('min_price')) {
-        $query->where('price', '>=', $request->min_price);
-    }
-    
-    if($request->has('max_price')) {
-        $query->where('price', '<=', $request->max_price);
-    }
-    
-    if($request->has('model')) {
-        $query->where('model', 'like', '%' . $request->model . '%');
-    }
-    
-    $products = $query->paginate(12);
-    
-    return view('products.search', compact('products'));
-}
-
-// Featured products
-public function featured()
-{
-    $products = Product::where('featured', true)->get();
-    return view('products.featured', compact('products'));
-}
-
-// Add review
-public function addReview(Request $request, Product $product)
-{
-    if(!auth()->user()) {
-        return redirect()->route('login');
-    }
-    
-    $request->validate([
-        'rating' => 'required|numeric|min:1|max:5',
-        'comment' => 'required|string|max:1000'
-    ]);
-    
-    // Note: You'll need to create a reviews table in the database
-    DB::table('reviews')->insert([
-        'user_id' => auth()->id(),
-        'product_id' => $product->id,
-        'rating' => $request->rating,
-        'comment' => $request->comment,
-        'created_at' => now(),
-        'updated_at' => now()
-    ]);
-    
-    return redirect()->back()->with('success', 'Review added successfully');
-}
 }

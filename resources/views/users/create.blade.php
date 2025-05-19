@@ -48,8 +48,8 @@
                             @foreach($roles as $role)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="roles[]" 
-                                           value="{{ $role->id }}" id="role_{{ $role->id }}"
-                                           {{ in_array($role->id, old('roles', [])) ? 'checked' : '' }}>
+                                           value="{{ $role->name }}" id="role_{{ $role->id }}"
+                                           {{ in_array($role->name, old('roles', [])) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="role_{{ $role->id }}">
                                         {{ $role->name }}
                                     </label>
@@ -62,10 +62,10 @@
                             @foreach($permissions as $permission)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="permissions[]" 
-                                           value="{{ $permission->id }}" id="permission_{{ $permission->id }}"
-                                           {{ in_array($permission->id, old('permissions', [])) ? 'checked' : '' }}>
+                                           value="{{ $permission->name }}" id="permission_{{ $permission->id }}"
+                                           {{ in_array($permission->name, old('permissions', [])) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="permission_{{ $permission->id }}">
-                                        {{ $permission->name }}
+                                        {{ $permission->display_name ?? $permission->name }}
                                     </label>
                                 </div>
                             @endforeach

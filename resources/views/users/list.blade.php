@@ -30,6 +30,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Credit</th>
                     <th>Roles</th>
                     <th>Actions</th>
                 </tr>
@@ -39,6 +40,9 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>
+                        <span class="badge bg-success">${{ number_format($user->credit, 2) }}</span>
+                    </td>
                     <td>
                         @foreach($user->roles as $role)
                         <span class="badge bg-gold">{{ $role->name }}</span>
@@ -295,3 +299,38 @@
         }
     </style>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle add credit form submissions
+    const creditForms = document.querySelectorAll('[id^="add-credit-form-"]');
+    creditForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Credit added successfully!');
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        });
+    });
+});
+</script>
+@endpush

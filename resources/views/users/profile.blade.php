@@ -49,6 +49,26 @@
                                 <td>{{ $user->email }}</td>
                             </tr>
                             <tr>
+                                <th>Credit Balance</th>
+                                <td>
+                                    <span class="badge bg-gold">${{ number_format($user->credit ?? 0, 2) }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Member Since</th>
+                                <td>{{ $user->created_at ? $user->created_at->format('F j, Y') : 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email Status</th>
+                                <td>
+                                    @if($user->email_verified_at)
+                                        <span class="badge bg-gold">Verified</span>
+                                    @else
+                                        <span class="badge bg-warning">Not Verified</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Roles</th>
                                 <td>
                                     @foreach($user->roles as $role)

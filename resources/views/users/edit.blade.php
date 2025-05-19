@@ -205,9 +205,27 @@ $(document).ready(function(){
 
                         @can('manage_customer_credit')
                         <div class="form-group mb-3">
-                            <label for="credit" class="form-label">Add Credit</label>
-                            <input type="number" class="form-control" id="credit" name="credit" min="0" step="0.01" value="0" required>
-                            <small class="form-text text-muted">Current credit: {{ $user->credit }}</small>
+                            <label for="credit" class="form-label">Credit Management</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="credit" name="credit" min="0" step="0.01" value="{{ old('credit', $user->credit) }}" required>
+                            </div>
+                            <div class="mt-2">
+                                <small class="text-muted">Current credit balance: ${{ number_format($user->credit, 2) }}</small>
+                            </div>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="document.getElementById('credit').value = '0'">
+                                    Reset Credit
+                                </button>
+                            </div>
+                        </div>
+                        @else
+                        <div class="form-group mb-3">
+                            <label class="form-label">Credit Balance</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" value="{{ number_format($user->credit, 2) }}" readonly>
+                            </div>
                         </div>
                         @endcan
 
