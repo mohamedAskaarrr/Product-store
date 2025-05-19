@@ -221,14 +221,16 @@ class UsersController extends Controller {
             if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
         }
 
-        $request->validate([
-            'credit' => 'required|numeric|min:0',
-        ]);
+        if (auth()->user()->can('add_credit')) {
+            $request->validate([
+                'credit' => 'required|numeric|min:0',
+            ]);
+        }
 
         $user->name = $request->name;
         $user->save();
 
-        if ($request->credit > 0) {
+        if (auth()->user()->can('add_credit') && $request->credit > 0) {
             $user->credit += $request->credit;
             $user->save();
         }
