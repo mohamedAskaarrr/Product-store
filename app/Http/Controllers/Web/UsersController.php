@@ -167,8 +167,14 @@ class UsersController extends Controller {
 
     public function profile(Request $request, User $user = null) {
 
-        $user = $user??auth()->user();
-        if(auth()->id()!=$user->id) {
+        $user = $user ?? auth()->user();
+
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors('You must be logged in to view your profile.');
+        }
+
+        if(auth()->id() != $user->id) {
             if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
         }
 
