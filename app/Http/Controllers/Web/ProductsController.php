@@ -289,8 +289,8 @@ public function markAsFavorite($id)
 
     $product = Product::findOrFail($id);
     
-    if (!$product->favorite) {
-        $product->favorite = 1;
+    if (!$product->favourite) {
+        $product->favourite = 1;
         $product->save();
     }
 
@@ -345,13 +345,10 @@ public function removeFromBasket(Basket $basket)
 
 public function showFavourites()
 {
-    // if (!auth()->user()->can('add_fav')) {
-    //     abort(403, 'Unauthorized.');
-    // }
-
+    $user = auth()->user();
     $products = Product::where('favourite', 1)->get();
 
-    return view('products.fav', compact('products'));
+    return view('products.fav', compact('user', 'products'));
 }
 
 
