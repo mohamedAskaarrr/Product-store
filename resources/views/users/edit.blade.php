@@ -242,9 +242,15 @@ $(document).ready(function(){
                         @endif
 
                         <div class="d-flex justify-content-between">
-                            <a href="{{ route('users') }}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Back
-                            </a>
+                            @if(auth()->user()->hasPermissionTo('show_users'))
+                                <a href="{{ route('users') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </a>
+                            @else
+                                <a href="{{ route('home') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </a>
+                            @endif
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save"></i> Save Changes
                             </button>
