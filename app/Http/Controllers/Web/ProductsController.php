@@ -104,12 +104,12 @@ class ProductsController extends Controller {
         return redirect()->back()->with('warning', '⚠️ Not enough credit.');
     }
 
-    if ($product->available_stock <= 0) {
+    if ($product->stock <= 0) {
         return redirect()->back()->with('warning', '⚠️ Product out of stock.');
     }
 
     DB::table('users')->where('id', $user->id)->decrement('credit', $product->price);
-    DB::table('products')->where('id', $product->id)->decrement('available_stock', 1);
+    DB::table('products')->where('id', $product->id)->decrement('stock', 1);
 
 	$user = Auth::user();
 
@@ -151,12 +151,12 @@ public function purchase(Product $product)
         return redirect()->back()->with('warning', '⚠️ Not enough credit.');
     }
 
-    if ($product->available_stock <= 0) {
+    if ($product->stock <= 0) {
         return redirect()->back()->with('warning', '⚠️ Product out of stock.');
     }
 
     DB::table('users')->where('id', $user->id)->decrement('credit', $product->price);
-    DB::table('products')->where('id', $product->id)->decrement('available_stock', 1);
+    DB::table('products')->where('id', $product->id)->decrement('stock', 1);
 
 	$user = Auth::user();
 
@@ -232,7 +232,7 @@ public function addstock(Request $request, product $product)
     ]);
 
 
-    $product->available_stock += $request->stock;
+    $product->stock += $request->stock;
 
     // Save the updated credit balance
     $product->save();

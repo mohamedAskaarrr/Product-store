@@ -75,7 +75,7 @@
             <div class="card h-100 product-card">
                 <div class="position-relative">
                     <img src="{{ asset('images/' . $product->photo) }}" class="card-img-top product-img" alt="{{ $product->name }}">
-                    @if($product->available_stock <= 0)
+                    @if($product->stock <= 0)
                     <div class="position-absolute top-0 end-0 m-2">
                         <span class="badge bg-danger">Out of Stock</span>
                     </div>
@@ -87,7 +87,7 @@
                         <p class="card-text mb-2 text-white"><strong>Model:</strong> {{ $product->model }}</p>
                         <p class="card-text mb-2 text-white"><strong>Code:</strong> {{ $product->code }}</p>
                         <p class="card-text mb-2 text-white"><strong>Price:</strong> ${{ $product->price }}</p>
-                        <p class="card-text mb-3 text-white"><strong>Stock:</strong> {{ $product->available_stock }}</p>
+                        <p class="card-text mb-3 text-white"><strong>Stock:</strong> {{ $product->stock }}</p>
                         <div class="description-container">
                             <p class="card-text description">{{ $product->description }}</p>
                             <div class="description-fade"></div>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
 
-                    @if($product->available_stock > 0)
+                    @if($product->stock > 0)
                         <form action="{{ route('products.addTobasket', $product->id) }}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-success">
@@ -117,7 +117,7 @@
                         @endif
                     @endrole
 
-                    @if($product->available_stock <= 0)
+                    @if($product->stock <= 0)
                         <button class="btn btn-secondary" disabled>Out of Stock</button>
                     @endif
 
