@@ -8,12 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Passport;
+use Illunimate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\HasApiTokens;
-
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
-    // ...
+    use HasRoles;
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
