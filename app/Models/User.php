@@ -13,7 +13,7 @@ use Illunimate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
-    use HasRoles;
+    use HasRoles,HasApiTokens ;
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;

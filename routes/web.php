@@ -116,3 +116,5 @@ Route::get('/settings', [UsersController::class, 'settings'])->middleware('auth'
 
 Route::get('/fav', [ProductsController::class, 'showFavourites'])
 ->name('fav');
+
+Route::get('/users/{user}/purchase-history', [\App\Http\Controllers\Web\UsersController::class, 'purchaseHistory'])->name('purchase_history');

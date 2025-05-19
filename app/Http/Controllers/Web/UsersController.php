@@ -325,57 +325,44 @@ class UsersController extends Controller {
     public function handleGoogleCallback() {
         try {
             $googleUser = Socialite::driver('google')->user();
+            \Log::info('Google user data received', ['email' => $googleUser->email]);
             
             // First try to find a user with this Google ID
             $user = User::where('google_id', $googleUser->id)->first();
             
-            // If not found by Google ID, try to find by email
             if (!$user) {
                 $user = User::where('email', $googleUser->email)->first();
                 
-                // If user exists but doesn't have Google ID, update it
                 if ($user) {
+                    \Log::info('Updating existing user with Google data');
                     $user->google_id = $googleUser->id;
                     $user->google_token = $googleUser->token;
                     $user->google_refresh_token = $googleUser->refreshToken;
-                    $user->email_verified_at = now(); // Mark email as verified
+                    $user->email_verified_at = now();
                     $user->save();
                 } else {
-                    // Create a new user if none exists with this email
+                    \Log::info('Creating new user from Google data');
                     $user = User::create([
                         'google_id' => $googleUser->id,
                         'name' => $googleUser->name,
                         'email' => $googleUser->email,
                         'google_token' => $googleUser->token,
                         'google_refresh_token' => $googleUser->refreshToken,
-                        'email_verified_at' => now(), // Mark email as verified
-                        'password' => bcrypt(Str::random(16)) // Generate a random password
+                        'email_verified_at' => now(),
+                        'password' => bcrypt(Str::random(16))
                     ]);
-                    
-                    // Assign the Customer role to the new user
                     $user->assignRole('Customer');
                 }
-            } else {
-                // Update existing Google user with latest token info
-                $user->google_token = $googleUser->token;
-                $user->google_refresh_token = $googleUser->refreshToken;
-                $user->save();
             }
             
-            // Clear any existing session before logging in
-            Auth::logout();
-            
-            // Log in the user 
             Auth::login($user);
-        
             return redirect('/');
-        }
-        catch(\Exception $e) {
-            // Log the error for debugging
-            \Log::error('Google login error: ' . $e->getMessage());
             
-            // Redirect to login page with error message
-            return redirect()->route('login')->withErrors(['email' => 'Google login failed. Please try again.']);
+        } catch (\Exception $e) {
+            \Log::error('Google login error: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+            return redirect()->route('login')
+                ->withErrors(['email' => 'Google login failed: ' . $e->getMessage()]);
         }
     }
 
@@ -453,29 +440,31 @@ class UsersController extends Controller {
         return redirect()->back()->with('success', 'Stock updated successfully');
     }
 
-    // View product details
     public function show(Product $product)
     {
         return view('products.show', compact('product'));
     }
 
-    // View purchase history
-    public function purchaseHistory()
+    public function purchaseHistory(User $user)
     {
-        if(!auth()->user()) {
-            return redirect()->route('login');
+        if (!auth()->user() || (auth()->id() != $user->id && !auth()->user()->hasPermissionTo('show_users'))) {
+            abort(403, 'Unauthorized');
         }
-        
-        $purchases = DB::table('purchases')
+
+        $purchases = \DB::table('purchases')
             ->join('products', 'purchases.product_id', '=', 'products.id')
-            ->where('purchases.user_id', auth()->id())
-            ->select('purchases.*', 'products.name', 'products.photo')
+            ->where('purchases.user_id', $user->id)
+            ->select(
+                'purchases.*',
+                'products.name as product_name',
+                'products.photo as product_photo'
+            )
+            ->orderByDesc('purchases.created_at')
             ->get();
-            
-        return view('products.purchase-history', compact('purchases'));
+
+        return view('users.purchase_history', compact('user', 'purchases'));
     }
 
-    // Process purchase
     public function processPurchase(Request $request, Product $product)
     {
         if(!auth()->user()) {
@@ -493,13 +482,10 @@ class UsersController extends Controller {
         }
         
         DB::transaction(function() use ($product, $request, $totalPrice) {
-            // Deduct user credit
             auth()->user()->decrement('credit', $totalPrice);
             
-            // Reduce product stock
             $product->decrement('stock', $request->quantity);
             
-            // Create purchase record
             DB::table('purchases')->insert([
                 'user_id' => auth()->id(),
                 'product_id' => $product->id,
@@ -513,7 +499,6 @@ class UsersController extends Controller {
         return redirect()->route('purchase.history')->with('success', 'Purchase completed successfully');
     }
 
-    // Remove from basket
     public function removeFromBasket(Product $product)
     {
         $user = Auth::user();
@@ -521,22 +506,17 @@ class UsersController extends Controller {
             return redirect()->route('login');
         }
         
-        // Get the basket item
         $basketItem = Basket::where('user_id', $user->id)
                            ->where('product_id', $product->id)
                            ->first();
                            
         if ($basketItem) {
-            // Calculate refund amount
             $refundAmount = $product->price * $basketItem->quantity;
             
-            // Start transaction
             DB::beginTransaction();
             try {
-                // Refund the credit to the user
                 $user->increment('credit', $refundAmount);
                 
-                // Remove from basket
                 $basketItem->delete();
                 
                 DB::commit();
@@ -550,7 +530,6 @@ class UsersController extends Controller {
         return redirect()->route('products.basket')->with('error', 'Product not found in basket');
     }
 
-    // Update basket quantity
     public function updateBasketQuantity(Request $request, Product $product)
     {
         $user = Auth::user();
@@ -569,7 +548,6 @@ class UsersController extends Controller {
         return redirect()->route('products.basket')->with('success', 'Basket updated');
     }
 
-    // Advanced search
     public function search(Request $request)
     {
         $query = Product::query();
@@ -595,14 +573,12 @@ class UsersController extends Controller {
         return view('products.search', compact('products'));
     }
 
-    // Featured products
     public function featured()
     {
         $products = Product::where('featured', true)->get();
         return view('products.featured', compact('products'));
     }
 
-// Add review
 public function addReview(Request $request, Product $product)
 {
     if(!auth()->user()) {
@@ -614,7 +590,6 @@ public function addReview(Request $request, Product $product)
         'comment' => 'required|string|max:1000'
     ]);
     
-    // Note: You'll need to create a reviews table in the database
     DB::table('reviews')->insert([
         'user_id' => auth()->id(),
         'product_id' => $product->id,

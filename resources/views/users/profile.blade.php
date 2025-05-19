@@ -48,17 +48,12 @@
                                 <th>Email</th>
                                 <td>{{ $user->email }}</td>
                             </tr>
-
-
- 
                             <tr>
                                 <th>Credit Balance</th>
                                 <td>
                                     <span class="badge bg-gold">${{ number_format($user->credit ?? 0, 2) }}</span>
                                 </td>
                             </tr>
-
-                            
                             <tr>
                                 <th>Member Since</th>
                                 <td>{{ $user->created_at ? $user->created_at->format('F j, Y') : 'N/A' }}</td>
@@ -91,25 +86,23 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="mt-4">
+                    <div class="mt-4 d-flex flex-wrap gap-2">
                         @if(auth()->id() == $user->id || auth()->user()->hasPermissionTo('edit_users'))
-                        <a href="{{ route('users_edit', $user->id) }}" class="btn btn-gold me-2">
+                        <a href="{{ route('users_edit', $user->id) }}" class="btn btn-gold">
                             <i class="fas fa-edit"></i> Edit Profile
                         </a>
                         @endif
                         <a href="{{ route('edit_password', $user->id) }}" class="btn btn-gold">
                             <i class="fas fa-key"></i> Change Password
                         </a>
-
+                        <a href="{{ route('purchase_history', $user->id) }}" class="btn btn-gold">
+                            <i class="fas fa-history"></i> Purchase History
+                        </a>
                         @role('Customer')
-                            <li class="nav-item">
-                            <a href="{{ route('fav') }}" class="btn btn-gold">
-                            <i  class="fas fa-key"></i> View Favourites
-                            </a>
-                            </li>
+                        <a href="{{ route('fav') }}" class="btn btn-gold">
+                            <i class="fas fa-heart"></i> View Favourites
+                        </a>
                         @endrole
-                        
-                        
                     </div>
                 </div>
             </div>
@@ -174,12 +167,15 @@
         color: #2c1e1e;
         border: none;
         transition: all 0.3s ease;
+        padding: 8px 16px;
+        font-weight: 500;
     }
 
     .btn-gold:hover {
         background-color: #B38F28;
         color: #2c1e1e;
         transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
     }
 
     .text-light {
@@ -189,6 +185,21 @@
     .card-body {
         background-color: #2c1e1e;
         color: #f5f5f5;
+    }
+
+    .gap-2 {
+        gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .d-flex.flex-wrap {
+            justify-content: center;
+        }
+        
+        .btn-gold {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
     }
 </style>
 @endsection
