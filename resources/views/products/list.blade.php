@@ -89,7 +89,12 @@
                         <p class="card-text mb-2 text-white"><strong>Code:</strong> {{ $product->code }}</p>
                         <p class="card-text mb-2 text-white"><strong>Price:</strong> ${{ $product->price }}</p>
                         <p class="card-text mb-3 text-white"><strong>Stock:</strong> {{ $product->available_stock }}</p>
-                        <p class="card-text description">{{ $product->description }}</p>
+                        <div class="description-container">
+                            <p class="card-text description">{{ $product->description }}</p>
+                            <div class="description-fade"></div>
+                            <span class="view-more" onclick="toggleDescription(this)">View more</span>
+                            <span class="show-less" onclick="toggleDescription(this)">Show less</span>
+                        </div>
                     </div>
                     
                     <div class="d-flex justify-content-between align-items-center mt-3">
@@ -193,13 +198,65 @@
         font-size: 0.9rem;
     }
 
+    .description-container {
+        position: relative;
+        max-height: 3em;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
     .description {
         font-size: 0.85rem;
         color: #d1d1d1;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        margin-bottom: 0;
+        line-height: 1.4;
+    }
+
+    .description-fade {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2em;
+        background: linear-gradient(transparent, var(--card-bg));
+        pointer-events: none;
+    }
+
+    .view-more, .show-less {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 0.75rem;
+        color: var(--secondary-color);
+        background-color: var(--card-bg);
+        padding: 0 5px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+    }
+
+    .view-more:hover, .show-less:hover {
+        opacity: 1;
+    }
+
+    .show-less {
+        display: none;
+    }
+
+    .description-container.expanded {
+        max-height: 1000px; /* Large enough to show full content */
+    }
+
+    .description-container.expanded .description-fade {
+        display: none;
+    }
+
+    .description-container.expanded .view-more {
+        display: none;
+    }
+
+    .description-container.expanded .show-less {
+        display: block;
     }
 
     .form-control, .form-select {
@@ -243,6 +300,13 @@
         border-left: none;
     }
 </style>
+
+<script>
+function toggleDescription(element) {
+    const container = element.closest('.description-container');
+    container.classList.toggle('expanded');
+}
+</script>
 @endsection
 </body>
 </html>

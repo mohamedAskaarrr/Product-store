@@ -190,9 +190,8 @@ $(document).ready(function(){
                         </div>
                     @endif
 
-                    <form action="{{ route('users_update', $user->id) }}" method="POST">
+                    <form action="{{ route('users_save', $user->id) }}" method="POST">
                         @csrf
-                        @method('PUT')
                         
                         <div class="form-group mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -235,7 +234,7 @@ $(document).ready(function(){
                         @endif
 
                         <div class="d-flex justify-content-between">
-                            <a href="{{ route('users_list') }}" class="btn btn-secondary">
+                            <a href="{{ route('users') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Back
                             </a>
                             <button type="submit" class="btn btn-primary">
