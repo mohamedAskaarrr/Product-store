@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2025 at 12:06 AM
+-- Generation Time: May 19, 2025 at 01:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,7 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:7:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}}}', 1747077024);
+('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:7:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}}}', 1747684434);
 
 -- --------------------------------------------------------
 
@@ -154,10 +154,12 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1),
+(1, 'App\\Models\\User', 21),
 (2, 'App\\Models\\User', 16),
 (3, 'App\\Models\\User', 19),
-(3, 'App\\Models\\User', 20);
+(3, 'App\\Models\\User', 20),
+(3, 'App\\Models\\User', 22),
+(3, 'App\\Models\\User', 23);
 
 -- --------------------------------------------------------
 
@@ -197,7 +199,12 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `guard_name`, `created_
 (4, 'show_users', 'Show Users', 'web', NULL, NULL),
 (5, 'edit_users', 'Edit Users', 'web', NULL, NULL),
 (7, 'delete_users', 'Delete Users', 'web', NULL, NULL),
-(8, 'admin_users', 'Admin Users', 'web', NULL, NULL);
+(8, 'admin_users', 'Admin Users', 'web', NULL, NULL),
+(9, 'view_products', 'View Products', 'web', NULL, NULL),
+(10, 'purchase_products', 'Purchase Products', 'web', NULL, NULL),
+(11, 'manage_inventory', 'Manage Inventory', 'web', NULL, NULL),
+(12, 'manage_promotions', 'Manage Promotions', 'web', NULL, NULL),
+(13, 'view_sales', 'View Sales', 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -209,29 +216,41 @@ CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(64) NOT NULL,
   `name` varchar(256) NOT NULL,
-  `price` int(10) UNSIGNED NOT NULL,
+  `price` decimal(10,2) UNSIGNED NOT NULL,
+  `stock` int(10) UNSIGNED NOT NULL DEFAULT 10,
   `model` varchar(128) NOT NULL,
   `description` text DEFAULT NULL,
-  `photo` varchar(128) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `featured` tinyint(1) NOT NULL DEFAULT 0,
-  `available_stock` int(10) UNSIGNED NOT NULL DEFAULT 10
+  `featured` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `code`, `name`, `price`, `model`, `description`, `photo`, `created_at`, `updated_at`, `deleted_at`, `featured`, `available_stock`) VALUES
-(1, 'TV01', 'LG TV 50 Insh', 28000, 'LG8768787', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2(1).jpeg', NULL, '2025-02-25 06:40:56', NULL, 1, 10),
-(2, 'RF01', 'Toshipa Refrigerator 14\"', 22000, 'TS76634', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2(2).jpeg', NULL, NULL, NULL, 1, 10),
-(3, 'RF02', 'Toshipa Refrigerator 18\"', 28000, 'TS76634', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2(3).jpeg', NULL, NULL, NULL, 0, 10),
-(4, 'RF03', 'Toshipa Refrigerator 19\"', 32000, 'TS76634', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2(4).jpeg', NULL, NULL, NULL, 0, 10),
-(5, 'TV02', 'LG TV 55\"', 23000, 'LG8768787', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2(5).jpeg', NULL, NULL, NULL, 0, 10),
-(6, 'RF04', 'LG Refrigerator 14\"', 22000, 'TS76634', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '4.jpeg', NULL, NULL, NULL, 0, 10),
-(23, '002', 'mohamed', 1000, '20001', 'hh', '2 (1).jpeg', '2025-05-11 16:26:21', '2025-05-11 16:26:21', NULL, 0, 10);
+INSERT INTO `products` (`id`, `code`, `name`, `price`, `stock`, `model`, `description`, `photo`, `created_at`, `updated_at`, `deleted_at`, `featured`) VALUES
+(23, '002', 'mohamed', 1000.00, 10, '20001', 'hh', '2 (1).jpeg', '2025-05-11 16:26:21', '2025-05-11 16:26:21', NULL, 0),
+(24, 'jpg-258', 'Jean Paul Gaultier de Bleu', 8000.00, 10, 'Jean Paul Gaultier', 'The original men\'s fragrance by Gaultier. In a secret Garden of Eden, Gaultier opens the gates and Le Beau makes a striking appearance. The tone is set by his sculptural body, adorned only with a golden vine leaf. Beneath this couture detail, we discover a natural man who loves seduction and freedom in the simplest form. How can we not be captivated? His hypnotic personality, his exotically sensual Eau de Toilette. Nothing is more fresh and powerful than Le Beau.', 'JpgDeBlu.jpg', '2025-05-18 16:58:44', '2025-05-18 16:59:22', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+CREATE TABLE `purchases` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -254,7 +273,9 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'web', NULL, NULL),
 (2, 'Employee', 'web', NULL, NULL),
-(3, 'Customer', 'web', NULL, NULL);
+(3, 'Customer', 'web', NULL, NULL),
+(4, 'Manager', 'web', NULL, NULL),
+(5, 'Supplier', 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -273,14 +294,32 @@ CREATE TABLE `role_has_permissions` (
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
+(1, 2),
+(1, 4),
 (2, 1),
+(2, 2),
+(2, 4),
 (3, 1),
 (4, 1),
 (4, 2),
+(4, 4),
 (5, 1),
-(5, 2),
+(5, 4),
 (7, 1),
-(8, 1);
+(7, 4),
+(8, 1),
+(8, 4),
+(9, 1),
+(9, 2),
+(9, 3),
+(9, 4),
+(10, 1),
+(10, 3),
+(10, 4),
+(11, 1),
+(11, 5),
+(12, 1),
+(13, 1);
 
 -- --------------------------------------------------------
 
@@ -302,10 +341,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('7AX8LT8VU37KJ1iZpFc5YaraDHVtRTMZxPCBzVHQ', 17, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRHRUR0t5UnlNejM5MkNsSUc1cWF1bmRTVU12SmFvWjNxa2dBY3NrRiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly93ZWJzZWNzZXJ2aWNlLmxvY2FsaG9zdC5jb20vcHJvZHVjdHMiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxNzt9', 1742270348),
-('MBUcKjEBEUHPurRcAlmQc3XcP3Rn2SDdM6dzR9uX', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYVJpZDdCaVBjQ2ZaSGxDR0F2ck5EY2lYQmhjZ1F4UGR3bTRhdlhidSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMDoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3Byb2R1Y3RzIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1747000947),
-('nH4B1QOdh29FLlAOySatLcwVQc4IAUeF3r8o6pQd', 20, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiV3NXQTJweUVDYkprb3FrYzZjYzdwa1J1bWxJazBnMm9iVEdtY1hYMSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMzoiaHR0cDovLzNtLmxvY2FsaG9zdC5jb20iO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyMzoiaHR0cDovLzNtLmxvY2FsaG9zdC5jb20iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyMDt9', 1746991608),
-('yrsZDQ8xbvRN69lkvWmWKdDtxhRmiVmYNjQrrPYN', 20, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiTklPRFFSMXlmQWxmdDNUcVo1Q0NtalJPRTJrQXVkNWRRVzF2VWZDQiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NToic3RhdGUiO3M6NDA6IjZmcW54QkZqaUdIZXJWR2FkTGlPM3FhSlpDRkNUOVZNc0ZkOVNseGoiO3M6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjIwO30=', 1746991622);
+('8QHi8y2NpvoylzrkG47AnSuREIXJyDFuo7FZLHmw', 21, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiaTIxRHl4ZDNpZEtXNlRBWndOU3hzTmh2ZmRDUHVIUlRRMnJvWVNvUyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC91c2VycyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjIxO30=', 1747658808);
 
 -- --------------------------------------------------------
 
@@ -320,21 +356,22 @@ CREATE TABLE `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
+  `credit` decimal(10,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Ahmed Saleh', 'mohamed.saleh@sut.edu.eg', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, '2025-03-10 16:34:55', '2025-03-18 00:45:51'),
-(16, 'Ahmed Ali Said', 'malisobh2010@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, '2025-03-11 05:32:37', '2025-03-18 01:54:30'),
-(17, 'Nader Mohsen', 'nader.mohsen@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, '2025-03-18 01:02:26', '2025-03-18 01:59:02'),
-(18, 'Mooooooooooooo', 'mdhanyasker@gmail.com', '2025-05-11 16:09:04', '$2y$12$FPyMtr9dPxN0GV4uOl/Rg.Jf610.7KGefv.CodZzEOc5Sbpav.z3K', NULL, NULL, NULL),
-(19, 'Mooooooooooooo', 'mnyasker@gmail.com', '2025-05-11 16:08:57', '$2y$12$OUb.4D6u3l70Oc4e8YzmIu4oBYfxA9E6CbHArkyO6aTtlIVZLsK.e', NULL, NULL, NULL),
-(20, 'mohamed askar', 'huss44@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `credit`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(16, 'Ahmed Ali Said', 'malisobh2010@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 0.00, '2025-03-11 05:32:37', '2025-03-18 01:54:30', NULL),
+(17, 'Nader Mohsen', 'nader.mohsen@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 0.00, '2025-03-18 01:02:26', '2025-03-18 01:59:02', NULL),
+(20, 'mohamed askar', 'huss44@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 0.00, NULL, NULL, NULL),
+(21, 'yassin', 'yassin.shaher2005@gmail.com', '2025-05-18 16:24:50', '$2y$12$ChO03f.WxQk1OhH9hLrENOGgPOGSyWlIbJOm1HGQysx9Mr6IZuq7O', NULL, 0.00, NULL, NULL, NULL),
+(23, 'yassin2', 'yassinchinco@gmail.com', '2025-05-18 16:52:12', '$2y$12$1ILE8oUIkgU02aPZEmcR8eAs8NBKPS7Ub/h/JEhEzdy9YiFQkirfO', NULL, 0.00, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -409,7 +446,16 @@ ALTER TABLE `permissions`
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
+
+--
+-- Indexes for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `roles`
@@ -466,25 +512,31 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `purchases`
+--
+ALTER TABLE `purchases`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables
@@ -501,6 +553,13 @@ ALTER TABLE `model_has_permissions`
 --
 ALTER TABLE `model_has_roles`
   ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `role_has_permissions`
