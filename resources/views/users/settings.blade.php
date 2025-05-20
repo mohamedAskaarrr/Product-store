@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid py-4" style="min-height: 80vh;">
-    <h2 class="mb-4 text-gold">Settings</h2>
-    <div class="row">
+<div class="settings-center-wrapper" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="row w-100" style="max-width: 1100px;">
         <!-- Sidebar -->
         <div class="col-md-3 mb-3">
             <div class="list-group settings-sidebar">
@@ -150,22 +149,45 @@ body {
     color: #D4AF37 !important;
     font-weight: 600;
 }
+/* Settings Sidebar Styles */
+.settings-sidebar {
+  background: #1a1311;
+  color: #F5F5F5;
+  border-radius: 0;
+  padding: 0;
+  min-width: 220px;
+  max-width: 260px;
+  font-size: 1.1rem;
+}
 .settings-sidebar .list-group-item {
-    background-color: #231818;
-    color: #f5f5f5;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 2px;
-    font-weight: 500;
-    transition: background 0.2s, color 0.2s;
+  background-color: #1a1311 !important;
+  color: #F5F5F5 !important;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+}
+.settings-sidebar .list-group-item i {
+  color: #F5F5F5 !important;
+  margin-right: 12px;
+  font-size: 1.1em;
 }
 .settings-sidebar .list-group-item.active, .settings-sidebar .list-group-item:focus {
-    background-color: #D4AF37;
-    color: #2c1e1e;
+  background-color: #D4AF37 !important;
+  color: #2c1e1e !important;
+}
+.settings-sidebar .list-group-item.active i, .settings-sidebar .list-group-item:focus i {
+  color: #2c1e1e !important;
 }
 .settings-sidebar .list-group-item:hover {
-    background-color: #B38F28;
-    color: #2c1e1e;
+  background-color: #2c1e1e !important;
+  color: #D4AF37 !important;
+}
+.settings-sidebar .list-group-item:hover i {
+  color: #D4AF37 !important;
 }
 /* Make all text in the settings card gold for better visibility */
 .settings-card, .settings-card label, .settings-card p, .settings-card .form-check-label, .settings-card ul, .settings-card li, .settings-card .form-label {
@@ -207,6 +229,19 @@ body {
 .form-check-input[type="checkbox"] {
     border-color: #D4AF37 !important;
     background-color: #231818 !important;
+}
+.settings-center-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 991px) {
+  .settings-center-wrapper {
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: unset;
+  }
 }
 </style>
 
