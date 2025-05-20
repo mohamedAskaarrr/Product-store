@@ -124,8 +124,8 @@
       <div class="login-icon-wrapper">
         <i class="bi bi-shield-lock-fill"></i>
       </div>
-      <h2 class="mb-2">Sign In</h2>
-      <div class="text-muted-custom mb-4">Welcome back! Please sign in to continue.</div>
+      <h2 class="mb-2">Login</h2>
+      <div class="text-muted-custom mb-4">Welcome back! Please login to continue.</div>
     </div>
 
     <form action="{{ route('do_login') }}" method="POST">
@@ -159,7 +159,7 @@
         <a href="#" class="link-custom small">Forgot password?</a>
       </div>
 
-      <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
+      <button type="submit" class="btn btn-custom-primary w-100 mb-3">Login</button>
       <a href="{{ route('login_with_google') }}" class="btn btn-outline-custom w-100 mb-3">
         <i class="bi bi-google me-2"></i>Sign in with Google
       </a>
