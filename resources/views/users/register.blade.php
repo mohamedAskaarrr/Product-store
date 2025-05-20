@@ -72,9 +72,9 @@
     border-radius: 0.5rem 0 0 0.5rem;
   }
   .btn-custom-primary {
-    background: #D4AF37;         /* Gold background */
-    border: 2px solid #D4AF37;   /* Gold border */
-    color: #2c1e1e;             /* Brown text */
+    background: #D4AF37 !important;   /* Gold background */
+    border: 2px solid #D4AF37 !important;
+    color: #2c1e1e !important;        /* Brown text */
     font-weight: 600;
     transition: all 0.3s ease;
     border-radius: 0.5rem;
