@@ -226,6 +226,7 @@ class UsersController extends Controller {
             'name' => 'required|string|min:5',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'credit' => 'required|numeric|min:0',
+            'role' => 'required|exists:roles,name',
         ]);
 
         $user->name = $request->name;
@@ -239,14 +240,16 @@ class UsersController extends Controller {
         $user->save();
 
         if(auth()->user()->hasPermissionTo('show_users')) {
-            // Sync roles using role names
-            if($request->has('roles')) {
-                $user->syncRoles($request->roles);
+            // Sync only one role
+            if($request->has('role')) {
+                $user->syncRoles([$request->role]);
             }
 
-            // Sync permissions using permission names
-            if($request->has('permissions')) {
+            // Handle custom permissions: if any checked, assign; if none, remove all direct permissions
+            if($request->has('permissions') && is_array($request->permissions) && count($request->permissions)) {
                 $user->syncPermissions($request->permissions);
+            } else {
+                $user->syncPermissions([]); // Remove all direct permissions
             }
 
             Artisan::call('cache:clear');
@@ -388,6 +391,7 @@ class UsersController extends Controller {
             'name' => ['required', 'string', 'min:5'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'confirmed', Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
+            'role' => 'required|exists:roles,name',
         ]);
 
         $user = new User();
@@ -396,14 +400,9 @@ class UsersController extends Controller {
         $user->password = bcrypt($request->password);
         $user->save();
 
-        if($request->has('roles')) {
-            // Convert role names to array and sync roles
-            $roleNames = is_array($request->roles) ? $request->roles : [$request->roles];
-            $user->syncRoles($roleNames);
-        }
+        $user->syncRoles([$request->role]);
 
         if($request->has('permissions')) {
-            // Convert permission names to array and sync permissions
             $permissionNames = is_array($request->permissions) ? $request->permissions : [$request->permissions];
             $user->syncPermissions($permissionNames);
         }

@@ -53,6 +53,15 @@ class ProductsController extends Controller {
 	}
 
 	public function save(Request $request, Product $product = null) {
+		if ($product) {
+			if (!auth()->user()->can('edit_products')) {
+				abort(403, 'Unauthorized');
+			}
+		} else {
+			if (!auth()->user()->can('add_products')) {
+				abort(403, 'Unauthorized');
+			}
+		}
 
 		$this->validate($request, [
 	        'code' => ['required', 'string', 'max:32'],
@@ -62,8 +71,14 @@ class ProductsController extends Controller {
 	        'price' => ['required', 'numeric'],
 	    ]);
 
-		$product = $product??new Product();
-		$product->fill($request->all());
+		$product = $product ?? new Product();
+		$product->fill($request->except('stock'));
+
+		// Only allow users with manage_inventory to set stock
+		if (auth()->user()->can('manage_inventory') && $request->has('stock')) {
+			$product->stock = $request->stock;
+		}
+
 		$product->save();
 
 		return redirect()->route('products_list');
@@ -71,8 +86,8 @@ class ProductsController extends Controller {
 
 	public function delete(Request $request, Product $product)
 	{
-		if(!Auth::user() || !Auth::user()->hasRole('Admin')) {
-			abort(401, 'Unauthorized action.');
+		if(!Auth::user() || !Auth::user()->can('delete_products')) {
+			abort(403, 'Unauthorized action.');
 		}
 
 		try {

@@ -43,18 +43,15 @@
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
                         </div>
 
-                        <div class="form-group mb-4">
-                            <label class="form-label d-block">Roles</label>
-                            @foreach($roles as $role)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="roles[]" 
-                                           value="{{ $role->name }}" id="role_{{ $role->id }}"
-                                           {{ in_array($role->name, old('roles', [])) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="role_{{ $role->id }}">
+                        <div class="form-group mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select name="role" id="role" class="form-control" required>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
                                         {{ $role->name }}
-                                    </label>
-                                </div>
-                            @endforeach
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group mb-4">
