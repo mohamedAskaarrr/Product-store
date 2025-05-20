@@ -6,18 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Basket extends Model
 {
-    public function products()
-{
-    return $this->belongsToMany(Product::class)->withPivot('quantity')->withTimestamps();
-}
-
-protected $fillable = [
-    'user_id',
-    'product_id',
-    'product_name',
-    'quantity',
-   
-];
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'quantity',
+        'product_name'
+    ];
     
     protected $table = 'basket';
 
@@ -28,10 +22,10 @@ protected $fillable = [
     }
 
     // Define relationship to the Product model
-    // public function product()
-    // {
-    //     return $this->belongsTo(Product::class);
-    // }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
 
 
