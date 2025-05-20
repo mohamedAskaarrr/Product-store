@@ -152,7 +152,7 @@
       <button type="submit" class="btn btn-custom-primary w-100 mb-3">Create Account</button>
       
       <div class="text-center">
-        <small class="text-muted-custom">Already have an account? <a href="{{ route('login') }}" class="link-custom">Sign in here</a></small>
+        <small class="text-muted-custom">Already have an account? <a href="{{ route('login') }}" class="link-custom">login here</a></small>
       </div>
     </form>
   </div>
