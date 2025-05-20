@@ -16,6 +16,12 @@
         </div>
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger shadow-sm text-center border-gold">
+            <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+        </div>
+    @endif
+
     @if(count($basketItems) > 0)
         <div class="card shadow-sm border-gold">
             <div class="card-header bg-dark text-gold">
