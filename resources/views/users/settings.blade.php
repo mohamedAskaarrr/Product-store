@@ -46,40 +46,50 @@
                 <div id="notifications-section" class="settings-section d-none">
                     <h4 class="text-gold mb-3">Notifications</h4>
                     <p>Manage your notification preferences for offers and order updates.</p>
-                    <div class="form-check form-switch mb-2">
-                        <input class="form-check-input" type="checkbox" id="emailOffers">
-                        <label class="form-check-label" for="emailOffers">Email me about special offers</label>
-                    </div>
-                    <div class="form-check form-switch mb-2">
-                        <input class="form-check-input" type="checkbox" id="orderUpdates">
-                        <label class="form-check-label" for="orderUpdates">Order status updates</label>
-                    </div>
+                    <form action="{{ route('settings.update') }}" method="POST" id="notifications-form">
+                        @csrf
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="emailOffers" name="email_offers" 
+                                {{ Auth::user()->email_offers ? 'checked' : '' }}>
+                            <label class="form-check-label" for="emailOffers">Email me about special offers</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="orderUpdates" name="order_updates"
+                                {{ Auth::user()->order_updates ? 'checked' : '' }}>
+                            <label class="form-check-label" for="orderUpdates">Order status updates</label>
+                        </div>
+                        <button type="submit" class="btn btn-gold mt-3">Save Changes</button>
+                    </form>
                 </div>
                 <!-- Preferences Section -->
                 <div id="preferences-section" class="settings-section d-none">
                     <h4 class="text-gold mb-3">Preferences</h4>
-                    <div class="mb-3">
-                        <label for="currencySelect" class="form-label">Currency</label>
-                        <select class="form-select" id="currencySelect">
-                            <option value="USD">$ USD</option>
-                            <option value="EUR">€ EUR</option>
-                            <option value="EGP">E£ EGP</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="languageSelect" class="form-label">Language</label>
-                        <select class="form-select" id="languageSelect">
-                            <option value="en">English</option>
-                            <option value="ar">Arabic</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="themeSelect" class="form-label">Theme</label>
-                        <select class="form-select" id="themeSelect">
-                            <option value="dark">Dark</option>
-                            <option value="light">Light</option>
-                        </select>
-                    </div>
+                    <form action="{{ route('settings.update') }}" method="POST" id="preferences-form">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="currencySelect" class="form-label">Currency</label>
+                            <select class="form-select" id="currencySelect" name="currency">
+                                <option value="USD" {{ Auth::user()->currency === 'USD' ? 'selected' : '' }}>$ USD</option>
+                                <option value="EUR" {{ Auth::user()->currency === 'EUR' ? 'selected' : '' }}>€ EUR</option>
+                                <option value="EGP" {{ Auth::user()->currency === 'EGP' ? 'selected' : '' }}>E£ EGP</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="languageSelect" class="form-label">Language</label>
+                            <select class="form-select" id="languageSelect" name="language">
+                                <option value="en" {{ Auth::user()->language === 'en' ? 'selected' : '' }}>English</option>
+                                <option value="ar" {{ Auth::user()->language === 'ar' ? 'selected' : '' }}>Arabic</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="themeSelect" class="form-label">Theme</label>
+                            <select class="form-select" id="themeSelect" name="theme">
+                                <option value="dark" {{ Auth::user()->theme === 'dark' ? 'selected' : '' }}>Dark</option>
+                                <option value="light" {{ Auth::user()->theme === 'light' ? 'selected' : '' }}>Light</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-gold">Save Changes</button>
+                    </form>
                 </div>
                 <!-- Store Locator Section -->
                 <div id="store-section" class="settings-section d-none">
@@ -95,10 +105,15 @@
                 <div id="privacy-section" class="settings-section d-none">
                     <h4 class="text-gold mb-3">Privacy</h4>
                     <p>Manage your privacy settings and data preferences.</p>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="dataSharing">
-                        <label class="form-check-label" for="dataSharing">Allow sharing my data for personalized offers</label>
-                    </div>
+                    <form action="{{ route('settings.update') }}" method="POST" id="privacy-form">
+                        @csrf
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="dataSharing" name="data_sharing"
+                                {{ Auth::user()->data_sharing ? 'checked' : '' }}>
+                            <label class="form-check-label" for="dataSharing">Allow sharing my data for personalized offers</label>
+                        </div>
+                        <button type="submit" class="btn btn-gold mt-3">Save Changes</button>
+                    </form>
                 </div>
                 <!-- Support Section -->
                 <div id="support-section" class="settings-section d-none">
@@ -223,5 +238,32 @@ if (currencySelect) {
 }
 // Show Account section by default
 showSettingsSection('account');
+
+// Add form submission handlers
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Settings saved successfully!');
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);
+        });
+    });
+});
 </script>
 @endsection 

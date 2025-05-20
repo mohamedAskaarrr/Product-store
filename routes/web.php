@@ -121,3 +121,5 @@ Route::get('/register', [UsersController::class, 'register'])->name('register');
 Route::post('/do_register', [UsersController::class, 'do_register'])->name('do_register');
 
 Route::post('/purchases/{purchase}/refund', [UsersController::class, 'refundPurchase'])->name('purchase.refund');
+
+Route::post('/settings/update', [UsersController::class, 'updateSettings'])->name('settings.update');
