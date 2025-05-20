@@ -50,6 +50,14 @@
       color: #D4AF37 !important;
     }
 
+    .main-center-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
     .container {
       background: none !important;
       box-shadow: none !important;
@@ -83,8 +91,10 @@
 <body>
   @include('layouts.scentora-menu')
 
-  <div class="container py-4">
-    @yield('main-content')
+  <div class="main-center-wrapper">
+    <div class="container py-4">
+      @yield('main-content')
+    </div>
   </div>
 
   <footer class="text-center">
