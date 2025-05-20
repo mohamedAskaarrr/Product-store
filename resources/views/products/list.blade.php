@@ -262,17 +262,6 @@
                                     </button>
                                 </form>
                             @endcan
-                            @can('manage_inventory')
-                                <form action="{{ route('products.addstock', $product->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <div class="input-group input-group-sm modern-addstock-group">
-                                        <input type="number" class="form-control" name="stock" placeholder="Add stock">
-                                        <button type="submit" class="btn modern-btn-addstock">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                            @endcan
                         </div>
                     </div>
                 </div>

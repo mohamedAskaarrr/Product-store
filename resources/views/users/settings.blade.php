@@ -336,4 +336,4 @@ document.querySelectorAll('form').forEach(form => {
     });
 });
 </script>
-@endsection 
+@endsection
