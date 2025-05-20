@@ -9,43 +9,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   html, body {
-    background: #000 !important;
     height: 100%;
     margin: 0;
     padding: 0;
-    color: #e0e0e0;
-    overflow: hidden;
+    background: #2c1e1e;
+    color: #fffbe6;
+    overflow-x: hidden;
   }
   .login-fullscreen {
     display: flex;
-    height: 100vh;
-    width: 100vw;
-    min-height: 100vh;
-    min-width: 100vw;
-  }
-  .login-left {
-    flex: 1;
-    display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(10,10,20,0.95);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 60px 0 #000a, 0 8px 32px 0 #0008;
-    z-index: 2;
+    min-height: 100vh;
+    width: 100%;
   }
   .login-form-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
     max-width: 400px;
-    background: #111 !important;
+    background: #2c1e1e;
     border-radius: 1.5rem;
-    box-shadow: 0 8px 32px 0 #000a;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     padding: 2.5rem 2rem 2rem 2rem;
-    border: 1.5px solid #222 !important;
-    color: #fff;
+    border: 1.5px solid #D4AF37;
   }
   .login-icon-wrapper {
-    background: linear-gradient(135deg, #1a1a2a 60%, #2a2a4a 100%);
-    color: #a084fa;
+    background: linear-gradient(135deg, #2c261e 60%, #3a3326 100%);
+    color: #ffd700;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -53,7 +46,7 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem auto;
-    box-shadow: 0 0 32px 0 #a084fa44;
+    box-shadow: 0 0 32px 0 rgba(255, 215, 0, 0.2);
   }
   .login-icon-wrapper .bi {
     font-size: 2.5rem;
@@ -64,168 +57,101 @@
     letter-spacing: 1px;
   }
   .login-form-wrapper .text-muted-custom {
-    color: #b0b0c0 !important;
+    color: #d4c091 !important;
   }
   .form-control-dark {
-    background: #18181c !important;
-    color: #e0e0fa !important;
-    border: 1.5px solid #23234a !important;
+    background: rgba(44, 30, 30, 0.8) !important;
+    color: #fffbe6 !important;
+    border: 1.5px solid #D4AF37 !important;
     border-radius: 0.5rem;
     padding: 0.85rem 1.1rem;
-    font-size: 1.05rem;
-    box-shadow: 0 2px 8px 0 #0002;
   }
   .form-control-dark:focus {
-    border-color: #a084fa !important;
-    box-shadow: 0 0 0 0.2rem #a084fa33;
-    background: #23234a !important;
-    color: #fff !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.2);
+    background: rgba(50, 45, 35, 0.9) !important;
   }
   .input-group-text-dark {
-    background: #18181c !important;
-    border: 1.5px solid #23234a !important;
-    color: #a084fa !important;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
+    background: rgba(40, 35, 25, 0.8) !important;
+    border: 1.5px solid rgba(255, 215, 0, 0.2) !important;
+    color: #ffd700 !important;
   }
   .btn-custom-primary {
-    background: linear-gradient(90deg, #a084fa 0%, #6247ea 100%);
+    background: linear-gradient(90deg, #ffd700 0%, #daa520 100%);
     border: none;
-    color: #fff;
+    color: #1a1814;
     font-weight: 600;
-    font-size: 1.1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 16px 0 #a084fa33;
-    transition: background 0.2s, box-shadow 0.2s;
   }
   .btn-custom-primary:hover {
-    background: linear-gradient(90deg, #6247ea 0%, #a084fa 100%);
-    box-shadow: 0 4px 24px 0 #a084fa55;
+    background: linear-gradient(90deg, #daa520 0%, #ffd700 100%);
+    color: #1a1814;
   }
   .btn-outline-custom {
-    border: 1.5px solid #23234a;
-    color: #e0e0fa;
-    background: transparent;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: background 0.2s, color 0.2s;
+    border: 1.5px solid rgba(255, 215, 0, 0.3);
+    color: #ffd700;
   }
   .btn-outline-custom:hover {
-    background: #23234a;
-    color: #fff;
-    border-color: #a084fa;
-  }
-  .form-check-input-dark {
-    background: #23234a;
-    border-color: #23234a;
-  }
-  .form-check-input-dark:checked {
-    background: #a084fa;
-    border-color: #a084fa;
+    background: rgba(255, 215, 0, 0.1);
+    border-color: #ffd700;
+    color: #ffd700;
   }
   .link-custom {
-    color: #a084fa;
-    text-decoration: none;
-    font-weight: 500;
+    color: #ffd700;
   }
   .link-custom:hover {
-    color: #fff;
-    text-decoration: underline;
+    color: #daa520;
   }
-  .small-text-muted {
-    color: #b0b0c0 !important;
-  }
-  .login-right {
-    flex: 1;
-    background: #0a0a0f;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .login-right spline-viewer {
-    width: 100vw;
-    height: 100vh;
-    min-width: 50vw;
-    min-height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 1;
-  }
-  @media (max-width: 900px) {
-    .login-fullscreen {
-      flex-direction: column;
-    }
-    .login-left, .login-right {
-      min-width: 100vw;
-      min-height: 50vh;
-      max-width: 100vw;
-      max-height: 50vh;
-    }
-    .login-right spline-viewer {
-      min-height: 50vh;
-      min-width: 100vw;
-    }
+  .text-muted-custom {
+    color: #d4c091 !important;
   }
 </style>
 @endsection
 
 @section('content')
 <div class="login-fullscreen">
-  <div class="login-left">
-    <div class="login-form-wrapper">
-      <div class="text-center mb-4">
-        <div class="login-icon-wrapper">
-          <i class="bi bi-shield-lock-fill"></i>
-        </div>
-        <h2 class="mb-2">Sign In</h2>
-        <div class="text-muted-custom mb-4">Welcome back! Please sign in to continue.</div>
+  <div class="login-form-wrapper">
+    <div class="text-center mb-4">
+      <div class="login-icon-wrapper">
+        <i class="bi bi-shield-lock-fill"></i>
       </div>
-      <form action="{{route('do_login')}}" method="post">
-        {{ csrf_field() }}
-        @if($errors->any())
-          <div class="alert alert-danger alert-dismissible fade show py-2 mb-3" role="alert">
-            <ul class="mb-0 ps-3">
-                @foreach($errors->all() as $error)
-                    <li>{!! $error !!}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        @endif
-        <div class="mb-3 input-group">
-          <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
-          <input type="email" class="form-control form-control-dark" name="email" placeholder="Email Address" required value="{{ old('email') }}">
-        </div>
-        <div class="mb-3 input-group">
-          <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
-          <input type="password" class="form-control form-control-dark" name="password" placeholder="Password" required>
-        </div>
-        <div class="d-flex justify-content-between align-items-center my-3">
-          <div class="form-check">
-            <input class="form-check-input form-check-input-dark" type="checkbox" name="remember" id="rememberMe">
-            <label class="form-check-label small" for="rememberMe">Remember me</label>
-          </div>
-          <a href="#" class="link-custom small">Forgot password?</a>
-        </div>
-        <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
-        <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3">
-          <i class="bi bi-google me-2"></i>Sign in with Google
-        </a>
-        <div class="text-center mt-4">
-          <small class="small-text-muted">Don't have an account? <a href="{{ route('register') }}" class="link-custom fw-medium">Register here</a></small>
-        </div>
-      </form>
+      <h2 class="mb-2">Sign In</h2>
+      <div class="text-muted-custom mb-4">Welcome back! Please sign in to continue.</div>
     </div>
-  </div>
-  <div class="login-right">
-    <spline-viewer url="https://prod.spline.design/dn2RyjHE3gqsmba0/scene.splinecode"></spline-viewer>
+    <form action="{{route('do_login')}}" method="post">
+      {{ csrf_field() }}
+      @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show py-2 mb-3" role="alert">
+          <ul class="mb-0 ps-3">
+              @foreach($errors->all() as $error)
+                  <li>{!! $error !!}</li>
+              @endforeach
+          </ul>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
+        <input type="email" class="form-control form-control-dark" name="email" placeholder="Email Address" required value="{{ old('email') }}">
+      </div>
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
+        <input type="password" class="form-control form-control-dark" name="password" placeholder="Password" required>
+      </div>
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <div class="form-check">
+          <input class="form-check-input form-check-input-dark" type="checkbox" name="remember" id="rememberMe">
+          <label class="form-check-label small" for="rememberMe">Remember me</label>
+        </div>
+        <a href="#" class="link-custom small">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
+      <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3">
+        <i class="bi bi-google me-2"></i>Sign in with Google
+      </a>
+      <div class="text-center mt-4">
+        <small class="small-text-muted">Don't have an account? <a href="{{ route('register') }}" class="link-custom fw-medium">Register here</a></small>
+      </div>
+    </form>
   </div>
 </div>
 @endsection

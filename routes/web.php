@@ -114,3 +114,8 @@ Route::get('/fav', [ProductsController::class, 'showFavourites'])
 ->name('fav');
 
 Route::get('/users/{user}/purchase-history', [\App\Http\Controllers\Web\UsersController::class, 'purchaseHistory'])->name('purchase_history');
+
+
+// Registration Routes
+Route::get('/register', [UsersController::class, 'register'])->name('register');
+Route::post('/do_register', [UsersController::class, 'do_register'])->name('do_register');
