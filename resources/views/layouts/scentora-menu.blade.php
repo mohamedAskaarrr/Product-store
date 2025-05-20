@@ -99,6 +99,22 @@
     background: #2c1e1e !important;
     background-color: #2c1e1e !important;
   }
+  .simple-navbar {
+    height: 76px;
+    min-height: 76px;
+    max-height: 76px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: 2px solid #D4AF37;
+    border-radius: 0;
+    box-shadow: none;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+  }
+  body {
+    padding-top: 76px !important;
+  }
   .container-fluid {
     background: #2c1e1e !important;
     background-color: #2c1e1e !important;
@@ -184,8 +200,5 @@
     width: 100%;
     z-index: 1200;
     box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
-  }
-  body {
-    padding-top: 76px; /* Adjust to match navbar height */
   }
 </style>
