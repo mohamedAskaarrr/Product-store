@@ -18,18 +18,19 @@
   }
   .login-fullscreen {
     display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100vh;
     width: 100vw;
-    background: #000;
+    min-height: 100vh;
+    min-width: 100vw;
   }
   .login-left {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000 !important;
+    background: rgba(10,10,20,0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 60px 0 #000a, 0 8px 32px 0 #0008;
     z-index: 2;
   }
   .login-form-wrapper {
@@ -134,6 +135,44 @@
   .small-text-muted {
     color: #b0b0c0 !important;
   }
+  .login-right {
+    flex: 1;
+    background: #0a0a0f;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-right spline-viewer {
+    width: 100vw;
+    height: 100vh;
+    min-width: 50vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .login-fullscreen {
+      flex-direction: column;
+    }
+    .login-left, .login-right {
+      min-width: 100vw;
+      min-height: 50vh;
+      max-width: 100vw;
+      max-height: 50vh;
+    }
+    .login-right spline-viewer {
+      min-height: 50vh;
+      min-width: 100vw;
+    }
+  }
 </style>
 @endsection
 
@@ -185,13 +224,14 @@
       </form>
     </div>
   </div>
+  <div class="login-right">
+    <spline-viewer url="https://prod.spline.design/dn2RyjHE3gqsmba0/scene.splinecode"></spline-viewer>
+  </div>
 </div>
 @endsection
 
 @push('scripts')
-{{-- Add this to your master layout if you don't have it, or just include BS JS here --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.96/build/spline-viewer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // Optional: If you change --primary-accent in JS, you can update --primary-accent-rgb
   // For simplicity, it's hardcoded in CSS or set once.

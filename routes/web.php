@@ -7,7 +7,7 @@ use App\Http\Controllers\Web\HomeController;
 
 
 Route::get('register', [UsersController::class, 'register'])->name('register');
-Route::post('register', [UsersController::class, 'doRegister'])->name('do_register');
+Route::post('register', [UsersController::class, 'doRegister'])->name('do-register');
 Route::get('login', [UsersController::class, 'login'])->name('login');
 Route::post('login', [UsersController::class, 'doLogin'])->name('do_login');
 Route::get('logout', [UsersController::class, 'doLogout'])->name('do_logout');
@@ -78,13 +78,9 @@ Route::get('/email/resend', [App\Http\Controllers\Web\UsersController::class, 'r
 
 
 
-Route::get('/auth/google', 
-[UsersController::class, 'redirectToGoogle'])->name('login_with_google');
- Route::get('/auth/google/callback', 
-[UsersController::class, 'handleGoogleCallback']);
-
-
-
+// Google Authentication Routes
+Route::get('login/google', [App\Http\Controllers\Web\UsersController::class, 'redirectToGoogle'])->name('login_with_google');
+Route::get('login/google/callback', [App\Http\Controllers\Web\UsersController::class, 'handleGoogleCallback']);
 
 Route::get('sqli',function(Request $request){
     $table =$request->query('table');
