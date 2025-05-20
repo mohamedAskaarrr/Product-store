@@ -60,6 +60,10 @@
     border-radius: 0.5rem;
     padding: 0.85rem 1.1rem;
   }
+  .form-control-dark::placeholder {
+    color: #fffbe6 !important; /* White placeholder text */
+    opacity: 1; /* Ensure full opacity */
+  }
   .form-control-dark:focus {
     border-color: #ffd700 !important;
     box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.2);
