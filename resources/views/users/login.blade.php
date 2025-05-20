@@ -18,20 +18,10 @@
   }
   .login-fullscreen {
     display: flex;
-    height: 100vh;
-    width: 100vw;
-    min-height: 100vh;
-    min-width: 100vw;
-  }
-  .login-left {
-    flex: 1;
-    display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(10,10,20,0.95);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 60px 0 #000a, 0 8px 32px 0 #0008;
-    z-index: 2;
+    min-height: 100vh;
+    padding: 1rem;
   }
   .login-form-wrapper {
     width: 100%;
@@ -150,63 +140,56 @@
 
 @section('content')
 <div class="login-fullscreen">
-  <div class="login-left">
-    <div class="login-form-wrapper">
-      <div class="text-center mb-4">
-        <div class="login-icon-wrapper">
-          <i class="bi bi-shield-lock-fill"></i>
-        </div>
-        <h2 class="mb-2">Sign In</h2>
-        <div class="text-muted-custom mb-4">Welcome back! Please sign in to continue.</div>
+  <div class="login-form-wrapper">
+    <div class="text-center mb-4">
+      <div class="login-icon-wrapper">
+        <i class="bi bi-shield-lock-fill"></i>
       </div>
-      <form action="{{route('do_login')}}" method="post">
-        {{ csrf_field() }}
-        @if($errors->any())
-          <div class="alert alert-danger alert-dismissible fade show py-2 mb-3" role="alert">
-            <ul class="mb-0 ps-3">
-                @foreach($errors->all() as $error)
-                    <li>{!! $error !!}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        @endif
-        <div class="mb-3 input-group">
-          <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
-          <input type="email" class="form-control form-control-dark custom-input" name="email" placeholder="Email Address" required value="{{ old('email') }}">
-        </div>
-        <div class="mb-3 input-group">
-          <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
-          <input type="password" class="form-control form-control-dark custom-input" name="password" placeholder="Password" required>
-        </div>
-        <div class="d-flex justify-content-between align-items-center my-3">
-          <div class="form-check">
-            <input class="form-check-input form-check-input-dark" type="checkbox" name="remember" id="rememberMe">
-            <label class="form-check-label small" for="rememberMe">Remember me</label>
-          </div>
-          <a href="#" class="link-custom small">Forgot password?</a>
-        </div>
-
-        <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
-        <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3">
-          <i class="bi bi-google me-2"></i>Sign in with Google
-        </a>
-        <div class="text-center mt-4">
-          <small class="small-text-muted">Don't have an account? <a href="{{ route('register') }}" class="link-custom fw-medium">Register here</a></small>
-        </div>
-      </form>
+      <h2 class="mb-2">Sign In</h2>
+      <div class="text-muted-custom mb-4">Welcome back! Please sign in to continue.</div>
     </div>
-  </div>
-  <div class="login-right">
-    <spline-viewer url="https://prod.spline.design/dn2RyjHE3gqsmba0/scene.splinecode"></spline-viewer>
+    <form action="{{route('do_login')}}" method="post">
+      {{ csrf_field() }}
+      @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show py-2 mb-3" role="alert">
+          <ul class="mb-0 ps-3">
+              @foreach($errors->all() as $error)
+                  <li>{!! $error !!}</li>
+              @endforeach
+          </ul>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
+        <input type="email" class="form-control form-control-dark custom-input" name="email" placeholder="Email Address" required value="{{ old('email') }}">
+      </div>
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
+        <input type="password" class="form-control form-control-dark custom-input" name="password" placeholder="Password" required>
+      </div>
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <div class="form-check">
+          <input class="form-check-input form-check-input-dark" type="checkbox" name="remember" id="rememberMe">
+          <label class="form-check-label small" for="rememberMe">Remember me</label>
+        </div>
+        <a href="#" class="link-custom small">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
+      <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3">
+        <i class="bi bi-google me-2"></i>Sign in with Google
+      </a>
+      <div class="text-center mt-4">
+        <small class="small-text-muted">Don't have an account? <a href="{{ route('register') }}" class="link-custom fw-medium">Register here</a></small>
+      </div>
+    </form>
   </div>
 </div>
 @endsection
 
 @push('scripts')
-{{-- Add this to your master layout if you don't have it, or just include BS JS here --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.96/build/spline-viewer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // Optional: If you change --primary-accent in JS, you can update --primary-accent-rgb
   // For simplicity, it's hardcoded in CSS or set once.
