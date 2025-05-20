@@ -225,68 +225,6 @@
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            padding: 30px;
-        }
-        .card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        .card-header {
-            background-color: #28a745;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table th, table td {
-            padding: 12px 15px;
-            text-align: center;
-            font-size: 16px;
-        }
-        table th {
-            background-color: #28a745;
-            color: white;
-        }
-        table td {
-            background-color: #f8f9fa;
-        }
-        table tr:nth-child(even) {
-            background-color: #f1f1f1;
-        }
-        table tr:hover {
-            background-color: #e9ecef;
-        }
-        .btn-primary:hover, .btn-warning:hover, .btn-danger:hover {
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-        .badge {
-            font-size: 14px;
-            margin: 0 5px;
-        }
-        .form-control {
-            border-radius: 25px;
-            box-shadow: none;
-        }
-        .btn-success, .btn-danger {
-            border-radius: 25px;
-            width: 100%;
-        }
-        .row.mb-4 {
-            margin-bottom: 20px;
-        }
-    </style>
 @endsection
 
 @push('scripts')

@@ -28,17 +28,18 @@
 
   <style>
     :root {
-      --primary-color: #4CAF50;
-      --secondary-color: #2196F3;
+      --primary-color: #D4AF37;
+      --secondary-color: #B38F28;
+      --background-color: #2c1e1e;
+      --text-color: #f5f5f5;
+      --card-bg: #3a2a2a;
       --accent-color: #FFC107;
-      --text-color: #333;
       --light-bg: #f8f9fa;
       --dark-bg: #343a40;
       --success-color: #28a745;
       --danger-color: #dc3545;
       --warning-color: #ffc107;
       --info-color: #17a2b8;
-      --card-bg: #ffffff;
       --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
       --navbar-bg: #ffffff;
       --navbar-text: #333;
@@ -48,7 +49,6 @@
       --dropdown-hover-text: #4CAF50;
       --border-color: #dee2e6;
     }
-
     [data-theme="dark"] {
       --primary-color: #66bb6a;
       --secondary-color: #42a5f5;
@@ -70,36 +70,30 @@
       --dropdown-hover-text: #66bb6a;
       --border-color: #333;
     }
-
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: var(--light-bg);
+      background-color: var(--background-color);
       color: var(--text-color);
       transition: background-color 0.3s ease, color 0.3s ease;
     }
-
     .navbar {
       background-color: var(--navbar-bg);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       padding: 1rem 0;
       transition: background-color 0.3s ease;
     }
-
     .navbar-brand {
       font-weight: 600;
       color: var(--primary-color);
     }
-
     .nav-link {
       font-weight: 500;
       color: var(--navbar-text) !important;
       transition: color 0.3s ease;
     }
-
     .nav-link:hover {
       color: var(--primary-color) !important;
     }
-
     .dropdown-menu {
       border: none;
       box-shadow: var(--card-shadow);
@@ -107,18 +101,15 @@
       background-color: var(--dropdown-bg);
       transition: background-color 0.3s ease;
     }
-
     .dropdown-item {
       padding: 0.5rem 1.5rem;
       transition: all 0.3s ease;
       color: var(--dropdown-text);
     }
-
     .dropdown-item:hover {
       background-color: var(--dropdown-hover-bg);
       color: var(--dropdown-hover-text);
     }
-
     .card {
       border: none;
       border-radius: 12px;
@@ -126,138 +117,106 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
       background-color: var(--card-bg);
     }
-
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 12px rgba(0,0,0,0.15);
     }
-
     .btn {
       border-radius: 8px;
       padding: 0.5rem 1.5rem;
       font-weight: 500;
       transition: all 0.3s ease;
     }
-
     .btn-primary {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
     }
-
     .btn-primary:hover {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
       transform: translateY(-2px);
       opacity: 0.9;
     }
-
     .alert {
       border-radius: 8px;
       border: none;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-
-    /* Custom Animations */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .fade-in {
       animation: fadeIn 0.5s ease forwards;
     }
-
-    /* Responsive Design */
     @media (max-width: 768px) {
       .navbar-nav {
         padding: 1rem 0;
       }
-      
       .card-deck {
         display: block;
       }
-      
       .card {
         margin-bottom: 1rem;
       }
     }
-
-    /* Dark mode specific styles */
     [data-theme="dark"] .table {
       color: var(--text-color);
     }
-
     [data-theme="dark"] .table thead th {
       background-color: var(--dark-bg);
       color: var(--text-color);
     }
-
     [data-theme="dark"] .table tbody tr {
       background-color: var(--card-bg);
     }
-
     [data-theme="dark"] .table tbody tr:hover {
       background-color: var(--dropdown-hover-bg);
     }
-
     [data-theme="dark"] .form-control {
       background-color: var(--card-bg);
       border-color: var(--border-color);
       color: var(--text-color);
     }
-
     [data-theme="dark"] .form-control:focus {
       background-color: var(--card-bg);
       border-color: var(--primary-color);
       color: var(--text-color);
     }
-
     [data-theme="dark"] .form-select {
       background-color: var(--card-bg);
       border-color: var(--border-color);
       color: var(--text-color);
     }
-
     [data-theme="dark"] .form-select:focus {
       background-color: var(--card-bg);
       border-color: var(--primary-color);
       color: var(--text-color);
     }
-
     [data-theme="dark"] .modal-content {
       background-color: var(--card-bg);
       color: var(--text-color);
     }
-
     [data-theme="dark"] .modal-header {
       border-bottom-color: var(--border-color);
     }
-
     [data-theme="dark"] .modal-footer {
       border-top-color: var(--border-color);
     }
-
     [data-theme="dark"] .pagination .page-link {
       background-color: var(--card-bg);
       border-color: var(--border-color);
       color: var(--text-color);
     }
-
     [data-theme="dark"] .pagination .page-item.active .page-link {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
       color: white;
     }
-
     [data-theme="dark"] .pagination .page-link:hover {
       background-color: var(--dropdown-hover-bg);
       color: var(--primary-color);
     }
-
-    html, body {
-      background: #000 !important;
-    }
-
     .login-fullscreen {
       position: relative;
       width: 100vw;
@@ -266,9 +225,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #000;
     }
-
     .spline-3d-float {
       position: absolute;
       left: 0;
@@ -276,25 +233,21 @@
       transform: translateY(-50%);
       width: 50vw;
       height: 80vh;
-      pointer-events: none; /* So clicks go through to the form */
+      pointer-events: none;
       z-index: 1;
     }
-
     .login-left, .login-form-wrapper {
       position: relative;
       z-index: 2;
     }
-
     .login-left {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #000 !important;
       z-index: 2;
       padding-left: 0;
     }
-
     .login-form-wrapper {
       width: 100%;
       max-width: 400px;
@@ -302,48 +255,39 @@
       border: 1.5px solid #222 !important;
       box-shadow: none !important;
     }
-
     .form-control-dark, .input-group-text-dark {
       background: #111 !important;
       color: #fff !important;
       border: 1.5px solid #222 !important;
     }
-
     .btn-custom-primary {
       background: #111 !important;
       color: #fff !important;
       border: 1.5px solid #222 !important;
     }
-
     .btn-custom-primary:hover {
       background: #222 !important;
       color: #fff !important;
     }
-
     .register-fullscreen {
       display: flex;
       height: 100vh;
       width: 100vw;
       background: #000;
     }
-
     .register-left, .register-right {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     .register-right {
-      /* empty, just for layout */
     }
   </style>
   @yield('head')
 </head>
 <body>
-
   @include('layouts.scentora-menu')
-
   @if (Request::is('login'))
     @yield('content')
   @else
@@ -351,19 +295,13 @@
       @yield('content')
     </div>
   @endif
-
   <div class="register-fullscreen">
     <div class="register-form-wrapper">
       <form action="{{ route('do-register') }}" method="post">
-        <!-- ...form... -->
       </form>
     </div>
   </div>
-
-  <!-- AOS Animation Library -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-  <!-- Initialize AOS -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       AOS.init({
@@ -371,34 +309,21 @@
         easing: 'ease-in-out',
         once: true
       });
-
-      // Dark mode functionality
       const darkModeToggle = document.getElementById('darkModeToggle');
       const htmlElement = document.documentElement;
-      
-      // Check for saved theme preference
       const savedTheme = localStorage.getItem('theme') || 'light';
       htmlElement.setAttribute('data-theme', savedTheme);
-      
-      // Update icon based on current theme
       updateDarkModeIcon(savedTheme);
-      
-      // Toggle dark mode
       if (darkModeToggle) {
         darkModeToggle.addEventListener('click', function(e) {
           e.preventDefault();
-          
           const currentTheme = htmlElement.getAttribute('data-theme');
           const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-          
           htmlElement.setAttribute('data-theme', newTheme);
           localStorage.setItem('theme', newTheme);
-          
           updateDarkModeIcon(newTheme);
         });
       }
-      
-      // Update dark mode icon
       function updateDarkModeIcon(theme) {
         if (darkModeToggle) {
           const icon = darkModeToggle.querySelector('i');
@@ -415,7 +340,6 @@
       }
     });
   </script>
-
   @stack('scripts')
 </body>
 </html>
