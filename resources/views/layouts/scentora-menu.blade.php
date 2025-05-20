@@ -95,14 +95,13 @@
 </nav>
 
 <style>
-  .simple-navbar {
+  .simple-navbar, .container-fluid, .navbar, .container, body, html {
     background: #2c1e1e !important;
-    border-bottom: 2px solid #D4AF37;
-    border-radius: 0;
-    box-shadow: none;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    transition: background 0.3s;
+    background-color: #2c1e1e !important;
+  }
+  .container-fluid {
+    background: #2c1e1e !important;
+    background-color: #2c1e1e !important;
   }
   .navbar-brand {
     color: #fffbe6 !important;

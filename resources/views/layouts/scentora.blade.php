@@ -28,45 +28,61 @@
   <style>
     :root {
       --primary-color: #D4AF37;
-      --secondary-color: #333;
+      --secondary-color: #2c1e1e;
       --accent-color: #B38F28;
-      --text-color: #333;
-      --light-bg: #f8f9fa;
-      --dark-bg: #343a40;
-      --card-bg: #ffffff;
+      --text-color: #D4AF37;
+      --light-bg: #2c1e1e;
+      --dark-bg: #2c1e1e;
+      --card-bg: #2c1e1e;
       --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      --navbar-bg: #ffffff;
-      --navbar-text: #333;
-      --dropdown-bg: #ffffff;
-      --dropdown-text: #333;
-      --dropdown-hover-bg: #f8f9fa;
+      --navbar-bg: #2c1e1e;
+      --navbar-text: #D4AF37;
+      --dropdown-bg: #2c1e1e;
+      --dropdown-text: #D4AF37;
+      --dropdown-hover-bg: #2c1e1e;
       --dropdown-hover-text: #D4AF37;
-      --border-color: #dee2e6;
+      --border-color: #D4AF37;
     }
 
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: var(--light-bg);
-      color: var(--text-color);
+      background-color: #2c1e1e !important;
+      color: #D4AF37 !important;
+    }
+
+    .main-center-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .container {
+      background: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
     }
 
     .btn-gold {
       background-color: #D4AF37;
-      color: #000;
+      color: #2c1e1e;
       border: none;
       transition: all 0.3s ease;
     }
     
     .btn-gold:hover {
-      background-color: #B38F28;
-      color: #000;
+      background-color: #2c1e1e;
+      color: #D4AF37;
+      border: 1px solid #D4AF37;
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(212,175,55,0.1);
     }
 
     footer {
-      background-color: var(--secondary-color);
-      color: white;
+      background-color: #2c1e1e !important;
+      color: #D4AF37 !important;
       padding: 2rem 0;
       margin-top: 3rem;
     }
@@ -75,8 +91,10 @@
 <body>
   @include('layouts.scentora-menu')
 
-  <div class="container py-4">
-    @yield('main-content')
+  <div class="main-center-wrapper">
+    <div class="container py-4">
+      @yield('main-content')
+    </div>
   </div>
 
   <footer class="text-center">
