@@ -116,6 +116,12 @@
     color: #fffbe6 !important;
     letter-spacing: 1px;
   }
+  .navbar-brand .text-primary {
+    color: #D4AF37 !important;
+  }
+  .navbar-brand .fa-spray-can {
+    color: #EEE8D5!important;
+  }
   .nav-link, .dropdown-item {
     color: #fffbe6 !important;
     font-weight: 600;
@@ -193,5 +199,16 @@
     width: 100%;
     z-index: 1200;
     box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
+  }
+  .navbar, .simple-navbar, .fixed-navbar, .container-fluid {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    box-shadow: none !important;
+    border-bottom: 2px solid #D4AF37 !important;
+    display: flex !important;
+    align-items: center !important;
   }
 </style>

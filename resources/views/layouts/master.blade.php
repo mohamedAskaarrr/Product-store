@@ -286,6 +286,18 @@
       min-height: calc(100vh - 76px);
       padding: 2rem 0;
     }
+    /* Force navbar to fixed height and no vertical padding on all pages */
+    .navbar, .simple-navbar, .fixed-navbar, .container-fluid {
+      height: 76px !important;
+      min-height: 76px !important;
+      max-height: 76px !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      box-shadow: none !important;
+      border-bottom: 2px solid #D4AF37 !important;
+      display: flex !important;
+      align-items: center !important;
+    }
   </style>
   @yield('head')
 </head>
