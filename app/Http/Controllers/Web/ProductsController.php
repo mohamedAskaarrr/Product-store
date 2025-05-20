@@ -100,85 +100,94 @@ class ProductsController extends Controller {
         return redirect()->route('login')->with('warning', 'You need to be logged in.');
     }
 
-    if ($user->credit < $product->price) {
-        return redirect()->back()->with('warning', '⚠️ Not enough credit.');
-    }
-
     if ($product->stock <= 0) {
         return redirect()->back()->with('warning', '⚠️ Product out of stock.');
     }
 
-    // Start transaction
-    DB::beginTransaction();
-    try {
-        // Deduct credit and stock
-        DB::table('users')->where('id', $user->id)->decrement('credit', $product->price);
-        DB::table('products')->where('id', $product->id)->decrement('stock', 1);
+    $basket = Basket::where('user_id', $user->id)
+                   ->where('product_id', $product->id)
+                   ->first();
 
-        // Find existing basket item or create new one
-        $basket = Basket::where('user_id', $user->id)
-                       ->where('product_id', $product->id)
-                       ->first();
-
-        if ($basket) {
-            // Update quantity if item exists
-            $basket->increment('quantity');
-        } else {
-            // Create new basket item
-            Basket::create([
-                'user_id' => $user->id,
-                'product_id' => $product->id,
-                'product_name' => $product->name,
-                'quantity' => 1
-            ]);
-        }
-
-        DB::commit();
-        return redirect()->route('products_list')->with('success', 'Product added to basket!');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return redirect()->back()->with('error', 'Failed to add product to basket.');
+    if ($basket) {
+        $basket->increment('quantity');
+    } else {
+        Basket::create([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+            'product_name' => $product->name,
+            'quantity' => 1
+        ]);
     }
+
+    return redirect()->route('products_list')->with('success', 'Product added to basket!');
 }
 
 
 
 
 
-public function purchase(Product $product)
+public function checkout()
 {
     $user = Auth::user();
-
+    
     if (!$user) {
-        return redirect()->route('login')->with('warning', 'You need to be logged in.');
+        return redirect()->route('login')->with('warning', 'You need to be logged in to checkout.');
     }
 
-    if ($user->credit < $product->price) {
-        return redirect()->back()->with('warning', '⚠️ Not enough credit.');
+    $basketItems = Basket::where('user_id', $user->id)
+        ->join('products', 'basket.product_id', '=', 'products.id')
+        ->select('basket.*', 'products.price', 'products.stock')
+        ->get();
+    
+    if ($basketItems->isEmpty()) {
+        return redirect()->route('products.basket')->with('warning', 'Your basket is empty.');
     }
 
-    if ($product->stock <= 0) {
-        return redirect()->back()->with('warning', '⚠️ Product out of stock.');
+    $totalCost = 0;
+    foreach ($basketItems as $item) {
+        $totalCost += $item->price * $item->quantity;
+        
+        if ($item->stock < $item->quantity) {
+            return redirect()->route('products.basket')
+                ->with('error', "Not enough stock available for {$item->product_name}");
+        }
     }
 
-    DB::table('users')->where('id', $user->id)->decrement('credit', $product->price);
-    DB::table('products')->where('id', $product->id)->decrement('stock', 1);
+    if ($user->credit < $totalCost) {
+        return redirect()->route('products.basket')
+            ->with('error', 'Insufficient credit to complete the purchase.');
+    }
 
-	$user = Auth::user();
+    DB::beginTransaction();
+    try {
+        $user->decrement('credit', $totalCost);
 
-	$basket = Basket::firstOrCreate([
-        'user_id' => $user->id,
-        'product_id' => $product->id,
-        'product_name' => $product->name,
-		
-        'quantity' => 1
+        foreach ($basketItems as $item) {
+            DB::table('products')
+                ->where('id', $item->product_id)
+                ->decrement('stock', $item->quantity);
 
-    ]);
+            DB::table('purchases')->insert([
+                'user_id' => $user->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'total_price' => $item->price * $item->quantity,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
 
-
-
-
-	
+        Basket::where('user_id', $user->id)->delete();
+        
+        DB::commit();
+        return redirect()->route('products.basket')
+            ->with('success', 'Thank you for your purchase! Your basket has been cleared.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        \Log::error('Checkout error: ' . $e->getMessage());
+        return redirect()->route('products.basket')
+            ->with('error', 'An error occurred during checkout. Please try again.');
+    }
 }
 
 public function basket()
@@ -197,61 +206,6 @@ public function basket()
 }
 
 
-public function checkout()
-{
-    $user = Auth::user();
-    
-    if (!$user) {
-        return redirect()->route('login')->with('warning', 'You need to be logged in to checkout.');
-    }
-
-    $basketItems = Basket::where('user_id', $user->id)
-        ->join('products', 'basket.product_id', '=', 'products.id')
-        ->select('basket.*', 'products.price')
-        ->get();
-    
-    if ($basketItems->isEmpty()) {
-        return redirect()->route('products.basket')->with('warning', 'Your basket is empty.');
-    }
-
-    DB::beginTransaction();
-    try {
-        foreach ($basketItems as $item) {
-            \Log::info('Processing basket item:', [
-                'user_id' => $user->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->price
-            ]);
-
-            DB::table('purchases')->insert([
-                'user_id' => $user->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'total_price' => $item->quantity * $item->price,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-        }
-
-        Basket::where('user_id', $user->id)->delete();
-        
-        DB::commit();
-        return redirect()->route('products.basket')->with('success', 'Thank you for your purchase! Your basket has been cleared.');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        \Log::error('Checkout error: ' . $e->getMessage());
-        return redirect()->route('products.basket')->with('error', 'An error occurred during checkout. Please try again.');
-    }
-}
-
-
-
-
-
-
-
-
 public function addstock(Request $request, product $product)
 
 {  
@@ -267,13 +221,11 @@ public function addstock(Request $request, product $product)
 
     $product->stock += $request->stock;
 
-    // Save the updated credit balance
     $product->save();
 
     return redirect()->back()->with('success', 'Stock updated successfully!');
 
 }
-    // In your HomeController or relevant controller
    public function index()
    {
     $products = Product::where('featured', true)->take(3)->get();
@@ -294,50 +246,22 @@ public function markAsFavorite($id)
 
     return redirect()->back()->with('success', 'Product marked as favorite.');
 }
-
 public function removeFromBasket(Basket $basket)
 {
     if (!auth()->check()) {
         return redirect()->route('login')->with('error', 'Please login to manage your basket.');
     }
 
-    // Check if the basket item belongs to the current user
     if ($basket->user_id !== auth()->id()) {
         return redirect()->back()->with('error', 'Unauthorized action.');
     }
 
     try {
-        // Get the product to calculate refund amount
-        $product = Product::find($basket->product_id);
-        if (!$product) {
-            return redirect()->back()->with('error', 'Product not found.');
-        }
-
-        // Calculate refund amount
-        $refundAmount = $product->price * $basket->quantity;
-
-        // Start transaction
-        DB::beginTransaction();
-        try {
-            // Refund the credit to the user
-            auth()->user()->increment('credit', $refundAmount);
-            
-            // Return the stock
-            $product->increment('stock', $basket->quantity);
-            
-            // Remove from basket
-            $basket->delete();
-            
-            DB::commit();
-            return redirect()->route('products.basket')->with('success', 'Item removed from basket and credit refunded.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to process refund.');
-        }
+        $basket->delete();
+        return redirect()->route('products.basket')->with('success', 'Item removed from basket.');
     } catch (\Exception $e) {
         return redirect()->back()->with('error', 'Failed to remove item from basket.');
     }
-    
 }
 
 
