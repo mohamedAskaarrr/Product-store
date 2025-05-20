@@ -236,32 +236,67 @@ if (currencySelect) {
         localStorage.setItem('currency', this.value);
     });
 }
-// Show Account section by default
 showSettingsSection('account');
 
-// Add form submission handlers
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         const formData = new FormData(this);
         
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        submitButton.disabled = true;
+
         fetch(this.action, {
             method: 'POST',
             body: formData,
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Settings saved successfully!');
+        .then(async response => {
+            const data = await response.text();
+            try {
+                return {
+                    ok: response.ok,
+                    data: JSON.parse(data)
+                };
+            } catch (e) {
+                console.error('Response:', data);
+                throw new Error('Invalid JSON response from server');
+            }
+        })
+        .then(({ok, data}) => {
+            if (ok) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success mt-3';
+                alertDiv.innerHTML = data.message;
+                this.appendChild(alertDiv);
+                
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 3000);
             } else {
-                alert('Error: ' + data.message);
+                throw new Error(data.message || 'Failed to save settings');
             }
         })
         .catch(error => {
-            alert('Error: ' + error.message);
+            console.error('Error:', error);
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger mt-3';
+            alertDiv.innerHTML = error.message;
+            this.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        })
+        .finally(() => {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
         });
     });
 });

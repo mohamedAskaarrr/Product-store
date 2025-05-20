@@ -644,22 +644,46 @@ public function refundPurchase($purchaseId)
 
 public function updateSettings(Request $request)
 {
-    $user = Auth::user();
-    
-    $validated = $request->validate([
-        'email_offers' => 'boolean',
-        'order_updates' => 'boolean',
-        'currency' => 'in:USD,EUR,EGP',
-        'language' => 'in:en,ar',
-        'theme' => 'in:dark,light',
-        'data_sharing' => 'boolean'
-    ]);
+    try {
+        $user = Auth::user();
+        
+        $data = [
+            'email_offers' => $request->has('email_offers'),
+            'order_updates' => $request->has('order_updates'),
+            'data_sharing' => $request->has('data_sharing')
+        ];
 
-    $user->update($validated);
+        if ($request->has('currency')) {
+            $data['currency'] = $request->currency;
+        }
+        if ($request->has('language')) {
+            $data['language'] = $request->language;
+        }
+        if ($request->has('theme')) {
+            $data['theme'] = $request->theme;
+        }
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Settings updated successfully'
-    ]);
+        $validated = validator($data, [
+            'email_offers' => 'boolean',
+            'order_updates' => 'boolean',
+            'data_sharing' => 'boolean',
+            'currency' => 'nullable|in:USD,EUR,EGP',
+            'language' => 'nullable|in:en,ar',
+            'theme' => 'nullable|in:dark,light'
+        ])->validate();
+
+        $user->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Settings updated successfully'
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Settings update error: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to update settings: ' . $e->getMessage()
+        ], 500);
+    }
 }
 }
