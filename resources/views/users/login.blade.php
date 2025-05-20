@@ -114,6 +114,34 @@
     color: #2c1e1e !important;
     border: 2px solid #D4AF37 !important;
   }
+  .form-check-input-dark {
+    appearance: none; /* Remove default checkbox styling */
+    background: #2c1e1e !important;
+    border: 1.5px solid #D4AF37 !important;
+    border-radius: 0.25rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .form-check-input-dark:checked {
+    background: #D4AF37 !important; /* Gold background when checked */
+    border-color: #D4AF37 !important;
+  }
+  .form-check-input-dark:checked::after {
+    content: '\2713'; /* Unicode for checkmark */
+    color: #2c1e1e; /* Brown checkmark */
+    font-size: 0.9rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .form-check-input-dark:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.5) !important; /* Gold shadow */
+  }
 </style>
 @endsection
 
