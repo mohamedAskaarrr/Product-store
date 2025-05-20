@@ -8,11 +8,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
+        @can('purchase_products')
         <li class="nav-item">
           <a class="nav-link" href="{{ route('products_list') }}">
             <i class="fas fa-shopping-bag me-1"></i>Shop
           </a>
         </li>
+        @endcan
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/about') }}">
             <i class="fas fa-info-circle me-1"></i>About Us
@@ -59,11 +61,13 @@
           </ul>
         </li>
         @endguest
+        @can('purchase_products')
         <li class="nav-item ms-2">
           <a class="btn btn-gold" href="{{ route('products.basket') }}">
-            <i class="fas fa-shopping-cart me-1"></i>Basket (3)
+            <i class="fas fa-shopping-cart me-1"></i>Basket
           </a>
         </li>
+        @endcan
       </ul>
     </div>
   </div>
@@ -118,3 +122,10 @@
     color: white;
   }
 </style>
+
+@auth
+  <span style="color: green;">You are logged in</span>
+@endauth
+@guest
+  <span style="color: red;">You are a guest</span>
+@endguest
