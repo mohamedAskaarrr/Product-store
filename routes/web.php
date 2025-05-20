@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\ProductsController;
 use App\Http\Controllers\Web\UsersController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Auth\FacebookController;
 
 
 Route::get('register', [UsersController::class, 'register'])->name('register');
@@ -126,3 +127,6 @@ Route::post('/settings/update', [UsersController::class, 'updateSettings'])
     ->middleware('auth');
 
 Route::post('/products/checkout', [ProductsController::class, 'checkout'])->name('products.checkout');
+
+Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);

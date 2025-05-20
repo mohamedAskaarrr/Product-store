@@ -102,6 +102,18 @@
     border-color: #D4AF37;
     color: #fffbe6;
   }
+  .btn-outline-custom {
+    background: transparent !important;
+    border: 2px solid #D4AF37 !important;
+    color: #D4AF37 !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  .btn-outline-custom:hover, .btn-outline-custom:focus {
+    background: #D4AF37 !important;
+    color: #2c1e1e !important;
+    border: 2px solid #D4AF37 !important;
+  }
 </style>
 @endsection
 
@@ -150,7 +162,12 @@
       </div>
 
       <button type="submit" class="btn btn-custom-primary w-100 mb-3">Create Account</button>
-      
+
+      <!-- Add Facebook login button here -->
+      <a href="{{ route('login.facebook') }}" class="btn btn-outline-custom w-100 mb-3">
+          <i class="bi bi-facebook me-2"></i>Sign up with Facebook
+      </a>
+
       <div class="text-center">
         <small class="text-muted-custom">Already have an account? <a href="{{ route('login') }}" class="link-custom">login here</a></small>
       </div>
