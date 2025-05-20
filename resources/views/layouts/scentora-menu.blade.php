@@ -92,6 +92,22 @@
     background: #2c1e1e !important;
     background-color: #2c1e1e !important;
   }
+  .simple-navbar {
+    height: 76px;
+    min-height: 76px;
+    max-height: 76px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: 2px solid #D4AF37;
+    border-radius: 0;
+    box-shadow: none;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+  }
+  body {
+    padding-top: 76px !important;
+  }
   .container-fluid {
     background: #2c1e1e !important;
     background-color: #2c1e1e !important;
@@ -99,6 +115,12 @@
   .navbar-brand {
     color: #fffbe6 !important;
     letter-spacing: 1px;
+  }
+  .navbar-brand .text-primary {
+    color: #D4AF37 !important;
+  }
+  .navbar-brand .fa-spray-can {
+    color: #EEE8D5!important;
   }
   .nav-link, .dropdown-item {
     color: #fffbe6 !important;
@@ -178,7 +200,15 @@
     z-index: 1200;
     box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
   }
-  body {
-    padding-top: 76px; /* Adjust to match navbar height */
+  .navbar, .simple-navbar, .fixed-navbar, .container-fluid {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    box-shadow: none !important;
+    border-bottom: 2px solid #D4AF37 !important;
+    display: flex !important;
+    align-items: center !important;
   }
 </style>
