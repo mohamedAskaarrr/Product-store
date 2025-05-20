@@ -9,39 +9,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   html, body {
+    background: #000 !important;
     height: 100%;
     margin: 0;
     padding: 0;
-    background: #0a0a0f;
     color: #e0e0e0;
     overflow: hidden;
   }
   .login-fullscreen {
     display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100vh;
     width: 100vw;
-    min-height: 100vh;
-    min-width: 100vw;
+    background: #000;
   }
   .login-left {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(10,10,20,0.95);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 60px 0 #000a, 0 8px 32px 0 #0008;
+    background: #000 !important;
     z-index: 2;
   }
   .login-form-wrapper {
     width: 100%;
     max-width: 400px;
-    background: rgba(20,20,30,0.85);
+    background: #111 !important;
     border-radius: 1.5rem;
     box-shadow: 0 8px 32px 0 #000a;
     padding: 2.5rem 2rem 2rem 2rem;
-    border: 1.5px solid rgba(80,80,120,0.18);
-    backdrop-filter: blur(6px);
+    border: 1.5px solid #222 !important;
+    color: #fff;
   }
   .login-icon-wrapper {
     background: linear-gradient(135deg, #1a1a2a 60%, #2a2a4a 100%);
@@ -67,7 +66,7 @@
     color: #b0b0c0 !important;
   }
   .form-control-dark {
-    background: rgba(30,30,50,0.95) !important;
+    background: #18181c !important;
     color: #e0e0fa !important;
     border: 1.5px solid #23234a !important;
     border-radius: 0.5rem;
@@ -78,11 +77,11 @@
   .form-control-dark:focus {
     border-color: #a084fa !important;
     box-shadow: 0 0 0 0.2rem #a084fa33;
-    background: rgba(40,40,70,1) !important;
+    background: #23234a !important;
     color: #fff !important;
   }
   .input-group-text-dark {
-    background: rgba(30,30,50,0.95) !important;
+    background: #18181c !important;
     border: 1.5px solid #23234a !important;
     color: #a084fa !important;
     border-top-left-radius: 0.5rem;
@@ -135,44 +134,6 @@
   .small-text-muted {
     color: #b0b0c0 !important;
   }
-  .login-right {
-    flex: 1;
-    background: #0a0a0f;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .login-right spline-viewer {
-    width: 100vw;
-    height: 100vh;
-    min-width: 50vw;
-    min-height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 1;
-  }
-  @media (max-width: 900px) {
-    .login-fullscreen {
-      flex-direction: column;
-    }
-    .login-left, .login-right {
-      min-width: 100vw;
-      min-height: 50vh;
-      max-width: 100vw;
-      max-height: 50vh;
-    }
-    .login-right spline-viewer {
-      min-height: 50vh;
-      min-width: 100vw;
-    }
-  }
 </style>
 @endsection
 
@@ -223,9 +184,6 @@
         </div>
       </form>
     </div>
-  </div>
-  <div class="login-right">
-    <spline-viewer url="https://prod.spline.design/dn2RyjHE3gqsmba0/scene.splinecode"></spline-viewer>
   </div>
 </div>
 @endsection

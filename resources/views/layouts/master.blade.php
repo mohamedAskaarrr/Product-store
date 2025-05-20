@@ -258,11 +258,46 @@
       background: #000 !important;
     }
 
-    .login-fullscreen, .login-left, .login-right {
+    .login-fullscreen {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    .spline-3d-float {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50vw;
+      height: 80vh;
+      pointer-events: none; /* So clicks go through to the form */
+      z-index: 1;
+    }
+
+    .login-left, .login-form-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-left {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: #000 !important;
+      z-index: 2;
+      padding-left: 0;
     }
 
     .login-form-wrapper {
+      width: 100%;
+      max-width: 400px;
       background: #000 !important;
       border: 1.5px solid #222 !important;
       box-shadow: none !important;
@@ -284,6 +319,24 @@
       background: #222 !important;
       color: #fff !important;
     }
+
+    .register-fullscreen {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      background: #000;
+    }
+
+    .register-left, .register-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .register-right {
+      /* empty, just for layout */
+    }
   </style>
   @yield('head')
 </head>
@@ -291,13 +344,19 @@
 
   @include('layouts.scentora-menu')
 
-  <div class="container py-4">
+  @if (Request::is('login'))
     @yield('content')
+  @else
+    <div class="container py-4">
+      @yield('content')
+    </div>
+  @endif
+
+  <div class="register-fullscreen">
+    <div class="register-form-wrapper">
+      <!-- ...form... -->
+    </div>
   </div>
-<!-- 
-  <footer>
-    <small>🌿 Askarr Store &copy; {{ date('Y') }} — Built with me</small>
-  </footer> -->
 
   <!-- AOS Animation Library -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
