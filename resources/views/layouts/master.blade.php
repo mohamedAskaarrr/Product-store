@@ -70,9 +70,11 @@
       --dropdown-hover-text: #66bb6a;
       --border-color: #333;
     }
+    body, html {
+      background-color: #2c1e1e !important;
+    }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: var(--background-color);
       color: var(--text-color);
       min-height: 100vh;
       margin: 0;
