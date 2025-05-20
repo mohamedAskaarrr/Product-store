@@ -166,6 +166,55 @@
     --primary-accent-rgb: 111, 66, 193; /* For #6f42c1 */
   }
 
+  .auth-card {
+        background-color: #2c1e1e;
+        border: 1px solid #D4AF37;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .text-gold {
+        color: #D4AF37;
+    }
+
+    .custom-input {
+        background-color: rgba(44, 30, 30, 0.7);
+        border: 1px solid #D4AF37;
+        color: #f5f5f5;
+    }
+
+    .custom-input:focus {
+        background-color: rgba(44, 30, 30, 0.9);
+        border-color: #D4AF37;
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+        color: #f5f5f5;
+    }
+
+    .btn-gold {
+        background-color: #D4AF37;
+        border-color: #D4AF37;
+        color: #2c1e1e;
+        transition: all 0.3s ease;
+    }
+
+    .btn-gold:hover {
+        background-color: #B38F28;
+        border-color: #B38F28;
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-gold {
+        border: 1px solid #D4AF37;
+        color: #D4AF37;
+        background-color: transparent;
+    }
+
+    .btn-outline-gold:hover {
+        background-color: #D4AF37;
+        color: #2c1e1e;
+        transform: translateY(-2px);
+    }
 </style>
 @endsection
 
@@ -197,12 +246,12 @@
 
         <div class="mb-3 input-group">
           <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
-          <input type="email" class="form-control form-control-dark" name="email" placeholder="Email Address" required value="{{ old('email') }}">
+          <input type="email" class="form-control form-control-dark custom-input" name="email" placeholder="Email Address" required value="{{ old('email') }}">
         </div>
 
         <div class="mb-3 input-group">
           <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
-          <input type="password" class="form-control form-control-dark" name="password" placeholder="Password" required>
+          <input type="password" class="form-control form-control-dark custom-input" name="password" placeholder="Password" required>
         </div>
 
         <div class="d-flex justify-content-between align-items-center my-3">
@@ -213,8 +262,8 @@
           <a href="#" class="link-custom small">Forgot password?</a>
         </div>
 
-        <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
-        <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3">
+        <button type="submit" class="btn btn-custom-primary w-100 mb-3 btn-gold">Sign In</button>
+        <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3 btn-outline-gold">
           <i class="bi bi-google me-2"></i>Sign in with Google
         </a>
 
