@@ -6,47 +6,46 @@
 {{-- Bootstrap 5.3+ for better dark theme utilities and icons --}}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  :root {
-    --primary-accent: #6f42c1; /* A deep purple, you can change this */
-    --primary-accent-hover: #59359a;
-    --dark-bg: #121212; /* Very dark background */
-    --card-bg: #1e1e1e; /* Slightly lighter card background */
-    --input-bg: #2a2a2a; /* Input field background */
-    --border-color: #3a3a3a;
-    --text-light: #e0e0e0;
-    --text-muted-dark: #888;
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #0a0a0f;
+    color: #e0e0e0;
+    overflow: hidden;
   }
-
-  body.login-page {
-    background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 100%);
-    color: var(--text-light);
-  }
-
-  .login-container {
+  .login-fullscreen {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
     min-height: 100vh;
+    min-width: 100vw;
+  }
+  .login-left {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    background: rgba(10,10,20,0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 60px 0 #000a, 0 8px 32px 0 #0008;
+    z-index: 2;
   }
-
-  .login-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem; /* Softer rounding */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
+  .login-form-wrapper {
     width: 100%;
+    max-width: 400px;
+    background: rgba(20,20,30,0.85);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 #000a;
+    padding: 2.5rem 2rem 2rem 2rem;
+    border: 1.5px solid rgba(80,80,120,0.18);
+    backdrop-filter: blur(6px);
   }
-
-  .login-card .card-body {
-    padding: 2rem; /* More padding inside card */
-  }
-
   .login-icon-wrapper {
-    background-color: var(--input-bg); /* Use input bg for consistency */
-    color: var(--primary-accent);
+    background: linear-gradient(135deg, #1a1a2a 60%, #2a2a4a 100%);
+    color: #a084fa;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -54,136 +53,142 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem auto;
-    box-shadow: 0 0 15px rgba(var(--primary-accent-rgb, 111, 66, 193), 0.3); /* Dynamic shadow based on accent */
+    box-shadow: 0 0 32px 0 #a084fa44;
   }
   .login-icon-wrapper .bi {
     font-size: 2.5rem;
   }
-
-  .login-card h2 {
-    font-weight: 700;
-    color: var(--text-light);
+  .login-form-wrapper h2 {
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 1px;
   }
-
-  .login-card .text-muted-custom {
-    color: var(--text-muted-dark) !important;
+  .login-form-wrapper .text-muted-custom {
+    color: #b0b0c0 !important;
   }
-
   .form-control-dark {
-    background-color: var(--input-bg) !important;
-    color: var(--text-light) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 0.375rem;
-    padding: 0.75rem 1rem;
-  }
-  .form-control-dark::placeholder {
-    color: var(--text-muted-dark);
+    background: rgba(30,30,50,0.95) !important;
+    color: #e0e0fa !important;
+    border: 1.5px solid #23234a !important;
+    border-radius: 0.5rem;
+    padding: 0.85rem 1.1rem;
+    font-size: 1.05rem;
+    box-shadow: 0 2px 8px 0 #0002;
   }
   .form-control-dark:focus {
-    background-color: var(--input-bg) !important;
-    border-color: var(--primary-accent) !important;
-    box-shadow: 0 0 0 0.25rem rgba(var(--primary-accent-rgb, 111, 66, 193), 0.25);
-    color: var(--text-light) !important;
+    border-color: #a084fa !important;
+    box-shadow: 0 0 0 0.2rem #a084fa33;
+    background: rgba(40,40,70,1) !important;
+    color: #fff !important;
   }
-
   .input-group-text-dark {
-    background-color: var(--input-bg) !important;
-    border: 1px solid var(--border-color) !important;
-    border-right: none !important; /* Seamless look */
-    color: var(--primary-accent) !important;
-    border-top-left-radius: 0.375rem;
-    border-bottom-left-radius: 0.375rem;
+    background: rgba(30,30,50,0.95) !important;
+    border: 1.5px solid #23234a !important;
+    color: #a084fa !important;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
   }
-  .input-group .form-control-dark {
-      border-left: none !important; /* Seamless look */
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-  }
-   .input-group:focus-within .input-group-text-dark { /* Highlight icon group on input focus */
-    border-color: var(--primary-accent) !important;
-    box-shadow: 0 0 0 0.25rem rgba(var(--primary-accent-rgb, 111, 66, 193), 0.25) inset;
-    box-shadow: none; /* Override default to only rely on input's focus shadow */
-  }
-
-
   .btn-custom-primary {
-    background-color: var(--primary-accent);
-    border-color: var(--primary-accent);
+    background: linear-gradient(90deg, #a084fa 0%, #6247ea 100%);
+    border: none;
     color: #fff;
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 16px 0 #a084fa33;
+    transition: background 0.2s, box-shadow 0.2s;
   }
   .btn-custom-primary:hover {
-    background-color: var(--primary-accent-hover);
-    border-color: var(--primary-accent-hover);
-    color: #fff;
+    background: linear-gradient(90deg, #6247ea 0%, #a084fa 100%);
+    box-shadow: 0 4px 24px 0 #a084fa55;
   }
-
   .btn-outline-custom {
-    border-color: var(--border-color);
-    color: var(--text-light);
-    padding: 0.75rem 1rem;
+    border: 1.5px solid #23234a;
+    color: #e0e0fa;
+    background: transparent;
+    border-radius: 0.5rem;
     font-weight: 500;
-    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    transition: background 0.2s, color 0.2s;
   }
   .btn-outline-custom:hover {
-    background-color: var(--primary-accent);
-    border-color: var(--primary-accent);
+    background: #23234a;
     color: #fff;
+    border-color: #a084fa;
   }
-
   .form-check-input-dark {
-    background-color: var(--input-bg);
-    border-color: var(--border-color);
+    background: #23234a;
+    border-color: #23234a;
   }
   .form-check-input-dark:checked {
-    background-color: var(--primary-accent);
-    border-color: var(--primary-accent);
+    background: #a084fa;
+    border-color: #a084fa;
   }
-  .form-check-input-dark:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--primary-accent-rgb, 111, 66, 193), 0.25);
-  }
-
   .link-custom {
-    color: var(--primary-accent);
+    color: #a084fa;
     text-decoration: none;
+    font-weight: 500;
   }
   .link-custom:hover {
-    color: var(--primary-accent-hover);
+    color: #fff;
     text-decoration: underline;
   }
   .small-text-muted {
-      color: var(--text-muted-dark) !important;
+    color: #b0b0c0 !important;
   }
-
-  /* Helper to extract RGB from hex for box-shadow opacity */
-  /* For this to work dynamically with :root vars, you'd typically need JS or SASS. */
-  /* Hardcoding example for purple: --primary-accent-rgb: 111, 66, 193; */
-  /* If you keep a fixed accent, you can set this value. */
-  /* For demo, I'll assume purple #6f42c1 (111, 66, 193) for shadows */
-  :root {
-    --primary-accent-rgb: 111, 66, 193; /* For #6f42c1 */
+  .login-right {
+    flex: 1;
+    background: #0a0a0f;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
+  .login-right spline-viewer {
+    width: 100vw;
+    height: 100vh;
+    min-width: 50vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .login-fullscreen {
+      flex-direction: column;
+    }
+    .login-left, .login-right {
+      min-width: 100vw;
+      min-height: 50vh;
+      max-width: 100vw;
+      max-height: 50vh;
+    }
+    .login-right spline-viewer {
+      min-height: 50vh;
+      min-width: 100vw;
+    }
+  }
 </style>
 @endsection
 
 @section('content')
-<div class="login-container">
-  <div class="login-card">
-    <div class="card-body">
+<div class="login-fullscreen">
+  <div class="login-left">
+    <div class="login-form-wrapper">
       <div class="text-center mb-4">
         <div class="login-icon-wrapper">
-          <i class="bi bi-shield-lock-fill"></i> {{-- Changed icon for a more "secure login" feel --}}
+          <i class="bi bi-shield-lock-fill"></i>
         </div>
         <h2 class="mb-2">Sign In</h2>
         <div class="text-muted-custom mb-4">Welcome back! Please sign in to continue.</div>
       </div>
-
       <form action="{{route('do_login')}}" method="post">
         {{ csrf_field() }}
-
         @if($errors->any())
           <div class="alert alert-danger alert-dismissible fade show py-2 mb-3" role="alert">
             <ul class="mb-0 ps-3">
@@ -194,17 +199,14 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         @endif
-
         <div class="mb-3 input-group">
           <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
           <input type="email" class="form-control form-control-dark" name="email" placeholder="Email Address" required value="{{ old('email') }}">
         </div>
-
         <div class="mb-3 input-group">
           <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
           <input type="password" class="form-control form-control-dark" name="password" placeholder="Password" required>
         </div>
-
         <div class="d-flex justify-content-between align-items-center my-3">
           <div class="form-check">
             <input class="form-check-input form-check-input-dark" type="checkbox" name="remember" id="rememberMe">
@@ -212,17 +214,18 @@
           </div>
           <a href="#" class="link-custom small">Forgot password?</a>
         </div>
-
         <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
         <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3">
           <i class="bi bi-google me-2"></i>Sign in with Google
         </a>
-
         <div class="text-center mt-4">
           <small class="small-text-muted">Don't have an account? <a href="{{ route('register') }}" class="link-custom fw-medium">Register here</a></small>
         </div>
       </form>
     </div>
+  </div>
+  <div class="login-right">
+    <spline-viewer url="https://prod.spline.design/dn2RyjHE3gqsmba0/scene.splinecode"></spline-viewer>
   </div>
 </div>
 @endsection
@@ -230,6 +233,7 @@
 @push('scripts')
 {{-- Add this to your master layout if you don't have it, or just include BS JS here --}}
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.96/build/spline-viewer.js"></script>
 <script>
   // Optional: If you change --primary-accent in JS, you can update --primary-accent-rgb
   // For simplicity, it's hardcoded in CSS or set once.
