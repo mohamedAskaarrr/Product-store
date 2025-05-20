@@ -253,8 +253,39 @@
       background-color: var(--dropdown-hover-bg);
       color: var(--primary-color);
     }
-  </style>
 
+    html, body {
+      background: #000 !important;
+    }
+
+    .login-fullscreen, .login-left, .login-right {
+      background: #000 !important;
+    }
+
+    .login-form-wrapper {
+      background: #000 !important;
+      border: 1.5px solid #222 !important;
+      box-shadow: none !important;
+    }
+
+    .form-control-dark, .input-group-text-dark {
+      background: #111 !important;
+      color: #fff !important;
+      border: 1.5px solid #222 !important;
+    }
+
+    .btn-custom-primary {
+      background: #111 !important;
+      color: #fff !important;
+      border: 1.5px solid #222 !important;
+    }
+
+    .btn-custom-primary:hover {
+      background: #222 !important;
+      color: #fff !important;
+    }
+  </style>
+  @yield('head')
 </head>
 <body>
 
@@ -324,6 +355,6 @@
     });
   </script>
 
-
+  @stack('scripts')
 </body>
 </html>
