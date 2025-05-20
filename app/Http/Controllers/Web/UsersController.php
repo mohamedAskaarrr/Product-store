@@ -641,4 +641,25 @@ public function refundPurchase($purchaseId)
         return redirect()->back()->with('error', 'Failed to process refund');
     }
 }
+
+public function updateSettings(Request $request)
+{
+    $user = Auth::user();
+    
+    $validated = $request->validate([
+        'email_offers' => 'boolean',
+        'order_updates' => 'boolean',
+        'currency' => 'in:USD,EUR,EGP',
+        'language' => 'in:en,ar',
+        'theme' => 'in:dark,light',
+        'data_sharing' => 'boolean'
+    ]);
+
+    $user->update($validated);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Settings updated successfully'
+    ]);
+}
 }

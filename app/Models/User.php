@@ -30,6 +30,12 @@ class User extends Authenticatable
         'email',
         'password',
         'credit',
+        'email_offers',
+        'order_updates',
+        'currency',
+        'language',
+        'theme',
+        'data_sharing'
     ];
  
 
@@ -51,14 +57,14 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'credit' => 'float',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'credit' => 'float',
+        'email_offers' => 'boolean',
+        'order_updates' => 'boolean',
+        'data_sharing' => 'boolean'
+    ];
     public function basket()
 {
     return $this->hasMany(Basket::class);
