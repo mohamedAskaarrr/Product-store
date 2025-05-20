@@ -354,7 +354,9 @@
 
   <div class="register-fullscreen">
     <div class="register-form-wrapper">
-      <!-- ...form... -->
+      <form action="{{ route('do-register') }}" method="post">
+        <!-- ...form... -->
+      </form>
     </div>
   </div>
 
