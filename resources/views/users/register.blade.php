@@ -80,9 +80,9 @@
     border-radius: 0.5rem;
   }
   .btn-custom-primary:hover, .btn-custom-primary:focus {
-    background: #2c1e1e;        /* Brown background on hover */
-    color: #D4AF37;            /* Gold text on hover */
-    border: 2px solid #D4AF37; /* Gold border maintained on hover */
+    background: #2c1e1e !important;
+    color: #D4AF37 !important;
+    border: 2px solid #D4AF37 !important;
   }
   .link-custom {
     color: #ffd700;
