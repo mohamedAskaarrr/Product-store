@@ -12,6 +12,7 @@ use Artisan;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationEmail;
+use App\Mail\PurchaseConfirmation;
 // use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -226,6 +227,7 @@ class UsersController extends Controller {
             'name' => 'required|string|min:5',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'credit' => 'required|numeric|min:0',
+            'role' => 'required|exists:roles,name',
         ]);
 
         $user->name = $request->name;
@@ -239,14 +241,16 @@ class UsersController extends Controller {
         $user->save();
 
         if(auth()->user()->hasPermissionTo('show_users')) {
-            // Sync roles using role names
-            if($request->has('roles')) {
-                $user->syncRoles($request->roles);
+            // Sync only one role
+            if($request->has('role')) {
+                $user->syncRoles([$request->role]);
             }
 
-            // Sync permissions using permission names
-            if($request->has('permissions')) {
+            // Handle custom permissions: if any checked, assign; if none, remove all direct permissions
+            if($request->has('permissions') && is_array($request->permissions) && count($request->permissions)) {
                 $user->syncPermissions($request->permissions);
+            } else {
+                $user->syncPermissions([]); // Remove all direct permissions
             }
 
             Artisan::call('cache:clear');
@@ -388,6 +392,7 @@ class UsersController extends Controller {
             'name' => ['required', 'string', 'min:5'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'confirmed', Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
+            'role' => 'required|exists:roles,name',
         ]);
 
         $user = new User();
@@ -396,14 +401,9 @@ class UsersController extends Controller {
         $user->password = bcrypt($request->password);
         $user->save();
 
-        if($request->has('roles')) {
-            // Convert role names to array and sync roles
-            $roleNames = is_array($request->roles) ? $request->roles : [$request->roles];
-            $user->syncRoles($roleNames);
-        }
+        $user->syncRoles([$request->role]);
 
         if($request->has('permissions')) {
-            // Convert permission names to array and sync permissions
             $permissionNames = is_array($request->permissions) ? $request->permissions : [$request->permissions];
             $user->syncPermissions($permissionNames);
         }
@@ -684,6 +684,82 @@ public function updateSettings(Request $request)
             'success' => false,
             'message' => 'Failed to update settings: ' . $e->getMessage()
         ], 500);
+    }
+}
+
+public function checkout(Request $request)
+{
+    if(!auth()->user()) {
+        return redirect()->route('login');
+    }
+
+    $user = auth()->user();
+    $basketItems = Basket::where('user_id', $user->id)
+                        ->with('product')
+                        ->get();
+
+    if($basketItems->isEmpty()) {
+        return redirect()->route('products.basket')
+            ->with('warning', 'Your basket is empty.');
+    }
+
+    $total = 0;
+    foreach($basketItems as $item) {
+        $total += $item->product->price * $item->quantity;
+    }
+
+    if($user->credit < $total) {
+        return redirect()->route('products.basket')
+            ->with('warning', 'Insufficient credit balance.');
+    }
+
+    DB::beginTransaction();
+    try {
+        // Deduct credit
+        $user->decrement('credit', $total);
+
+        // Create purchase records
+        $orderId = 'ORD-' . strtoupper(uniqid());
+        foreach($basketItems as $item) {
+            DB::table('purchases')->insert([
+                'user_id' => $user->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'total_price' => $item->product->price * $item->quantity,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            // Update product stock
+            $item->product->decrement('stock', $item->quantity);
+        }
+
+        // Clear basket
+        Basket::where('user_id', $user->id)->delete();
+
+        // Send confirmation email if user has enabled order updates
+        if($user->order_updates) {
+            Mail::to($user->email)->send(new PurchaseConfirmation(
+                $user,
+                $basketItems->map(function($item) {
+                    return (object)[
+                        'name' => $item->product->name,
+                        'quantity' => $item->quantity,
+                        'price' => $item->product->price
+                    ];
+                }),
+                $total,
+                $orderId
+            ));
+        }
+
+        DB::commit();
+        return redirect()->route('purchase.history', $user->id)
+            ->with('success', 'Purchase completed successfully!');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->route('products.basket')
+            ->with('warning', 'An error occurred while processing your purchase. Please try again.');
     }
 }
 }

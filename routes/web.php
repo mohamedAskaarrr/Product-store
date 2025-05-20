@@ -124,3 +124,5 @@ Route::post('/purchases/{purchase}/refund', [UsersController::class, 'refundPurc
 Route::post('/settings/update', [UsersController::class, 'updateSettings'])
     ->name('settings.update')
     ->middleware('auth');
+
+Route::post('/products/checkout', [ProductsController::class, 'checkout'])->name('products.checkout');

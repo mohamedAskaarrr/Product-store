@@ -15,9 +15,9 @@ class Product extends Model  {
         'featured',
         'stock'
     ];
-    public function basket()
-{
-    return $this->belongsToMany(Basket::class)->withPivot('quantity')->withTimestamps();
-}
 
+    public function basket()
+    {
+        return $this->hasMany(Basket::class);
+    }
 }

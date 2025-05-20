@@ -5,10 +5,12 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Basket;
+use App\Mail\PurchaseConfirmation;
 
 
 class ProductsController extends Controller {
@@ -53,6 +55,15 @@ class ProductsController extends Controller {
 	}
 
 	public function save(Request $request, Product $product = null) {
+		if ($product) {
+			if (!auth()->user()->can('edit_products')) {
+				abort(403, 'Unauthorized');
+			}
+		} else {
+			if (!auth()->user()->can('add_products')) {
+				abort(403, 'Unauthorized');
+			}
+		}
 
 		$this->validate($request, [
 	        'code' => ['required', 'string', 'max:32'],
@@ -62,8 +73,14 @@ class ProductsController extends Controller {
 	        'price' => ['required', 'numeric'],
 	    ]);
 
-		$product = $product??new Product();
-		$product->fill($request->all());
+		$product = $product ?? new Product();
+		$product->fill($request->except('stock'));
+
+		// Only allow users with manage_inventory to set stock
+		if (auth()->user()->can('manage_inventory') && $request->has('stock')) {
+			$product->stock = $request->stock;
+		}
+
 		$product->save();
 
 		return redirect()->route('products_list');
@@ -71,8 +88,8 @@ class ProductsController extends Controller {
 
 	public function delete(Request $request, Product $product)
 	{
-		if(!Auth::user() || !Auth::user()->hasRole('Admin')) {
-			abort(401, 'Unauthorized action.');
+		if(!Auth::user() || !Auth::user()->can('delete_products')) {
+			abort(403, 'Unauthorized action.');
 		}
 
 		try {
@@ -92,36 +109,35 @@ class ProductsController extends Controller {
 
 
 
-	public function addToBasket(Product $product)
-{
-    $user = Auth::user();
-
-    if (!$user) {
-        return redirect()->route('login')->with('warning', 'You need to be logged in.');
+    public function addToBasket(Product $product)
+    {
+        $user = Auth::user();
+    
+        if (!$user) {
+            return redirect()->route('login')->with('warning', 'You need to be logged in.');
+        }
+    
+        if ($product->stock <= 0) {
+            return redirect()->back()->with('warning', '⚠️ Product out of stock.');
+        }
+    
+        $basket = Basket::where('user_id', $user->id)
+                       ->where('product_id', $product->id)
+                       ->first();
+    
+        if ($basket) {
+            $basket->increment('quantity');
+        } else {
+            Basket::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'product_name' => $product->name
+            ]);
+        }
+    
+        return redirect()->route('products_list')->with('success', 'Product added to basket!');
     }
-
-    if ($product->stock <= 0) {
-        return redirect()->back()->with('warning', '⚠️ Product out of stock.');
-    }
-
-    $basket = Basket::where('user_id', $user->id)
-                   ->where('product_id', $product->id)
-                   ->first();
-
-    if ($basket) {
-        $basket->increment('quantity');
-    } else {
-        Basket::create([
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-            'product_name' => $product->name,
-            'quantity' => 1
-        ]);
-    }
-
-    return redirect()->route('products_list')->with('success', 'Product added to basket!');
-}
-
 
 
 
@@ -136,7 +152,7 @@ public function checkout()
 
     $basketItems = Basket::where('user_id', $user->id)
         ->join('products', 'basket.product_id', '=', 'products.id')
-        ->select('basket.*', 'products.price', 'products.stock')
+        ->select('basket.*', 'products.name as product_name', 'products.price', 'products.stock')
         ->get();
     
     if ($basketItems->isEmpty()) {
@@ -180,11 +196,34 @@ public function checkout()
         Basket::where('user_id', $user->id)->delete();
         
         DB::commit();
+
+        if($user->order_updates) {
+            try {
+                Mail::to($user->email)->send(new PurchaseConfirmation(
+                    $user,
+                    $basketItems->map(function($item) {
+                        return (object)[
+                            'name' => $item->product_name,
+                            'quantity' => $item->quantity,
+                            'price' => $item->price
+                        ];
+                    }),
+                    $totalCost,
+                    'ORD-' . strtoupper(uniqid())
+                ));
+            } catch (\Exception $e) {
+                \Log::error('Email sending error: ' . $e->getMessage());
+            }
+        }
+
         return redirect()->route('products.basket')
-            ->with('success', 'Thank you for your purchase! Your basket has been cleared.');
+            ->with('success', 'Purchase completed successfully!');
+            
     } catch (\Exception $e) {
         DB::rollBack();
         \Log::error('Checkout error: ' . $e->getMessage());
+        \Log::error('Stack trace: ' . $e->getTraceAsString());
+        
         return redirect()->route('products.basket')
             ->with('error', 'An error occurred during checkout. Please try again.');
     }

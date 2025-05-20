@@ -224,33 +224,36 @@ $(document).ready(function(){
                         </div>
                         @endcan
 
-                        @if(Auth::user()->hasPermissionTo('admin_users'))
-                        <div class="form-group mb-4">
-                            <label class="form-label text-gold d-block">Roles</label>
-                            @foreach($roles as $role)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input custom-checkbox" type="checkbox" name="roles[]" 
-                                           value="{{ $role->name }}" id="role_{{ $role->id }}"
-                                           {{ $user->hasRole($role->name) ? 'checked' : '' }}>
-                                    <label class="form-check-label text-gold" for="role_{{ $role->id }}">
+                        <div class="form-group mb-3">
+                            <label for="role" class="form-label text-gold">Role</label>
+                            <select name="role" id="role" class="form-control custom-input" required>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name }}"
+                                        data-permissions="{{ implode(',', $role->permissions->pluck('name')->toArray()) }}"
+                                        {{ $user->hasRole($role->name) ? 'selected' : '' }}>
                                         {{ $role->name }}
-                                    </label>
-                                </div>
-                            @endforeach
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
+                        @if(Auth::user()->hasPermissionTo('admin_users'))
                         <div class="form-group mb-4">
                             <label class="form-label text-gold d-block">Permissions</label>
-                            @foreach($permissions as $permission)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input custom-checkbox" type="checkbox" name="permissions[]" 
-                                           value="{{ $permission->name }}" id="permission_{{ $permission->id }}"
-                                           {{ $permission->taken ? 'checked' : '' }}>
-                                    <label class="form-check-label text-gold" for="permission_{{ $permission->id }}">
-                                        {{ $permission->display_name ?? $permission->name }}
-                                    </label>
-                                </div>
-                            @endforeach
+                            <div id="permissions-list">
+                                @foreach($permissions as $permission)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input custom-checkbox permission-checkbox"
+                                               type="checkbox" name="permissions[]"
+                                               value="{{ $permission->name }}" id="permission_{{ $permission->id }}"
+                                               data-permission="{{ $permission->name }}"
+                                               {{ $permission->taken ? 'checked' : '' }}>
+                                        <label class="form-check-label text-gold" for="permission_{{ $permission->id }}">
+                                            {{ $permission->display_name ?? $permission->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                         @endif
 
@@ -356,6 +359,44 @@ $(document).ready(function(){
         color: #D4AF37 !important;
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function updatePermissionsForRole() {
+        var roleSelect = document.getElementById('role');
+        var selectedOption = roleSelect.options[roleSelect.selectedIndex];
+        var rolePermissions = selectedOption.getAttribute('data-permissions').split(',');
+
+        document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+            if (rolePermissions.includes(checkbox.getAttribute('data-permission'))) {
+                checkbox.checked = true;
+                checkbox.disabled = true;
+            } else {
+                checkbox.disabled = false;
+                // Only uncheck if not user-checked
+                if (!checkbox.hasAttribute('data-user-checked')) {
+                    checkbox.checked = false;
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (!checkbox.disabled) {
+                if (checkbox.checked) {
+                    checkbox.setAttribute('data-user-checked', '1');
+                } else {
+                    checkbox.removeAttribute('data-user-checked');
+                }
+            }
+        });
+    });
+
+    document.getElementById('role').addEventListener('change', updatePermissionsForRole);
+    updatePermissionsForRole();
+});
+</script>
 @endsection
 
 </body>
