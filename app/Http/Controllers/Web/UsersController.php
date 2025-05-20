@@ -605,4 +605,40 @@ public function addReview(Request $request, Product $product)
 public function settings() {
     return view('users.settings');
 }
+
+public function refundPurchase($purchaseId)
+{
+    if (!auth()->user() || !auth()->user()->hasPermissionTo('manage_refunds')) {
+        abort(403, 'Unauthorized');
+    }
+
+    $purchase = DB::table('purchases')
+        ->join('products', 'purchases.product_id', '=', 'products.id')
+        ->where('purchases.id', $purchaseId)
+        ->select('purchases.*', 'products.id as product_id', 'products.stock')
+        ->first();
+
+    if (!$purchase) {
+        return redirect()->back()->with('error', 'Purchase not found');
+    }
+
+    DB::beginTransaction();
+    try {
+        DB::table('users')
+            ->where('id', $purchase->user_id)
+            ->increment('credit', $purchase->total_price);
+
+        DB::table('products')
+            ->where('id', $purchase->product_id)
+            ->increment('stock', $purchase->quantity);
+
+        DB::table('purchases')->where('id', $purchaseId)->delete();
+
+        DB::commit();
+        return redirect()->back()->with('success', 'Refund processed successfully');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->back()->with('error', 'Failed to process refund');
+    }
+}
 }

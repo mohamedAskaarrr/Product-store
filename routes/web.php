@@ -119,3 +119,5 @@ Route::get('/users/{user}/purchase-history', [\App\Http\Controllers\Web\UsersCon
 // Registration Routes
 Route::get('/register', [UsersController::class, 'register'])->name('register');
 Route::post('/do_register', [UsersController::class, 'do_register'])->name('do_register');
+
+Route::post('/purchases/{purchase}/refund', [UsersController::class, 'refundPurchase'])->name('purchase.refund');
