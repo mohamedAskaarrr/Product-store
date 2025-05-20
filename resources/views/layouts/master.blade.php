@@ -74,7 +74,9 @@
       font-family: 'Poppins', sans-serif;
       background-color: var(--background-color);
       color: var(--text-color);
-      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
     }
     .navbar {
       background-color: var(--navbar-bg);
@@ -218,13 +220,11 @@
       color: var(--primary-color);
     }
     .login-fullscreen {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      background-color: var(--background-color);
     }
     .spline-3d-float {
       position: absolute;
@@ -270,10 +270,7 @@
       color: #fff !important;
     }
     .register-fullscreen {
-      display: flex;
-      height: 100vh;
-      width: 100vw;
-      background: #000;
+      display: none;
     }
     .register-left, .register-right {
       flex: 1;
@@ -283,24 +280,24 @@
     }
     .register-right {
     }
+    .container {
+      min-height: calc(100vh - 76px);
+      padding: 2rem 0;
+    }
   </style>
   @yield('head')
 </head>
 <body>
   @include('layouts.scentora-menu')
+  
   @if (Request::is('login'))
     @yield('content')
   @else
-    <div class="container py-4">
+    <div class="container">
       @yield('content')
     </div>
   @endif
-  <div class="register-fullscreen">
-    <div class="register-form-wrapper">
-      <form action="{{ route('do-register') }}" method="post">
-      </form>
-    </div>
-  </div>
+
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
