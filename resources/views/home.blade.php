@@ -5,6 +5,7 @@
 @section('title', 'Scentora - Luxury Perfumes')
 
 @section('main-content')
+
     <!-- Hero Section -->
     <section class="hero-section py-5 text-center d-flex align-items-center justify-content-center" style="min-height: 60vh;">
         <div class="container" data-aos="fade-up">
