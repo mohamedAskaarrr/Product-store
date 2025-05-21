@@ -249,8 +249,8 @@ public function addstock(Request $request, product $product)
 
 {  
   
-    if (auth()->user()->hasRole('Employee')){
-        
+    if (auth()->user()->hasRole('Supplier')){
+        $product = Product::findOrFail($product->id);
     }
     
     $request->validate([
