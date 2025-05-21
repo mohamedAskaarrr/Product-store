@@ -207,6 +207,7 @@
                                         <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
                                     </select>
                                 </div>
+                                
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-gold w-100">
@@ -290,7 +291,25 @@
                                         <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                                     </button>
                                 </form>
+
+
+                          <!-- Add Stock for Supplier -->
+                                @role('Supplier')
+                        <form action="{{ route('products.addstock', $product->id) }}" method="POST">
+                            @csrf
+
+                            
+                           <label for="stock-{{ $product->id }}" class="form-label">Quantity to Add:</label>
+                           <input type="number" class="form-control" id="stock-{{ $product->id }}" name="stock"  required>
+                           <button type="submit" class="btn modern-btn-buy w-100">Add Stock</button>
+                           </form>
+                           
+                            @endrole
+
+
+
                             @else
+
                                 <button class="btn modern-btn-disabled w-100" disabled>Out of Stock</button>
                             @endif
                             @role('Admin')
