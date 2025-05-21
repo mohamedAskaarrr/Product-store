@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\ProductsController;
 use App\Http\Controllers\Web\UsersController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Auth\FacebookController;
 
 
 Route::get('register', [UsersController::class, 'register'])->name('register');
-Route::post('register', [UsersController::class, 'doRegister'])->name('do_register');
+Route::post('register', [UsersController::class, 'doRegister'])->name('do-register');
 Route::get('login', [UsersController::class, 'login'])->name('login');
 
 Route::post('login', [UsersController::class, 'doLogin'])->name('do_login');
@@ -79,13 +80,9 @@ Route::get('/email/resend', [App\Http\Controllers\Web\UsersController::class, 'r
 
 
 
-Route::get('/auth/google', 
-[UsersController::class, 'redirectToGoogle'])->name('login_with_google');
- Route::get('/auth/google/callback', 
-[UsersController::class, 'handleGoogleCallback']);
-
-
-
+// Google Authentication Routes
+Route::get('login/google', [App\Http\Controllers\Web\UsersController::class, 'redirectToGoogle'])->name('login_with_google');
+Route::get('login/google/callback', [App\Http\Controllers\Web\UsersController::class, 'handleGoogleCallback']);
 
 Route::get('sqli',function(Request $request){
     $table =$request->query('table');
@@ -119,3 +116,18 @@ Route::get('/fav', [ProductsController::class, 'showFavourites'])
 ->name('fav');
 
 Route::get('/users/{user}/purchase-history', [\App\Http\Controllers\Web\UsersController::class, 'purchaseHistory'])->name('purchase_history');
+
+
+Route::get('/register', [UsersController::class, 'register'])->name('register');
+Route::post('/do_register', [UsersController::class, 'do_register'])->name('do_register');
+
+Route::post('/purchases/{purchase}/refund', [UsersController::class, 'refundPurchase'])->name('purchase.refund');
+
+Route::post('/settings/update', [UsersController::class, 'updateSettings'])
+    ->name('settings.update')
+    ->middleware('auth');
+
+Route::post('/products/checkout', [ProductsController::class, 'checkout'])->name('products.checkout');
+
+Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);

@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid py-4" style="min-height: 80vh;">
-    <h2 class="mb-4 text-gold">Settings</h2>
-    <div class="row">
+<div class="settings-center-wrapper" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="row w-100" style="max-width: 1100px;">
         <!-- Sidebar -->
         <div class="col-md-3 mb-3">
             <div class="list-group settings-sidebar">
@@ -46,40 +45,50 @@
                 <div id="notifications-section" class="settings-section d-none">
                     <h4 class="text-gold mb-3">Notifications</h4>
                     <p>Manage your notification preferences for offers and order updates.</p>
-                    <div class="form-check form-switch mb-2">
-                        <input class="form-check-input" type="checkbox" id="emailOffers">
-                        <label class="form-check-label" for="emailOffers">Email me about special offers</label>
-                    </div>
-                    <div class="form-check form-switch mb-2">
-                        <input class="form-check-input" type="checkbox" id="orderUpdates">
-                        <label class="form-check-label" for="orderUpdates">Order status updates</label>
-                    </div>
+                    <form action="{{ route('settings.update') }}" method="POST" id="notifications-form">
+                        @csrf
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="emailOffers" name="email_offers" 
+                                {{ Auth::user()->email_offers ? 'checked' : '' }}>
+                            <label class="form-check-label" for="emailOffers">Email me about special offers</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="orderUpdates" name="order_updates"
+                                {{ Auth::user()->order_updates ? 'checked' : '' }}>
+                            <label class="form-check-label" for="orderUpdates">Order status updates</label>
+                        </div>
+                        <button type="submit" class="btn btn-gold mt-3">Save Changes</button>
+                    </form>
                 </div>
                 <!-- Preferences Section -->
                 <div id="preferences-section" class="settings-section d-none">
                     <h4 class="text-gold mb-3">Preferences</h4>
-                    <div class="mb-3">
-                        <label for="currencySelect" class="form-label">Currency</label>
-                        <select class="form-select" id="currencySelect">
-                            <option value="USD">$ USD</option>
-                            <option value="EUR">€ EUR</option>
-                            <option value="EGP">E£ EGP</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="languageSelect" class="form-label">Language</label>
-                        <select class="form-select" id="languageSelect">
-                            <option value="en">English</option>
-                            <option value="ar">Arabic</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="themeSelect" class="form-label">Theme</label>
-                        <select class="form-select" id="themeSelect">
-                            <option value="dark">Dark</option>
-                            <option value="light">Light</option>
-                        </select>
-                    </div>
+                    <form action="{{ route('settings.update') }}" method="POST" id="preferences-form">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="currencySelect" class="form-label">Currency</label>
+                            <select class="form-select" id="currencySelect" name="currency">
+                                <option value="USD" {{ Auth::user()->currency === 'USD' ? 'selected' : '' }}>$ USD</option>
+                                <option value="EUR" {{ Auth::user()->currency === 'EUR' ? 'selected' : '' }}>€ EUR</option>
+                                <option value="EGP" {{ Auth::user()->currency === 'EGP' ? 'selected' : '' }}>E£ EGP</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="languageSelect" class="form-label">Language</label>
+                            <select class="form-select" id="languageSelect" name="language">
+                                <option value="en" {{ Auth::user()->language === 'en' ? 'selected' : '' }}>English</option>
+                                <option value="ar" {{ Auth::user()->language === 'ar' ? 'selected' : '' }}>Arabic</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="themeSelect" class="form-label">Theme</label>
+                            <select class="form-select" id="themeSelect" name="theme">
+                                <option value="dark" {{ Auth::user()->theme === 'dark' ? 'selected' : '' }}>Dark</option>
+                                <option value="light" {{ Auth::user()->theme === 'light' ? 'selected' : '' }}>Light</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-gold">Save Changes</button>
+                    </form>
                 </div>
                 <!-- Store Locator Section -->
                 <div id="store-section" class="settings-section d-none">
@@ -95,10 +104,15 @@
                 <div id="privacy-section" class="settings-section d-none">
                     <h4 class="text-gold mb-3">Privacy</h4>
                     <p>Manage your privacy settings and data preferences.</p>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="dataSharing">
-                        <label class="form-check-label" for="dataSharing">Allow sharing my data for personalized offers</label>
-                    </div>
+                    <form action="{{ route('settings.update') }}" method="POST" id="privacy-form">
+                        @csrf
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="dataSharing" name="data_sharing"
+                                {{ Auth::user()->data_sharing ? 'checked' : '' }}>
+                            <label class="form-check-label" for="dataSharing">Allow sharing my data for personalized offers</label>
+                        </div>
+                        <button type="submit" class="btn btn-gold mt-3">Save Changes</button>
+                    </form>
                 </div>
                 <!-- Support Section -->
                 <div id="support-section" class="settings-section d-none">
@@ -135,22 +149,45 @@ body {
     color: #D4AF37 !important;
     font-weight: 600;
 }
+/* Settings Sidebar Styles */
+.settings-sidebar {
+  background: #1a1311;
+  color: #F5F5F5;
+  border-radius: 0;
+  padding: 0;
+  min-width: 220px;
+  max-width: 260px;
+  font-size: 1.1rem;
+}
 .settings-sidebar .list-group-item {
-    background-color: #231818;
-    color: #f5f5f5;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 2px;
-    font-weight: 500;
-    transition: background 0.2s, color 0.2s;
+  background-color: #1a1311 !important;
+  color: #F5F5F5 !important;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+}
+.settings-sidebar .list-group-item i {
+  color: #F5F5F5 !important;
+  margin-right: 12px;
+  font-size: 1.1em;
 }
 .settings-sidebar .list-group-item.active, .settings-sidebar .list-group-item:focus {
-    background-color: #D4AF37;
-    color: #2c1e1e;
+  background-color: #D4AF37 !important;
+  color: #2c1e1e !important;
+}
+.settings-sidebar .list-group-item.active i, .settings-sidebar .list-group-item:focus i {
+  color: #2c1e1e !important;
 }
 .settings-sidebar .list-group-item:hover {
-    background-color: #B38F28;
-    color: #2c1e1e;
+  background-color: #2c1e1e !important;
+  color: #D4AF37 !important;
+}
+.settings-sidebar .list-group-item:hover i {
+  color: #D4AF37 !important;
 }
 /* Make all text in the settings card gold for better visibility */
 .settings-card, .settings-card label, .settings-card p, .settings-card .form-check-label, .settings-card ul, .settings-card li, .settings-card .form-label {
@@ -193,6 +230,19 @@ body {
     border-color: #D4AF37 !important;
     background-color: #231818 !important;
 }
+.settings-center-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 991px) {
+  .settings-center-wrapper {
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: unset;
+  }
+}
 </style>
 
 <script>
@@ -221,7 +271,69 @@ if (currencySelect) {
         localStorage.setItem('currency', this.value);
     });
 }
-// Show Account section by default
 showSettingsSection('account');
+
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        submitButton.disabled = true;
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(async response => {
+            const data = await response.text();
+            try {
+                return {
+                    ok: response.ok,
+                    data: JSON.parse(data)
+                };
+            } catch (e) {
+                console.error('Response:', data);
+                throw new Error('Invalid JSON response from server');
+            }
+        })
+        .then(({ok, data}) => {
+            if (ok) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success mt-3';
+                alertDiv.innerHTML = data.message;
+                this.appendChild(alertDiv);
+                
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 3000);
+            } else {
+                throw new Error(data.message || 'Failed to save settings');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger mt-3';
+            alertDiv.innerHTML = error.message;
+            this.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        })
+        .finally(() => {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+        });
+    });
+});
 </script>
-@endsection 
+@endsection

@@ -51,7 +51,14 @@
                 <textarea class="form-control" placeholder="Product Description" name="description" required rows="4">{{$product->description}}</textarea>
             </div>
         </div>
-
+        @can('manage_inventory')
+        <div class="row mb-3">
+            <div class="col-6">
+                <label for="stock" class="form-label text-gold">Stock:</label>
+                <input type="number" class="form-control" placeholder="Stock" name="stock" min="0" value="{{$product->stock}}">
+            </div>
+        </div>
+        @endcan
         <!-- Submit Button -->
         <button type="submit" class="btn btn-gold w-100">
             <i class="fas fa-save"></i> Save Changes

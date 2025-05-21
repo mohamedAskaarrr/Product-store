@@ -3,50 +3,44 @@
 @section('title', 'Login - NebulaAuth')
 
 @section('head')
-{{-- Bootstrap 5.3+ for better dark theme utilities and icons --}}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  :root {
-    --primary-accent: #6f42c1; /* A deep purple, you can change this */
-    --primary-accent-hover: #59359a;
-    --dark-bg: #121212; /* Very dark background */
-    --card-bg: #1e1e1e; /* Slightly lighter card background */
-    --input-bg: #2a2a2a; /* Input field background */
-    --border-color: #3a3a3a;
-    --text-light: #e0e0e0;
-    --text-muted-dark: #888;
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #2c1e1e !important;
+    color: #fffbe6;
+    overflow-x: hidden;
   }
 
-  body.login-page {
-    background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 100%);
-    color: var(--text-light);
-  }
-
-  .login-container {
-    min-height: 100vh;
+  .login-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    background: #2c1e1e !important;
   }
 
-  .login-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem; /* Softer rounding */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
+  .login-form-wrapper {
     width: 100%;
+    max-width: 400px;
+    background: #2c1e1e !important;
+    border-radius: 1.5rem;
+    padding: 2.5rem 2rem 2rem 2rem;
+    border: 2px solid #D4AF37;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
   }
-
-  .login-card .card-body {
-    padding: 2rem; /* More padding inside card */
-  }
-
   .login-icon-wrapper {
-    background-color: var(--input-bg); /* Use input bg for consistency */
-    color: var(--primary-accent);
+    background: #2c1e1e;
+    border: 2px solid #D4AF37;
+    color: #D4AF37;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -54,195 +48,160 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem auto;
-    box-shadow: 0 0 15px rgba(var(--primary-accent-rgb, 111, 66, 193), 0.3); /* Dynamic shadow based on accent */
+    box-shadow: 0 0 32px 0 rgba(212, 175, 55, 0.2);
   }
   .login-icon-wrapper .bi {
     font-size: 2.5rem;
   }
-
-  .login-card h2 {
-    font-weight: 700;
-    color: var(--text-light);
-  }
-
-  .login-card .text-muted-custom {
-    color: var(--text-muted-dark) !important;
-  }
-
   .form-control-dark {
-    background-color: var(--input-bg) !important;
-    color: var(--text-light) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 0.375rem;
-    padding: 0.75rem 1rem;
+    background: #2c1e1e !important;
+    color: #fffbe6 !important;
+    border: 1.5px solid #D4AF37 !important;
+    border-radius: 0.5rem;
+    padding: 0.85rem 1.1rem;
   }
   .form-control-dark::placeholder {
-    color: var(--text-muted-dark);
+    color: #fffbe6 !important; /* White placeholder text */
+    opacity: 1; /* Ensure full opacity */
   }
   .form-control-dark:focus {
-    background-color: var(--input-bg) !important;
-    border-color: var(--primary-accent) !important;
-    box-shadow: 0 0 0 0.25rem rgba(var(--primary-accent-rgb, 111, 66, 193), 0.25);
-    color: var(--text-light) !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.2);
+    background: rgba(50, 45, 35, 0.9) !important;
   }
-
   .input-group-text-dark {
-    background-color: var(--input-bg) !important;
-    border: 1px solid var(--border-color) !important;
-    border-right: none !important; /* Seamless look */
-    color: var(--primary-accent) !important;
-    border-top-left-radius: 0.375rem;
-    border-bottom-left-radius: 0.375rem;
+    background: #2c1e1e !important;
+    border: 1.5px solid #D4AF37 !important;
+    color: #D4AF37 !important;
+    border-radius: 0.5rem 0 0 0.5rem;
   }
-  .input-group .form-control-dark {
-      border-left: none !important; /* Seamless look */
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-  }
-   .input-group:focus-within .input-group-text-dark { /* Highlight icon group on input focus */
-    border-color: var(--primary-accent) !important;
-    box-shadow: 0 0 0 0.25rem rgba(var(--primary-accent-rgb, 111, 66, 193), 0.25) inset;
-    box-shadow: none; /* Override default to only rely on input's focus shadow */
-  }
-
-
   .btn-custom-primary {
-    background-color: var(--primary-accent);
-    border-color: var(--primary-accent);
-    color: #fff;
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    background: #D4AF37 !important;   /* Gold background */
+    border: 2px solid #D4AF37 !important;
+    color: #2c1e1e !important;        /* Brown text */
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
   }
-  .btn-custom-primary:hover {
-    background-color: var(--primary-accent-hover);
-    border-color: var(--primary-accent-hover);
-    color: #fff;
+  .btn-custom-primary:hover, .btn-custom-primary:focus {
+    background: #2c1e1e !important;
+    color: #D4AF37 !important;
+    border: 2px solid #D4AF37 !important;
   }
-
-  .btn-outline-custom {
-    border-color: var(--border-color);
-    color: var(--text-light);
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-  }
-  .btn-outline-custom:hover {
-    background-color: var(--primary-accent);
-    border-color: var(--primary-accent);
-    color: #fff;
-  }
-
-  .form-check-input-dark {
-    background-color: var(--input-bg);
-    border-color: var(--border-color);
-  }
-  .form-check-input-dark:checked {
-    background-color: var(--primary-accent);
-    border-color: var(--primary-accent);
-  }
-  .form-check-input-dark:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--primary-accent-rgb, 111, 66, 193), 0.25);
-  }
-
   .link-custom {
-    color: var(--primary-accent);
-    text-decoration: none;
+    color: #ffd700;
   }
   .link-custom:hover {
-    color: var(--primary-accent-hover);
-    text-decoration: underline;
+    color: #daa520;
   }
-  .small-text-muted {
-      color: var(--text-muted-dark) !important;
+  .text-muted-custom {
+    color: #d4c091 !important;
   }
-
-  /* Helper to extract RGB from hex for box-shadow opacity */
-  /* For this to work dynamically with :root vars, you'd typically need JS or SASS. */
-  /* Hardcoding example for purple: --primary-accent-rgb: 111, 66, 193; */
-  /* If you keep a fixed accent, you can set this value. */
-  /* For demo, I'll assume purple #6f42c1 (111, 66, 193) for shadows */
-  :root {
-    --primary-accent-rgb: 111, 66, 193; /* For #6f42c1 */
+  .alert-danger {
+    background: #2c1e1e;
+    border-color: #D4AF37;
+    color: #fffbe6;
   }
-
+  .btn-outline-custom {
+    background: transparent !important;
+    border: 2px solid #D4AF37 !important;
+    color: #D4AF37 !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  .btn-outline-custom:hover, .btn-outline-custom:focus {
+    background: #D4AF37 !important;
+    color: #2c1e1e !important;
+    border: 2px solid #D4AF37 !important;
+  }
+  .form-check-input-dark {
+    appearance: none; /* Remove default checkbox styling */
+    background: #2c1e1e !important;
+    border: 1.5px solid #D4AF37 !important;
+    border-radius: 0.25rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .form-check-input-dark:checked {
+    background: #D4AF37 !important; /* Gold background when checked */
+    border-color: #D4AF37 !important;
+  }
+  .form-check-input-dark:checked::after {
+    content: '\2713'; /* Unicode for checkmark */
+    color: #2c1e1e; /* Brown checkmark */
+    font-size: 0.9rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .form-check-input-dark:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.5) !important; /* Gold shadow */
+  }
 </style>
 @endsection
 
 @section('content')
-<div class="login-container">
-  <div class="login-card">
-    <div class="card-body">
-      <div class="text-center mb-4">
-        <div class="login-icon-wrapper">
-          <i class="bi bi-shield-lock-fill"></i> {{-- Changed icon for a more "secure login" feel --}}
+<div class="login-fullscreen">
+  <div class="login-form-wrapper">
+    <div class="text-center mb-4">
+      <div class="login-icon-wrapper">
+        <i class="bi bi-shield-lock-fill"></i>
+      </div>
+      <h2 class="mb-2">Login</h2>
+      <div class="text-muted-custom mb-4">Welcome back! Please login to continue.</div>
+    </div>
+
+    <form action="{{ route('do_login') }}" method="POST">
+      @csrf
+      @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show py-2 mb-3" role="alert">
+          <ul class="mb-0 ps-3">
+            @foreach($errors->all() as $error)
+              <li>{!! $error !!}</li>
+            @endforeach
+          </ul>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <h2 class="mb-2">Sign In</h2>
-        <div class="text-muted-custom mb-4">Welcome back! Please sign in to continue.</div>
+      @endif
+
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
+        <input type="email" class="form-control form-control-dark" name="email" placeholder="Email Address" required value="{{ old('email') }}">
       </div>
 
-      <form action="{{route('do_login')}}" method="post">
-        {{ csrf_field() }}
+      <div class="mb-3 input-group">
+        <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
+        <input type="password" class="form-control form-control-dark" name="password" placeholder="Password" required>
+      </div>
 
-        @if($errors->any())
-          <div class="alert alert-danger alert-dismissible fade show py-2 mb-3" role="alert">
-            <ul class="mb-0 ps-3">
-                @foreach($errors->all() as $error)
-                    <li>{!! $error !!}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        @endif
-
-        <div class="mb-3 input-group">
-          <span class="input-group-text input-group-text-dark"><i class="bi bi-envelope-fill"></i></span>
-          <input type="email" class="form-control form-control-dark" name="email" placeholder="Email Address" required value="{{ old('email') }}">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <div class="form-check">
+          <input class="form-check-input form-check-input-dark" type="checkbox" name="remember" id="rememberMe">
+          <label class="form-check-label small" for="rememberMe">Remember me</label>
         </div>
+        <a href="#" class="link-custom small">Forgot password?</a>
+      </div>
 
-        <div class="mb-3 input-group">
-          <span class="input-group-text input-group-text-dark"><i class="bi bi-key-fill"></i></span>
-          <input type="password" class="form-control form-control-dark" name="password" placeholder="Password" required>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center my-3">
-          <div class="form-check">
-            <input class="form-check-input form-check-input-dark" type="checkbox" name="remember" id="rememberMe">
-            <label class="form-check-label small" for="rememberMe">Remember me</label>
-          </div>
-          <a href="#" class="link-custom small">Forgot password?</a>
-        </div>
-
-        <button type="submit" class="btn btn-custom-primary w-100 mb-3">Sign In</button>
-        <a href="{{route('login_with_google')}}" class="btn btn-outline-custom w-100 mb-3">
-          <i class="bi bi-google me-2"></i>Sign in with Google
-        </a>
-
-        <div class="text-center mt-4">
-          <small class="small-text-muted">Don't have an account? <a href="{{ route('register') }}" class="link-custom fw-medium">Register here</a></small>
-        </div>
-      </form>
-    </div>
+      <button type="submit" class="btn btn-custom-primary w-100 mb-3">Login</button>
+      <a href="{{ route('login_with_google') }}" class="btn btn-outline-custom w-100 mb-3">
+        <i class="bi bi-google me-2"></i>Sign in with Google
+      </a>
+      <a href="{{ route('login.facebook') }}" class="btn btn-outline-custom w-100 mb-3">
+        <i class="bi bi-facebook me-2"></i>Sign in with Facebook
+      </a>
+      <div class="text-center mt-4">
+        <small class="text-muted-custom">Don't have an account? <a href="{{ route('register') }}" class="link-custom">Register here</a></small>
+      </div>
+    </form>
   </div>
 </div>
 @endsection
 
 @push('scripts')
-{{-- Add this to your master layout if you don't have it, or just include BS JS here --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
-<script>
-  // Optional: If you change --primary-accent in JS, you can update --primary-accent-rgb
-  // For simplicity, it's hardcoded in CSS or set once.
-  // Example: to dynamically set --primary-accent-rgb if you allow theme switching
-  function updateAccentRgb() {
-    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-accent').trim();
-    if (accentColor.startsWith('#')) {
-      const r = parseInt(accentColor.slice(1, 3), 16);
-      const g = parseInt(accentColor.slice(3, 5), 16);
-      const b = parseInt(accentColor.slice(5, 7), 16);
-      document.documentElement.style.setProperty('--primary-accent-rgb', `${r}, ${g}, ${b}`);
-    }
-  }
-  // updateAccentRgb(); // Call if needed
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @endpush

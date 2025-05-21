@@ -18,91 +18,55 @@
 @section('title', 'User Profile')
 
 @section('content')
-<div class="container py-4">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card profile-card" data-aos="fade-right">
-                <div class="card-body text-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="rounded-circle mb-3" width="120">
-                    <h4 class="mb-3 text-gold">{{ $user->name }}</h4>
-                    <p class="text-light mb-1">{{ $user->email }}</p>
-                    <div class="mt-3">
-                        @foreach($user->roles as $role)
-                        <span class="badge bg-gold m-1">{{ $role->name }}</span>
-                        @endforeach
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card profile-card shadow-lg border-0 rounded-4 p-4">
+                <div class="row g-0 align-items-center">
+                    <!-- Left: Avatar & Basic Info -->
+                    <div class="col-md-5 text-center border-end border-gold pe-4 mb-4 mb-md-0">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                             alt="Profile" class="rounded-circle mb-3 border border-3 border-gold"
+                             width="120" height="120">
+                        <h3 class="mb-0 text-gold">{{ $user->name }}</h3>
+                        <p class="text-light mb-2">{{ $user->email }}</p>
+                        <div class="mb-3">
+                            @foreach($user->roles as $role)
+                                <span class="badge bg-gold text-dark me-1">{{ $role->name }}</span>
+                            @endforeach
+                            @if(isset($user->credit))
+                                <span class="badge bg-gold text-dark ms-1">
+                                    <i class="fas fa-wallet me-1"></i>${{ number_format($user->credit, 2) }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="card" data-aos="fade-left">
-                <div class="card-body">
-                    <h5 class="card-title mb-4 text-gold">User Information</h5>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tr>
-                                <th width="200">Name</th>
-                                <td>{{ $user->name }}</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>{{ $user->email }}</td>
-                            </tr>
-                            <tr>
-                                <th>Credit Balance</th>
-                                <td>
-                                    <span class="badge bg-gold">${{ number_format($user->credit ?? 0, 2) }}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Member Since</th>
-                                <td>{{ $user->created_at ? $user->created_at->format('F j, Y') : 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Email Status</th>
-                                <td>
-                                    @if($user->email_verified_at)
-                                        <span class="badge bg-gold">Verified</span>
-                                    @else
-                                        <span class="badge bg-warning">Not Verified</span>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Roles</th>
-                                <td>
-                                    @foreach($user->roles as $role)
-                                    <span class="badge bg-gold">{{ $role->name }}</span>
-                                    @endforeach
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Permissions</th>
-                                <td>
-                                    @foreach($permissions as $permission)
-                                    <span class="badge bg-gold">{{ $permission->name }}</span>
-                                    @endforeach
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="mt-4 d-flex flex-wrap gap-2">
-                        @if(auth()->id() == $user->id || auth()->user()->hasPermissionTo('edit_users'))
-                        <a href="{{ route('users_edit', $user->id) }}" class="btn btn-gold">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </a>
-                        @endif
-                        <a href="{{ route('edit_password', $user->id) }}" class="btn btn-gold">
-                            <i class="fas fa-key"></i> Change Password
-                        </a>
-                        <a href="{{ route('purchase_history', $user->id) }}" class="btn btn-gold">
-                            <i class="fas fa-history"></i> Purchase History
-                        </a>
-                        @role('Customer')
-                        <a href="{{ route('fav') }}" class="btn btn-gold">
-                            <i class="fas fa-heart"></i> View Favourites
-                        </a>
-                        @endrole
+                    <!-- Right: Actions & Permissions -->
+                    <div class="col-md-7 ps-md-4 pt-4 pt-md-0">
+                        <div class="d-flex flex-wrap justify-content-start gap-2 mb-4">
+                            @if(auth()->id() == $user->id || auth()->user()->hasPermissionTo('edit_users'))
+                            <a href="{{ route('users_edit', $user->id) }}" class="btn btn-outline-gold">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </a>
+                            @endif
+                            <a href="{{ route('edit_password', $user->id) }}" class="btn btn-outline-gold">
+                                <i class="fas fa-key"></i> Change Password
+                            </a>
+                            <a href="{{ route('purchase_history', $user->id) }}" class="btn btn-outline-gold">
+                                <i class="fas fa-history"></i> Purchase History
+                            </a>
+                            @can('purchase_products')
+                            <a href="{{ route('fav') }}" class="btn btn-outline-gold">
+                                <i class="fas fa-heart"></i> Favourites
+                            </a>
+                            @endcan
+                        </div>
+                        <h6 class="text-uppercase text-gold mb-2">Permissions</h6>
+                        <div class="mb-2">
+                            @foreach($permissions as $permission)
+                                <span class="badge bg-dark text-gold border border-gold mb-1">{{ $permission->name }}</span>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,98 +75,77 @@
 </div>
 
 <style>
-    body {
-        background-color: #2c1e1e;
-        color: #f5f5f5;
+body, .profile-card, .container {
+    background-color: #2c1e1e !important;
+    color: #fffbe6;
+}
+.profile-card {
+    background-color: #2c1e1e;
+    border: 2px solid #D4AF37;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.10), 0 1.5px 4px rgba(0,0,0,0.10);
+}
+.text-gold {
+    color: #D4AF37 !important;
+}
+.bg-gold {
+    background-color: #D4AF37 !important;
+    color: #2c1e1e !important;
+}
+.border-gold {
+    border-color: #D4AF37 !important;
+}
+.btn-gold {
+    background: #D4AF37 !important;
+    color: #2c1e1e !important;
+    border: 2px solid #D4AF37 !important;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+}
+.btn-gold:hover, .btn-gold:focus {
+    background: #2c1e1e !important;
+    color: #D4AF37 !important;
+    border: 2px solid #D4AF37 !important;
+}
+.btn-outline-gold {
+    background: transparent !important;
+    border: 2px solid #D4AF37 !important;
+    color: #D4AF37 !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+}
+.btn-outline-gold:hover, .btn-outline-gold:focus {
+    background: #D4AF37 !important;
+    color: #2c1e1e !important;
+    border: 2px solid #D4AF37 !important;
+}
+.badge.bg-dark {
+    background: #1e1e1e !important;
+    color: #D4AF37 !important;
+    border: 1.5px solid #D4AF37;
+}
+@media (max-width: 767.98px) {
+    .profile-card .row.g-0 {
+        flex-direction: column;
     }
-
-    .profile-card {
-        background-color: #2c1e1e;
-        border: 1px solid #D4AF37;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .profile-card .border-end {
+        border: none !important;
+        border-bottom: 2px solid #D4AF37 !important;
+        margin-bottom: 2rem;
+        padding-right: 0 !important;
     }
-
-    .profile-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    .profile-card .ps-md-4 {
+        padding-left: 0 !important;
     }
-
-    .table {
-        background-color: #2c1e1e;
-        color: #f5f5f5;
-        border-color: #D4AF37;
-    }
-
-    .table th {
-        background-color: #3a2a2a;
-        color: #f5f5f5;
-        border-bottom: 2px solid #D4AF37;
-    }
-
-    .table td {
-        border-color: #D4AF37;
-        color: #3a2a2a;
-    }
-
-    .badge.bg-gold {
-        background-color: #D4AF37;
-        color: #2c1e1e;
-        font-weight: 500;
-        padding: 6px 12px;
-    }
-
-    .text-gold {
-        color: #D4AF37;
-        font-weight: 600;
-    }
-
-    .card {
-        background-color: #2c1e1e;
-        border: 1px solid #D4AF37;
-    }
-
-    .btn-gold {
-        background-color: #D4AF37;
-        color: #2c1e1e;
-        border: none;
-        transition: all 0.3s ease;
-        padding: 8px 16px;
-        font-weight: 500;
-    }
-
-    .btn-gold:hover {
-        background-color: #B38F28;
-        color: #2c1e1e;
-        transform: scale(1.05);
-        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
-    }
-
-    .text-light {
-        color: #f5f5f5 !important;
-    }
-
-    .card-body {
-        background-color: #2c1e1e;
-        color: #f5f5f5;
-    }
-
-    .gap-2 {
-        gap: 0.5rem;
-    }
-
-    @media (max-width: 768px) {
-        .d-flex.flex-wrap {
-            justify-content: center;
-        }
-        
-        .btn-gold {
-            width: 100%;
-            margin-bottom: 0.5rem;
-        }
-    }
+}
 </style>
 @endsection
+
+@push('head')
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+@endpush
 
 </body>
 </html>

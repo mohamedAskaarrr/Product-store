@@ -59,7 +59,7 @@
                                 <span class="price-badge">${{ number_format($purchase->total_price, 2) }}</span>
                             </div>
                             
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
                                 <span class="text-light">Purchase Date:</span>
                                 <span class="date-badge">
                                     {{ $purchase->created_at ? \Carbon\Carbon::parse($purchase->created_at)->format('M d, Y') : '' }}
@@ -68,6 +68,17 @@
                                     </small>
                                 </span>
                             </div>
+
+                            @if(auth()->user()->hasPermissionTo('manage_refunds'))
+                            <div class="text-center mt-3">
+                                <form action="{{ route('purchase.refund', $purchase->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-refund" onclick="return confirm('Are you sure you want to refund this purchase? This will return the money to the user and restock the product.')">
+                                        <i class="fas fa-undo-alt me-2"></i>Refund
+                                    </button>
+                                </form>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -193,6 +204,22 @@
         margin-top: 12px;
     }
 
+    .btn-refund {
+        background-color: #D4AF37 !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: 6px;
+    }
+
+    .btn-refund:hover {
+        background-color: #B38F28 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
+    }
+
     @media (max-width: 768px) {
         .purchase-img {
             max-height: 150px;
@@ -207,4 +234,10 @@
         }
     }
 </style>
+
+@push('scripts')
+<script>
+    // Add any additional JavaScript if needed
+</script>
+@endpush
 @endsection 

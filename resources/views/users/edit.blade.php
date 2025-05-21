@@ -28,7 +28,7 @@
         }
 
         h1 {
-            color: #388e3c;
+            color: #2c1e1e ;
             font-weight: bold;
         }
 
@@ -40,7 +40,7 @@
         }
 
         .form-control:focus {
-            border-color: #76d7c4;
+            border-color: #2c1e1e ;
             box-shadow: 0 0 5px rgba(118, 215, 196, 0.8);
         }
 
@@ -54,14 +54,14 @@
             padding: 12px 20px;
             font-size: 16px;
             transition: transform 0.3s ease, background-color 0.4s ease;
-            background-color: #388e3c;
+            background-color:  #2c1e1e;
             color: white;
             border: none;
         }
 
         button:hover {
             transform: scale(1.05);
-            background-color: #66bb6a;
+            background-color:  #2c1e1e;
         }
 
         button i {
@@ -173,12 +173,12 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="container py-4">
+<div class="container py-4 main-bg">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" data-aos="fade-up">
+            <div class="card edit-card" data-aos="fade-up">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">Edit User</h4>
+                    <h4 class="card-title mb-4 text-gold">Edit User</h4>
                     
                     @if($errors->any())
                         <div class="alert alert-danger">
@@ -194,82 +194,80 @@ $(document).ready(function(){
                         @csrf
                         
                         <div class="form-group mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                            <label for="name" class="form-label text-gold">Name</label>
+                            <input type="text" class="form-control custom-input" id="name" name="name" value="{{ old('name', $user->name) }}" required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+                            <label for="email" class="form-label text-gold">Email</label>
+                            <input type="email" class="form-control custom-input" id="email" name="email" value="{{ old('email', $user->email) }}" required>
                         </div>
 
                         @can('manage_customer_credit')
                         <div class="form-group mb-3">
-                            <label for="credit" class="form-label">Credit Management</label>
+                            <label for="credit" class="form-label text-gold">Credit Management</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="credit" name="credit" min="0" step="0.01" value="{{ old('credit', $user->credit) }}" required>
+                                <span class="input-group-text custom-input-group">$</span>
+                                <input type="number" class="form-control custom-input" id="credit" name="credit" min="0" step="0.01" value="{{ old('credit', $user->credit) }}" required>
                             </div>
                             <div class="mt-2">
-                                <small class="text-muted">Current credit balance: ${{ number_format($user->credit, 2) }}</small>
-                            </div>
-                            <div class="mt-2">
-                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="document.getElementById('credit').value = '0'">
-                                    Reset Credit
-                                </button>
+                                <small class="text-gold">Current credit balance: ${{ number_format($user->credit, 2) }}</small>
                             </div>
                         </div>
                         @else
                         <div class="form-group mb-3">
-                            <label class="form-label">Credit Balance</label>
+                            <label class="form-label text-gold">Credit Balance</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" value="{{ number_format($user->credit, 2) }}" readonly>
+                                <span class="input-group-text custom-input-group">$</span>
+                                <input type="text" class="form-control custom-input" value="{{ number_format($user->credit, 2) }}" readonly>
                             </div>
                         </div>
                         @endcan
 
-                        @if(Auth::user()->hasPermissionTo('admin_users'))
-                        <div class="form-group mb-4">
-                            <label class="form-label d-block">Roles</label>
-                            @foreach($roles as $role)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="roles[]" 
-                                           value="{{ $role->name }}" id="role_{{ $role->id }}"
-                                           {{ $user->hasRole($role->name) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="role_{{ $role->id }}">
+                        <div class="form-group mb-3">
+                            <label for="role" class="form-label text-gold">Role</label>
+                            <select name="role" id="role" class="form-control custom-input" required>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name }}"
+                                        data-permissions="{{ implode(',', $role->permissions->pluck('name')->toArray()) }}"
+                                        {{ $user->hasRole($role->name) ? 'selected' : '' }}>
                                         {{ $role->name }}
-                                    </label>
-                                </div>
-                            @endforeach
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
+                        @if(Auth::user()->hasPermissionTo('admin_users'))
                         <div class="form-group mb-4">
-                            <label class="form-label d-block">Permissions</label>
-                            @foreach($permissions as $permission)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="permissions[]" 
-                                           value="{{ $permission->name }}" id="permission_{{ $permission->id }}"
-                                           {{ $permission->taken ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="permission_{{ $permission->id }}">
-                                        {{ $permission->display_name ?? $permission->name }}
-                                    </label>
-                                </div>
-                            @endforeach
+                            <label class="form-label text-gold d-block">Permissions</label>
+                            <div id="permissions-list">
+                                @foreach($permissions as $permission)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input custom-checkbox permission-checkbox"
+                                               type="checkbox" name="permissions[]"
+                                               value="{{ $permission->name }}" id="permission_{{ $permission->id }}"
+                                               data-permission="{{ $permission->name }}"
+                                               {{ $permission->taken ? 'checked' : '' }}>
+                                        <label class="form-check-label text-gold" for="permission_{{ $permission->id }}">
+                                            {{ $permission->display_name ?? $permission->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                         @endif
 
                         <div class="d-flex justify-content-between">
                             @if(auth()->user()->hasPermissionTo('show_users'))
-                                <a href="{{ route('users') }}" class="btn btn-secondary">
+                                <a href="{{ route('users') }}" class="btn btn-gold">
                                     <i class="fas fa-arrow-left"></i> Back
                                 </a>
                             @else
-                                <a href="{{ route('home') }}" class="btn btn-secondary">
+                                <a href="{{ route('home') }}" class="btn btn-gold">
                                     <i class="fas fa-arrow-left"></i> Back
                                 </a>
                             @endif
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-gold">
                                 <i class="fas fa-save"></i> Save Changes
                             </button>
                         </div>
@@ -281,66 +279,124 @@ $(document).ready(function(){
 </div>
 
 <style>
-    .card {
-        background-color: var(--card-bg);
-        border: none;
-        box-shadow: var(--card-shadow);
+    body, .main-bg, .container {
+        background-color: #2c1e1e !important;
+        color: #D4AF37;
     }
-
-    .form-control {
-        background-color: var(--input-bg);
-        border-color: var(--border-color);
-        color: var(--text-color);
+    .container {
+        box-shadow: none !important;
+        border-radius: 0 !important;
     }
-
-    .form-control:focus {
-        background-color: var(--input-bg);
-        border-color: var(--primary-color);
-        color: var(--text-color);
-        box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.25);
+    .edit-card {
+        background-color: #2c1e1e;
+        border: 1px solid #D4AF37;
+        border-radius: 10px;
+        box-shadow: none;
     }
-
-    .form-label {
-        color: var(--text-color);
-        font-weight: 500;
-    }
-
-    .form-check-label {
-        color: var(--text-color);
-    }
-
-    .form-check-input {
-        background-color: var(--input-bg);
-        border-color: var(--border-color);
-    }
-
-    .form-check-input:checked {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-    }
-
-    .alert-danger {
-        background-color: var(--danger-bg);
-        border-color: var(--danger-color);
-        color: var(--danger-text);
-    }
-
-    .btn {
-        border-radius: 6px;
-        padding: 8px 16px;
+    .custom-input {
+        background-color: #2c1e1e !important;
+        border: 1px solid #D4AF37 !important;
+        color: #D4AF37 !important;
+        border-radius: 8px;
+        padding: 10px;
         transition: all 0.3s ease;
     }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    .custom-input:focus {
+        background-color: #2c1e1e !important;
+        border-color: #D4AF37 !important;
+        box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.15) !important;
+        color: #D4AF37 !important;
     }
-
-    .card-title {
-        color: var(--primary-color);
-        font-weight: 600;
+    .custom-input-group {
+        background-color: #2c1e1e !important;
+        border: 1px solid #D4AF37 !important;
+        color: #D4AF37 !important;
+        border-radius: 8px 0 0 8px;
+    }
+    .custom-checkbox {
+        background-color: #2c1e1e !important;
+        border: 1px solid #D4AF37 !important;
+    }
+    .custom-checkbox:checked {
+        background-color: #D4AF37 !important;
+        border-color: #D4AF37 !important;
+    }
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .text-gold {
+        color: #D4AF37 !important;
+    }
+    .btn-gold {
+        background-color: #D4AF37 !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        padding: 8px 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+    .btn-gold:hover {
+        background-color: #2c1e1e !important;
+        color: #D4AF37 !important;
+        border: 1px solid #D4AF37 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
+    }
+    .alert-danger {
+        background-color: #2c1e1e !important;
+        border: 1px solid #D4AF37 !important;
+        color: #D4AF37 !important;
+    }
+    .form-check-inline {
+        margin-right: 1rem;
+    }
+    .form-check-label {
+        margin-left: 0.5rem;
+    }
+    .text-light, .text-muted, .text-primary, .text-secondary, .text-success, .text-info, .text-warning, .text-danger {
+        color: #D4AF37 !important;
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function updatePermissionsForRole() {
+        var roleSelect = document.getElementById('role');
+        var selectedOption = roleSelect.options[roleSelect.selectedIndex];
+        var rolePermissions = selectedOption.getAttribute('data-permissions').split(',');
+
+        document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+            if (rolePermissions.includes(checkbox.getAttribute('data-permission'))) {
+                checkbox.checked = true;
+                checkbox.disabled = true;
+            } else {
+                checkbox.disabled = false;
+                // Only uncheck if not user-checked
+                if (!checkbox.hasAttribute('data-user-checked')) {
+                    checkbox.checked = false;
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (!checkbox.disabled) {
+                if (checkbox.checked) {
+                    checkbox.setAttribute('data-user-checked', '1');
+                } else {
+                    checkbox.removeAttribute('data-user-checked');
+                }
+            }
+        });
+    });
+
+    document.getElementById('role').addEventListener('change', updatePermissionsForRole);
+    updatePermissionsForRole();
+});
+</script>
 @endsection
 
 </body>

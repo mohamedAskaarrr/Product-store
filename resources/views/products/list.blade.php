@@ -198,11 +198,11 @@
                         @if($product->stock <= 0)
                         <span class="badge modern-badge-out position-absolute top-0 end-0 m-2">Out of Stock</span>
                         @endif
-                        @role('Customer')
+                        @can('purchase_products')
                             @if ($product->favorite)
                                 <span class="badge modern-badge-fav position-absolute top-0 start-0 m-2"><i class="fas fa-heart"></i> Favorited</span>
                             @endif
-                        @endrole
+                        @endcan
                     </div>
                     <div class="modern-product-body flex-grow-1 d-flex flex-column justify-content-between p-3">
                         <div>
@@ -237,7 +237,7 @@
                             @else
                                 <button class="btn modern-btn-disabled" disabled>Out of Stock</button>
                             @endif
-                            @role('Customer')
+                            @can('purchase_products')
                                 @if (!$product->favorite)
                                     <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST" class="d-inline">
                                         @csrf
@@ -247,7 +247,7 @@
                                         </button>
                                     </form>
                                 @endif
-                            @endrole
+                            @endcan
                             @can('edit_products')
                                 <a href="{{ route('products_edit', $product->id) }}" class="btn modern-btn-edit">
                                     <i class="fas fa-edit"></i>
@@ -262,17 +262,6 @@
                                     </button>
                                 </form>
                             @endcan
-                            @role('Employee')
-                                <form action="{{ route('products.addstock', $product->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <div class="input-group input-group-sm modern-addstock-group">
-                                        <input type="number" class="form-control" name="stock" placeholder="Add stock">
-                                        <button type="submit" class="btn modern-btn-addstock">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                            @endrole
                         </div>
                     </div>
                 </div>
@@ -588,6 +577,46 @@ function toggleModernDescription(element) {
         viewMore.style.display = 'inline';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    function updatePermissionsForRole() {
+        var roleSelect = document.getElementById('role');
+        var selectedOption = roleSelect.options[roleSelect.selectedIndex];
+        var rolePermissions = selectedOption.getAttribute('data-permissions').split(',');
+
+        document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+            if (rolePermissions.includes(checkbox.getAttribute('data-permission'))) {
+                checkbox.checked = true;
+                checkbox.disabled = true;
+            } else {
+                // Only enable if not checked by role
+                checkbox.disabled = false;
+                // If it was previously checked only because of the role, uncheck it
+                if (!checkbox.hasAttribute('data-user-checked')) {
+                    checkbox.checked = false;
+                }
+            }
+        });
+    }
+
+    // Track user-checked permissions
+    document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (!checkbox.disabled) {
+                if (checkbox.checked) {
+                    checkbox.setAttribute('data-user-checked', '1');
+                } else {
+                    checkbox.removeAttribute('data-user-checked');
+                }
+            }
+        });
+    });
+
+    document.getElementById('role').addEventListener('change', updatePermissionsForRole);
+
+    // Initial update on page load
+    updatePermissionsForRole();
+});
 </script>
 
 @php

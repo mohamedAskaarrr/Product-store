@@ -5,200 +5,218 @@
 @section('content')
 
 <div class="container py-4">
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <h1 class="products-heading">
-                <i class="fas fa-shopping-bag"></i> Products
-                <span class="products-subtitle">Browse our collection</span>
-            </h1>
-        </div>
-        <div class="col-md-6 text-end">
-            @can('admin_users')
-            <a href="{{ route('users_create') }}" class="btn btn-gold mb-3">
-                <i class="fas fa-user-plus"></i> Add New User
-            </a>
-            @endcan
-            <form action="{{ route('users') }}" method="GET" class="d-flex gap-2">
-                <input type="text" name="keywords" class="form-control" placeholder="Search users..." value="{{ request()->keywords }}">
-                <button type="submit" class="btn btn-gold">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-        </div>
-    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h1 class="text-gold mb-0">
+                        <i class="fas fa-users"></i> Users
+                        <small class="text-light d-block mt-2" style="font-size: 1rem;">Manage system users</small>
+                    </h1>
+                </div>
+                <div class="col-md-6 text-end">
+                    @can('admin_users')
+                    <a href="{{ route('users_create') }}" class="btn btn-gold mb-3">
+                        <i class="fas fa-user-plus"></i> Add New User
+                    </a>
+                    @endcan
+                    <form action="{{ route('users') }}" method="GET" class="d-flex gap-2">
+                        <input type="text" name="keywords" class="form-control bg-dark text-light border-gold" placeholder="Search users..." value="{{ request()->keywords }}">
+                        <button type="submit" class="btn btn-gold">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Credit</th>
-                    <th>Roles</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <span class="badge bg-success">${{ number_format($user->credit, 2) }}</span>
-                    </td>
-                    <td>
-                        @foreach($user->roles as $role)
-                        <span class="badge bg-gold">{{ $role->name }}</span>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th class="border-gold">Name</th>
+                            <th class="border-gold">Email</th>
+                            <th class="border-gold">Credit</th>
+                            <th class="border-gold">Roles</th>
+                            <th class="border-gold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($users as $user)
+                        <tr>
+                            <td class="border-gold">{{ $user->name }}</td>
+                            <td class="border-gold">{{ $user->email }}</td>
+                            <td class="border-gold">
+                                <span class="badge bg-credit">${{ number_format($user->credit, 2) }}</span>
+                            </td>
+                            <td class="border-gold">
+                                @foreach($user->roles as $role)
+                                    @if($role->name === 'Admin')
+                                        <span class="badge bg-admin">{{ $role->name }}</span>
+                                    @elseif($role->name === 'Employee')
+                                        <span class="badge bg-employee">{{ $role->name }}</span>
+                                    @elseif($role->name === 'Supplier')
+                                        <span class="badge bg-supplier">{{ $role->name }}</span>
+                                    @elseif($role->name === 'Manager')
+                                        <span class="badge bg-manager">{{ $role->name }}</span>
+                                    @else
+                                        <span class="badge bg-customer">{{ $role->name }}</span>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td class="border-gold">
+                                <div class="btn-group">
+                                    <a href="{{ route('profile', $user->id) }}" class="btn btn-view btn-sm me-2">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                    @can('edit_users')
+                                    <a href="{{ route('users_edit', $user->id) }}" class="btn btn-edit btn-sm me-2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    @endcan
+                                    @can('delete_users')
+                                    <form action="{{ route('users_delete', $user->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-delete btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
                         @endforeach
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a href="{{ route('profile', $user->id) }}" class="btn btn-gold btn-sm me-2">
-                                <i class="fas fa-eye"></i> View
-                            </a>
-                            @can('edit_users')
-                            <a href="{{ route('users_edit', $user->id) }}" class="btn btn-gold btn-sm me-2">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            @endcan
-                            @can('delete_users')
-                            <form action="{{ route('users_delete', $user->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-gold btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </form>
-                            @endcan
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <style>
-    /* Navigation Bar Styling */
-    .navbar {
-        background-color: #2c1e1e !important;
-    }
-
-    .nav-link {
-        color: #f5f5f5 !important;
-        font-weight: 500;
-        transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .nav-link:hover {
-        color: #D4AF37 !important;
-        transform: translateY(-2px);
-    }
-
-    .navbar-brand {
-        color: #D4AF37 !important;
-    }
-
-    .dropdown-menu {
-        background-color: #2c1e1e;
-        border: 1px solid #D4AF37;
-    }
-
-    .dropdown-item {
-        color: #f5f5f5;
-    }
-
-    .dropdown-item:hover {
-        background-color: #D4AF37;
-        color: #2c1e1e;
-    }
-
-    /* Page Styling */
     body {
         background-color: #2c1e1e;
         color: #f5f5f5;
     }
-
-    /* Table Styling */
-    .table {
-        background-color: #7a6b6b !important;
+    .table-dark {
+        background-color: #2c1e1e !important;
         color: #f5f5f5 !important;
-        border-color: #D4AF37 !important;
     }
-
-    .table thead th {
-        background-color: #7a6b6b !important;
-        color: #f5f5f5 !important;
+    .table-dark thead th {
+        background-color: #3a2a2a !important;
+        color: #D4AF37 !important;
         border-color: #D4AF37 !important;
         font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-
-    .table tbody tr {
-        background-color: #7a6b6b !important;
+    .table-dark tbody tr {
+        background-color: #2c1e1e !important;
         border-color: #D4AF37 !important;
-    }
-
-    .table tbody tr:hover {
-        background-color: #8a7b7b !important;
-    }
-
-    .table td {
-        color: #7a6b6b !important;
-        border-color: #D4AF37 !important;
-    }
-
-    /* Form Controls */
-    .form-control {
-        background-color: #3a2a2a;
-        border-color: #D4AF37;
-        color: #f5f5f5;
-    }
-
-    .form-control:focus {
-        background-color: #3a2a2a;
-        border-color: #D4AF37;
-        color: #f5f5f5;
-        box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
-    }
-
-    /* Button Styling */
-    .btn-gold {
-        background-color: #D4AF37;
-        color: #2c1e1e;
-        border: none;
         transition: all 0.3s ease;
     }
-
-    .btn-gold:hover {
-        background-color: #B38F28;
-        color: #2c1e1e;
-        transform: scale(1.05);
+    .table-dark tbody tr:hover {
+        background-color: #3a2a2a !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.1);
     }
-
-    .badge.bg-gold {
-        background-color: #D4AF37;
-        color: #2c1e1e;
-        font-weight: 500;
-        padding: 6px 12px;
+    .table-dark td {
+        border-color: #D4AF37 !important;
+        color: #f5f5f5 !important;
+        vertical-align: middle;
     }
-
+    .border-gold {
+        border-color: #D4AF37 !important;
+    }
+    .form-control {
+        background-color: #2c1e1e !important;
+        border-color: #D4AF37 !important;
+        color: #f5f5f5 !important;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus {
+        background-color: #3a2a2a !important;
+        border-color: #D4AF37 !important;
+        color: #f5f5f5 !important;
+        box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+    }
+    .btn-view {
+        background-color: #D4AF37 !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        transition: all 0.3s ease;
+    }
+    .btn-edit {
+        background-color: #E5C158 !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        transition: all 0.3s ease;
+    }
+    .btn-delete {
+        background-color: #f9cf6e !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        transition: all 0.3s ease;
+    }
+    .badge.bg-admin {
+        background-color: #8B6914 !important;
+        color: #f5f5f5 !important;
+    }
+    .badge.bg-employee {
+        background-color: #B38F28 !important;
+        color: #f5f5f5 !important;
+    }
+    .badge.bg-supplier {
+        background-color: #D4AF37 !important;
+        color: #2c1e1e !important;
+    }
+    .badge.bg-manager {
+        background-color: #E5C158 !important;
+        color: #2c1e1e !important;
+    }
+    .badge.bg-customer {
+        background-color: #F5D280 !important;
+        color: #2c1e1e !important;
+    }
+    .badge.bg-credit {
+        background-color: #D4AF37 !important;
+        color: #2c1e1e !important;
+    }
+    .btn-view:hover, .btn-edit:hover, .btn-delete:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
+        color: #2c1e1e !important;
+        opacity: 0.9;
+    }
+    .badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
     .text-gold {
-        color: #D4AF37;
+        color: #D4AF37 !important;
         font-weight: 600;
     }
-
-    /* Container and Layout */
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+    .text-light {
+        color: #f5f5f5 !important;
     }
-
     .table-responsive {
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #D4AF37;
+    }
+    .btn-gold {
+        background-color: #D4AF37 !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+    .btn-gold:hover {
+        background-color: #B38F28 !important;
+        color: #2c1e1e !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
     }
 </style>
 
@@ -208,105 +226,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
-    
-    <!-- Favicon -->
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-    <style>
-        /* Overall body and page style */
-        body {
-            background-color: #f8f9fa; /* Light background for the whole page */
-            font-family: 'Arial', sans-serif;
-        }
-
-        .container {
-            padding: 30px;
-        }
-
-        /* Card styling */
-        .card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            background-color: #28a745;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        /* Table styling */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table th, table td {
-            padding: 12px 15px;
-            text-align: center;
-            font-size: 16px;
-        }
-
-        table th {
-            background-color: #28a745;
-            color: white;
-        }
-
-        table td {
-            background-color: #f8f9fa;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #f1f1f1;
-        }
-
-        table tr:hover {
-            background-color: #e9ecef;
-        }
-
-        /* Button hover effects */
-        .btn-primary:hover, .btn-warning:hover, .btn-danger:hover {
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Badge styling for roles */
-        .badge {
-            font-size: 14px;
-            margin: 0 5px;
-        }
-
-        /* Search bar and button styles */
-        .form-control {
-            border-radius: 25px;
-            box-shadow: none;
-        }
-
-        .btn-success, .btn-danger {
-            border-radius: 25px;
-            width: 100%;
-        }
-
-        /* Spacing adjustments */
-        .row.mb-4 {
-            margin-bottom: 20px;
-        }
-    </style>
 @endsection
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle add credit form submissions
     const creditForms = document.querySelectorAll('[id^="add-credit-form-"]');
     creditForms.forEach(form => {
         form.addEventListener('submit', function(e) {
