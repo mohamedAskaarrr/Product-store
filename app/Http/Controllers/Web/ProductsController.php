@@ -265,10 +265,13 @@ public function addstock(Request $request, product $product)
     return redirect()->back()->with('success', 'Stock updated successfully!');
 
 }
-   public function index()
-   {
-    $products = Product::where('featured', true)->take(3)->get();
-    return view('home', compact('products'));
+
+// In app/Http/Controllers/Web/ProductsController.php
+// In app/Http/Controllers/Web/ProductsController.php
+public function index()
+{
+ $products = Product::where('featured', true)->take(3)->get();
+ return view('home', compact('products'));
 }
 
 

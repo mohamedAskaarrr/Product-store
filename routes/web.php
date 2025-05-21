@@ -7,7 +7,17 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Auth\FacebookController;
 use App\Models\User;
 
+
+Route::get('/', function () {
+    $email = emailFromLoginCertificate();
+    if($email && !auth()->user()) {
+        $user = User::where('email', $email)->first();
+        if($user) Auth::login($user);
+    }
+    return view('home');
+})->name('home');
 /*
+
 |--------------------------------------------------------------------------
 | Authentication Routes
 |--------------------------------------------------------------------------
@@ -119,13 +129,11 @@ Route::get('products', [ProductsController::class, 'list'])->name('products_list
 | Development Routes (Remove in Production)
 |--------------------------------------------------------------------------
 */
-if (app()->environment('local')) {
-    Route::get('sqli', function(Request $request) {
-        $table = $request->query('table');
-        DB::unprepared(("DROP TABLE `{$table}`"));
-        return redirect('/');
-    });
-}
+Route::get('/', [App\Http\Controllers\Web\ProductsController::class, 'index'])->name('home');
+
+
+
+
 Route::get('/cryptography', function (Request $request) {
     $data = $request->data??"Welcome to Cryptography";
     $action = $request->action??"Encrypt";
@@ -137,6 +145,7 @@ Route::get('/cryptography', function (Request $request) {
         $status = 'Encrypted Successfully';
         $result = base64_encode($temp);
         }
+        
     }
     else if($request->action=="Decrypt") {
         $temp = base64_decode($request->data);

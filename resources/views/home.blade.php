@@ -5,6 +5,7 @@
 @section('title', 'Scentora - Luxury Perfumes')
 
 @section('main-content')
+
     <!-- Hero Section -->
     <section class="hero-section py-5 text-center d-flex align-items-center justify-content-center" style="min-height: 60vh;">
         <div class="container" data-aos="fade-up">
@@ -15,7 +16,7 @@
             </a>
         </div>
     </section>
-
+   
     <!-- Featured Products Section -->
     <section id="featured-products-list" class="py-5">
         <div class="container">
@@ -44,6 +45,7 @@
                 @else
                     <div class="alert alert-info text-center" data-aos="fade-up">
                         No featured products available at the moment.
+                        
                     </div>
                 @endif
             </div>
