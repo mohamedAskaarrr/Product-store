@@ -79,6 +79,7 @@
       min-height: 100vh;
       margin: 0;
       padding: 0;
+      padding-top: 80px !important;
     }
     .navbar {
       background-color: var(--navbar-bg);

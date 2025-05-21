@@ -135,6 +135,9 @@
             .credit-pill-icon { width: 26px; height: 26px; font-size: 1rem; margin-right: 6px; }
             .credit-pill-label { display: none; }
         }
+        .search-section .container {
+            padding: 0 !important;
+        }
     </style>
 </head>
 
@@ -157,85 +160,138 @@
             
         </div>
 
-        <!-- Modern Compact Search and Filter Section -->
-        <div class="modern-search-bar d-flex flex-wrap align-items-center justify-content-center mb-5">
-            <form class="d-flex flex-wrap gap-2 align-items-center w-100 justify-content-center">
-                <div class="input-group search-pill">
-                    <span class="input-group-text search-icon"><i class="fas fa-search"></i></span>
-                    <input name="keywords" type="text" class="form-control search-pill-input" placeholder="Search Keywords" value="{{ request()->keywords }}">
+        <!-- Modern Search and Filter Section -->
+        <div class="search-section">
+            
+                <div class="search-card">
+                    <form action="{{ route('products_list') }}" method="GET" class="search-form">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="search-input-group">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" 
+                                           name="keyword" 
+                                           class="form-control search-input" 
+                                           placeholder="Search products..."
+                                           value="{{ request('keyword') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="search-input-group">
+                                    <i class="fas fa-tag price-icon"></i>
+                                    <input type="number" 
+                                           name="min_price" 
+                                           class="form-control search-input" 
+                                           placeholder="Min Price"
+                                           value="{{ request('min_price') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="search-input-group">
+                                    <i class="fas fa-tag price-icon"></i>
+                                    <input type="number" 
+                                           name="max_price" 
+                                           class="form-control search-input" 
+                                           placeholder="Max Price"
+                                           value="{{ request('max_price') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="search-input-group">
+                                    <i class="fas fa-sort sort-icon"></i>
+                                    <select name="sort" class="form-select search-input">
+                                        <option value="">Sort By</option>
+                                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+                                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                                        <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
+                                        <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-gold w-100">
+                                    <i class="fas fa-filter me-2"></i>Filter
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="input-group search-pill">
-                    <span class="input-group-text price-icon"><i class="fas fa-dollar-sign"></i></span>
-                    <input name="min_price" type="number" class="form-control search-pill-input" placeholder="Min Price" value="{{ request()->min_price }}">
-                </div>
-                <div class="input-group search-pill">
-                    <span class="input-group-text price-icon"><i class="fas fa-dollar-sign"></i></span>
-                    <input name="max_price" type="number" class="form-control search-pill-input" placeholder="Max Price" value="{{ request()->max_price }}">
-                </div>
-                <div class="input-group search-pill">
-                    <span class="input-group-text sort-icon"><i class="fas fa-sort"></i></span>
-                    <select name="order_by" class="form-select search-pill-input">
-                        <option value="">Sort By</option>
-                        <option value="price">Price</option>
-                        <option value="name">Name</option>
-                    </select>
-                </div>
-                <a href="{{ route('products_list') }}" class="btn search-reset-btn ms-2">
-                    <i class="fas fa-undo"></i> Reset
-                </a>
-            </form>
         </div>
     </div>
 
     <!-- Products Grid -->
-    <div class="section-spacer">
+    <div class="section-spacer mt-0">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 modern-product-grid">
             @foreach($products as $product)
-            <div class="col">
+            <div class="col" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                 <div class="modern-product-card h-100 d-flex flex-column">
                     <div class="modern-product-img-wrap position-relative">
-                        <img src="{{ asset('images/' . $product->photo) }}" class="modern-product-img" alt="{{ $product->name }}">
+                        @if($product->photo)
+                            <img src="{{ asset('images/' . $product->photo) }}" class="modern-product-img" alt="{{ $product->name }}">
+                        @else
+                            <div class="no-image">
+                                <i class="fas fa-image fa-3x"></i>
+                                <span>No Image</span>
+                            </div>
+                        @endif
                         @if($product->stock <= 0)
-                        <span class="badge modern-badge-out position-absolute top-0 end-0 m-2">Out of Stock</span>
+                            <span class="badge modern-badge-out position-absolute top-0 end-0 m-2">Out of Stock</span>
                         @endif
                         @can('purchase_products')
                             @if ($product->favorite)
-                                <span class="badge modern-badge-fav position-absolute top-0 start-0 m-2"><i class="fas fa-heart"></i> Favorited</span>
+                                <span class="badge modern-badge-fav position-absolute top-0 start-0 m-2">
+                                    <i class="fas fa-heart"></i> Favorited
+                                </span>
                             @endif
                         @endcan
                     </div>
-                    <div class="modern-product-body flex-grow-1 d-flex flex-column justify-content-between p-3">
+                    <div class="modern-product-body flex-grow-1 d-flex flex-column justify-content-between p-4">
                         <div>
-                            <h5 class="modern-product-title mb-2">{{ $product->name }}</h5>
-                            <div class="modern-product-details mb-2">
-                                <span class="modern-label">Model:</span> <span class="modern-value">{{ $product->model }}</span><br>
-                                <span class="modern-label">Code:</span> <span class="modern-value">{{ $product->code }}</span>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="modern-product-title mb-0">{{ $product->name }}</h5>
+                                <span class="product-id">#{{ $product->id }}</span>
                             </div>
-                            <div class="modern-product-price mb-2">
-                                <span class="modern-label">Price:</span> <span class="modern-price">${{ $product->price }}</span>
+                            <div class="modern-product-details mb-3">
+                                <div class="detail-item">
+                                    <span class="modern-label">Model:</span>
+                                    <span class="modern-value">{{ $product->model }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="modern-label">Code:</span>
+                                    <span class="modern-value">{{ $product->code }}</span>
+                                </div>
                             </div>
-                            <div class="modern-product-stock mb-2">
-                                <span class="modern-label">Stock:</span> <span class="modern-value">{{ $product->stock }}</span>
+                            <div class="modern-product-price mb-3">
+                                <span class="modern-label">Price:</span>
+                                <span class="modern-price">${{ number_format($product->price, 2) }}</span>
+                            </div>
+                            <div class="modern-product-stock mb-3">
+                                <span class="modern-label">Stock:</span>
+                                <span class="modern-value">{{ $product->stock }}</span>
                             </div>
                             <div class="modern-description-container">
-                                <span class="modern-description-short">{{ Str::limit($product->description, 60) }}</span>
-                                @if(strlen($product->description) > 60)
-                                    <span class="modern-view-more" onclick="toggleModernDescription(this)">View More</span>
-                                    <span class="modern-description-full d-none">{{ $product->description }}</span>
-                                    <span class="modern-view-less d-none" onclick="toggleModernDescription(this)">Show Less</span>
+                                <p class="modern-description-short">{{ Str::limit($product->description, 100) }}</p>
+                                @if(strlen($product->description) > 100)
+                                    <button class="modern-view-more" onclick="toggleModernDescription(this)">
+                                        View More
+                                    </button>
+                                    <p class="modern-description-full d-none">{{ $product->description }}</p>
+                                    <button class="modern-view-less d-none" onclick="toggleModernDescription(this)">
+                                        Show Less
+                                    </button>
                                 @endif
                             </div>
                         </div>
-                        <div class="modern-actions mt-3 d-flex flex-wrap gap-2">
+                        <div class="modern-actions mt-4 d-flex flex-wrap gap-2">
                             @if($product->stock > 0)
-                                <form action="{{ route('products.addTobasket', $product->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('products.addTobasket', $product->id) }}" method="POST" class="d-inline flex-grow-1">
                                     @csrf
-                                    <button type="submit" class="btn modern-btn-buy">
-                                        <i class="fas fa-shopping-cart"></i> Buy
+                                    <button type="submit" class="btn modern-btn-buy w-100">
+                                        <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                                     </button>
                                 </form>
                             @else
-                                <button class="btn modern-btn-disabled" disabled>Out of Stock</button>
+                                <button class="btn modern-btn-disabled w-100" disabled>Out of Stock</button>
                             @endif
                             @can('purchase_products')
                                 @if (!$product->favorite)
@@ -243,7 +299,7 @@
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="btn modern-btn-fav">
-                                            <i class="fas fa-heart"></i> Favorite
+                                            <i class="fas fa-heart"></i>
                                         </button>
                                     </form>
                                 @endif
@@ -272,299 +328,360 @@
 </div>
 
 <style>
-    :root {
-        --primary-color: #f5f5f5;
-        --secondary-color: #c6a47e;
-        --card-bg: #3a2828;
-        --light-bg: #2c1e1e;
-        --danger-color: #a94442;
-        --text-color: #f5f5f5;
-        --dark-bg: #1c1212;
+    .products-page-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
     }
 
-    body {
-        background-color: var(--light-bg);
-        font-family: 'Roboto', sans-serif;
-        color: var(--text-color);
+    .products-heading-section {
+        margin-bottom: 2rem;
     }
 
-    .modern-product-grid {
-        margin-top: 0.5rem;
-    }
-    .modern-product-card {
-        background: linear-gradient(120deg, #2c1e1e 90%, #D4AF37 100%);
-        border: 2px solid #D4AF37;
-        border-radius: 18px;
-        box-shadow: 0 6px 24px rgba(212, 175, 55, 0.10), 0 1.5px 4px rgba(0,0,0,0.10);
-        transition: transform 0.25s, box-shadow 0.25s;
-        overflow: hidden;
-        min-height: 480px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .modern-product-card:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 12px 36px rgba(212, 175, 55, 0.18), 0 4px 16px rgba(0,0,0,0.18);
-    }
-    .modern-product-img-wrap {
-        background: linear-gradient(135deg, #3a2828 80%, #D4AF37 100%);
-        border-bottom: 1.5px solid #D4AF37;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 240px;
-        padding: 18px 0 10px 0;
-        position: relative;
-    }
-    .modern-product-img {
-        max-width: 80%;
-        max-height: 180px;
-        object-fit: contain;
-        border-radius: 12px;
-        background: #fffbe6;
-        box-shadow: 0 2px 8px rgba(212, 175, 55, 0.08);
-    }
-    .modern-product-title {
+    .products-icon {
+        font-size: 2.5rem;
         color: #D4AF37;
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        letter-spacing: 0.5px;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.2) 100%);
+        border-radius: 16px;
+        padding: 1rem;
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 175, 55, 0.2);
     }
-    .modern-product-details, .modern-product-stock {
-        color: #f5f5f5;
-        font-size: 0.98rem;
-        margin-bottom: 0.2rem;
-    }
-    .modern-label {
-        color: #b89b76;
-        font-weight: 500;
-    }
-    .modern-value {
-        color: #fffbe6;
-        font-weight: 400;
-    }
-    .modern-product-price {
-        color: #D4AF37;
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.2rem;
-    }
-    .modern-price {
-        background: linear-gradient(90deg, #D4AF37 60%, #fffbe6 100%);
+
+    .products-heading {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, #fffbe6 30%, #D4AF37 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-fill-color: transparent;
-        font-size: 1.2rem;
-        font-weight: 700;
-    }
-    .modern-badge-out {
-        background: #a94442;
-        color: #fffbe6;
-        font-weight: 600;
-        font-size: 0.95rem;
-        border-radius: 8px;
-        padding: 6px 14px;
-        box-shadow: 0 2px 8px rgba(169, 68, 66, 0.12);
-    }
-    .modern-badge-fav {
-        background: #D4AF37;
-        color: #2c1e1e;
-        font-weight: 600;
-        font-size: 0.95rem;
-        border-radius: 8px;
-        padding: 6px 14px;
-        box-shadow: 0 2px 8px rgba(212, 175, 55, 0.12);
-    }
-    .modern-description-container {
-        margin-top: 0.5rem;
-        color: #fffbe6;
-        font-size: 0.97rem;
-        position: relative;
-    }
-    .modern-description-short {
-        display: inline;
-    }
-    .modern-view-more, .modern-view-less {
-        color: #D4AF37;
-        cursor: pointer;
-        font-size: 0.97rem;
-        margin-left: 8px;
-        font-weight: 500;
-    }
-    .modern-description-full {
-        display: block;
-        margin-top: 0.3rem;
-    }
-    .modern-actions .btn {
-        border-radius: 22px;
-        font-size: 1rem;
-        font-weight: 500;
-        padding: 8px 18px;
-        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-        box-shadow: 0 2px 8px rgba(212, 175, 55, 0.08);
-    }
-    .modern-btn-buy {
-        background: linear-gradient(90deg, #D4AF37 70%, #fffbe6 100%);
-        color: #2c1e1e;
-        border: none;
-    }
-    .modern-btn-buy:hover {
-        background: linear-gradient(90deg, #fffbe6 70%, #D4AF37 100%);
-        color: #2c1e1e;
-    }
-    .modern-btn-fav {
-        background: #fffbe6;
-        color: #D4AF37;
-        border: 1.5px solid #D4AF37;
-    }
-    .modern-btn-fav:hover {
-        background: #D4AF37;
-        color: #2c1e1e;
-    }
-    .modern-btn-edit {
-        background: #3a2828;
-        color: #D4AF37;
-        border: 1.5px solid #D4AF37;
-    }
-    .modern-btn-edit:hover {
-        background: #D4AF37;
-        color: #2c1e1e;
-    }
-    .modern-btn-delete {
-        background: #a94442;
-        color: #fffbe6;
-        border: none;
-    }
-    .modern-btn-delete:hover {
-        background: #fffbe6;
-        color: #a94442;
-        border: 1.5px solid #a94442;
-    }
-    .modern-btn-disabled {
-        background: #3a2828;
-        color: #b89b76;
-        border: 1.5px solid #b89b76;
-        cursor: not-allowed;
-    }
-    .modern-btn-addstock {
-        background: #D4AF37;
-        color: #2c1e1e;
-        border: none;
-        border-radius: 0 22px 22px 0;
-    }
-    .modern-btn-addstock:hover {
-        background: #b89b76;
-        color: #2c1e1e;
-    }
-    .modern-addstock-group .form-control {
-        border-radius: 22px 0 0 22px;
-        border: 1.5px solid #D4AF37;
-        background: #fffbe6;
-        color: #2c1e1e;
-        max-width: 90px;
-    }
-    @media (max-width: 767px) {
-        .modern-product-img-wrap { min-height: 160px; }
-        .modern-product-card { min-height: 380px; }
-        .modern-product-title { font-size: 1.1rem; }
-        .modern-product-details, .modern-product-stock, .modern-product-price { font-size: 0.93rem; }
+        letter-spacing: 1px;
     }
 
-    .modern-search-bar {
-        background: none;
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        margin-bottom: 2.5rem;
-    }
-    .search-pill {
-        border-radius: 50px;
-        background: #2c1e1e;
-        border: 2px solid #D4AF37;
-        box-shadow: 0 2px 8px rgba(212, 175, 55, 0.08);
-        margin: 0 6px 8px 6px;
-        min-width: 180px;
-        max-width: 220px;
-        flex: 1 1 180px;
-    }
-    .search-pill-input, .search-pill .form-select {
-        border: none;
-        background: transparent;
-        color: #fffbe6;
-        border-radius: 50px;
-        font-size: 1rem;
+    .products-subtitle {
+        color: #b89b76;
+        font-size: 1.1rem;
         font-weight: 500;
-        box-shadow: none;
-        padding-left: 0.5rem;
-        height: 44px;
-        min-width: 120px;
-        display: flex;
-        align-items: center;
+        letter-spacing: 0.5px;
     }
-    .search-pill-input:focus, .search-pill .form-select:focus {
-        outline: none;
-        box-shadow: none;
-        background: transparent;
-        color: #fffbe6;
+
+    .search-section {
+        margin-top: 76px;
+        padding: 0.5rem 0 0 0;
+        background: linear-gradient(135deg, rgba(44, 30, 30, 0.95) 0%, rgba(44, 30, 30, 0.8) 100%);
+        border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+        margin-bottom: 0 !important;
     }
-    .input-group-text {
-        height: 44px;
-        display: flex;
-        align-items: center;
-        border-radius: 50px 0 0 50px;
-        background: none;
-        border: none;
+
+    .search-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 0.75rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        margin-bottom: 0 !important;
+    }
+
+    .search-input-group {
+        position: relative;
+    }
+
+    .search-icon, .price-icon, .sort-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
         color: #D4AF37;
         font-size: 1.1rem;
-        padding-left: 16px;
-        padding-right: 8px;
     }
-    .search-reset-btn {
-        border-radius: 50px;
-        border: 2px solid #D4AF37;
-        background: #2c1e1e;
-        color: #D4AF37;
-        font-weight: 600;
-        padding: 8px 24px;
-        transition: background 0.2s, color 0.2s, border-color 0.2s;
-        margin-left: 8px;
-        margin-top: 2px;
+
+    .search-input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        color: #fffbe6;
+        padding-left: 2.5rem;
+        height: 45px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
     }
-    .search-reset-btn:hover {
-        background: #D4AF37;
-        color: #2c1e1e;
+
+    .search-input:focus {
+        background: rgba(255, 255, 255, 0.15);
         border-color: #D4AF37;
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+        color: #fffbe6;
     }
-    .search-pill .form-select {
-        padding-right: 2rem;
-        height: 44px;
-        min-width: 120px;
+
+    .search-input::placeholder {
+        color: rgba(255, 251, 230, 0.6);
+    }
+
+    .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23D4AF37' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-position: right 1rem center;
+        background-size: 16px 12px;
+        padding-right: 2.5rem;
+    }
+
+    .btn-gold {
+        height: 45px;
         display: flex;
         align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        letter-spacing: 0.5px;
     }
-    .input-group.search-pill {
-        min-width: 180px;
-        max-width: 220px;
-        flex: 1 1 180px;
-        height: 44px;
+
+    .modern-product-card {
+        background: rgba(44, 30, 30, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .modern-product-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(212, 175, 55, 0.4);
+        box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+    }
+
+    .modern-product-img-wrap {
+        background: rgba(44, 30, 30, 0.9);
+        padding: 2rem;
+        display: flex;
         align-items: center;
+        justify-content: center;
+        min-height: 280px;
+        position: relative;
     }
-    @media (max-width: 900px) {
-        .modern-search-bar form { flex-direction: column !important; align-items: stretch !important; }
-        .search-reset-btn { width: 100%; margin-left: 0; }
+
+    .modern-product-img {
+        max-width: 80%;
+        max-height: 200px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .modern-product-card:hover .modern-product-img {
+        transform: scale(1.05);
+    }
+
+    .no-image {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #D4AF37;
+        font-size: 0.9rem;
+    }
+
+    .no-image i {
+        margin-bottom: 0.5rem;
+        opacity: 0.7;
+    }
+
+    .modern-product-title {
+        color: #D4AF37;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .product-id {
+        color: #b89b76;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .detail-item {
+        margin-bottom: 0.5rem;
+    }
+
+    .modern-label {
+        color: #b89b76;
+        font-weight: 500;
+        margin-right: 0.5rem;
+    }
+
+    .modern-value {
+        color: #fffbe6;
+    }
+
+    .modern-price {
+        font-size: 1.4rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, #D4AF37 0%, #fffbe6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+
+    .modern-description-container {
+        color: #fffbe6;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .modern-view-more, .modern-view-less {
+        color: #D4AF37;
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .modern-view-more:hover, .modern-view-less:hover {
+        color: #fffbe6;
+    }
+
+    .modern-badge-out {
+        background: rgba(169, 68, 66, 0.9);
+        color: #fffbe6;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+
+    .modern-badge-fav {
+        background: rgba(212, 175, 55, 0.9);
+        color: #2c1e1e;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+
+    .modern-actions .btn {
+        padding: 0.8rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .modern-btn-buy {
+        background: linear-gradient(135deg, #D4AF37 0%, #B38F28 100%);
+        color: #2c1e1e;
+        border: none;
+    }
+
+    .modern-btn-buy:hover {
+        background: linear-gradient(135deg, #B38F28 0%, #D4AF37 100%);
+        transform: translateY(-2px);
+    }
+
+    .modern-btn-fav, .modern-btn-edit, .modern-btn-delete {
+        width: 45px;
+        height: 45px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+    }
+
+    .modern-btn-fav {
+        background: rgba(212, 175, 55, 0.1);
+        color: #D4AF37;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .modern-btn-fav:hover {
+        background: rgba(212, 175, 55, 0.2);
+        color: #D4AF37;
+        border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    .modern-btn-edit {
+        background: rgba(212, 175, 55, 0.1);
+        color: #D4AF37;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .modern-btn-edit:hover {
+        background: rgba(212, 175, 55, 0.2);
+        color: #D4AF37;
+        border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    .modern-btn-delete {
+        background: rgba(169, 68, 66, 0.1);
+        color: #a94442;
+        border: 1px solid rgba(169, 68, 66, 0.3);
+    }
+
+    .modern-btn-delete:hover {
+        background: rgba(169, 68, 66, 0.2);
+        color: #a94442;
+        border-color: rgba(169, 68, 66, 0.5);
+    }
+
+    .modern-btn-disabled {
+        background: rgba(44, 30, 30, 0.5);
+        color: #b89b76;
+        border: 1px solid rgba(184, 155, 118, 0.3);
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+        .search-section {
+            padding: 1rem 0;
+        }
+        
+        .search-card {
+            padding: 1rem;
+        }
+        
+        .search-input, .btn-gold {
+            margin-bottom: 0.5rem;
+        }
+
+        .products-heading {
+            font-size: 2rem;
+        }
+
+        .products-subtitle {
+            font-size: 1rem;
+        }
+
+        .modern-product-img-wrap {
+            min-height: 200px;
+            padding: 1.5rem;
+        }
+
+        .modern-product-title {
+            font-size: 1.1rem;
+        }
+
+        .modern-price {
+            font-size: 1.2rem;
+        }
+
+        .modern-actions .btn {
+            padding: 0.7rem 1.2rem;
+        }
     }
 </style>
 
 <script>
-function toggleModernDescription(element) {
-    const container = element.closest('.modern-description-container');
+function toggleModernDescription(button) {
+    const container = button.closest('.modern-description-container');
     const shortDesc = container.querySelector('.modern-description-short');
     const fullDesc = container.querySelector('.modern-description-full');
     const viewMore = container.querySelector('.modern-view-more');
     const viewLess = container.querySelector('.modern-view-less');
+
     if (fullDesc.classList.contains('d-none')) {
         fullDesc.classList.remove('d-none');
         viewLess.classList.remove('d-none');
@@ -573,7 +690,7 @@ function toggleModernDescription(element) {
     } else {
         fullDesc.classList.add('d-none');
         viewLess.classList.add('d-none');
-        shortDesc.style.display = 'inline';
+        shortDesc.style.display = 'block';
         viewMore.style.display = 'inline';
     }
 }
