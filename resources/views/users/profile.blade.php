@@ -18,7 +18,7 @@
 @section('title', 'User Profile')
 
 @section('content')
-<div class="container py-5">
+<div class="container py-5 fade-in">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card profile-card shadow-lg border-0 rounded-4 p-4">
@@ -75,6 +75,20 @@
 </div>
 
 <style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+@media (max-width: 767.98px) {
+    .fade-in {
+        animation: fadeIn 0.5s ease forwards;
+    }
+}
+
 body, .profile-card, .container {
     background-color: #2c1e1e !important;
     color: #fffbe6;
