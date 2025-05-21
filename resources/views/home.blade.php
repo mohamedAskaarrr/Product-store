@@ -61,8 +61,8 @@
 
     <style>
         body {
-            background-color: #2c1e1e;
-            color: #f5f5f5;
+            background-color: #E9C6BE;
+            color: #6C5F4B;
         }
         .hero-section {
             background: linear-gradient(rgba(44,30,30,0.95), rgba(44,30,30,0.95)), url('https://images.unsplash.com/photo-1587017539504-67cfbddac569?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;

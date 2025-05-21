@@ -6,6 +6,10 @@ use App\Http\Controllers\Web\UsersController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Auth\FacebookController;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 
 
 Route::get('/', function () {
@@ -43,8 +47,7 @@ Route::get('login/facebook/callback', [FacebookController::class, 'handleFaceboo
 Route::get('register', [UsersController::class, 'register'])->name('register');
 Route::post('register', [UsersController::class, 'doRegister'])->name('do-register');
 Route::get('/register', [UsersController::class, 'register'])->name('register');
-Route::post('/do_register', [UsersController::class, 'do_register'])->name('do_register');
-
+Route::post('/register', [UsersController::class, 'doRegister'])->name('do_register');
 /*
 |--------------------------------------------------------------------------
 | User Management Routes
@@ -130,6 +133,8 @@ Route::get('products', [ProductsController::class, 'list'])->name('products_list
 |--------------------------------------------------------------------------
 */
 Route::get('/', [App\Http\Controllers\Web\ProductsController::class, 'index'])->name('home');
+
+// Route::get('/register', [App\Http\Controllers\Web\UsersController::class, 'doregister'])->name('register');
 
 
 
