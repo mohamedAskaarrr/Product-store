@@ -191,6 +191,9 @@
       <a href="{{ route('login_with_google') }}" class="btn btn-outline-custom w-100 mb-3">
         <i class="bi bi-google me-2"></i>Sign in with Google
       </a>
+      <a href="{{ route('login.facebook') }}" class="btn btn-outline-custom w-100 mb-3">
+        <i class="bi bi-facebook me-2"></i>Sign in with Facebook
+      </a>
       <div class="text-center mt-4">
         <small class="text-muted-custom">Don't have an account? <a href="{{ route('register') }}" class="link-custom">Register here</a></small>
       </div>

@@ -35,7 +35,8 @@ class User extends Authenticatable
         'currency',
         'language',
         'theme',
-        'data_sharing'
+        'data_sharing',
+        'facebook_id'
     ];
  
 
