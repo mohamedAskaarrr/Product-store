@@ -55,11 +55,11 @@
                             <a href="{{ route('purchase_history', $user->id) }}" class="btn btn-outline-gold">
                                 <i class="fas fa-history"></i> Purchase History
                             </a>
-                            @can('purchase_products')
+                            @role('Admin')
                             <a href="{{ route('fav') }}" class="btn btn-outline-gold">
                                 <i class="fas fa-heart"></i> Favourites
                             </a>
-                            @endcan
+                            @endrole
                         </div>
                         <h6 class="text-uppercase text-gold mb-2">Permissions</h6>
                         <div class="mb-2">
