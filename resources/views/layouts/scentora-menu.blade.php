@@ -38,6 +38,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
               <i class="fas fa-user-circle me-1"></i>{{ auth()->user()->name }}
+              <span class="credit-pill ms-2"><i class="fas fa-coins me-1"></i>{{ auth()->user()->credit ?? 0 }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fas fa-user me-2"></i>Profile</a></li>
@@ -223,5 +224,22 @@
       width: 100%;
       margin-top: 0.5rem;
     }
+  }
+
+  .credit-pill {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(212, 175, 55, 0.12);
+    color: #D4AF37;
+    font-weight: 600;
+    border-radius: 16px;
+    padding: 2px 12px;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+  }
+
+  .credit-pill i {
+    color: #D4AF37;
+    margin-right: 4px;
   }
 </style>
