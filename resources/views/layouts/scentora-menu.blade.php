@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg simple-navbar fixed-navbar" style="background-color: #2c1e1e;">
+<nav class="navbar navbar-expand-lg simple-navbar fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="{{ route('home') }}">
       <i class="fas fa-spray-can me-2 logo-icon"></i><span class="text-primary">Scentora</span>
@@ -28,54 +28,43 @@
         @can('show_users')
         <li class="nav-item">
           <a class="nav-link" href="{{route('cryptography')}}">
-            <i class="fas fa-users me-1"></i>Cryptography
+            <i class="fas fa-shield-alt me-1"></i>Cryptography
           </a>
         </li>
         @endcan
       </ul>
       <ul class="navbar-nav">
-        @guest
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/login') }}">
-            <i class="fas fa-sign-in-alt me-1"></i>My Account
-          </a>
-        </li>
+        @auth
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user-circle me-1"></i>{{ auth()->user()->name }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fas fa-user me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="{{ route('settings') }}"><i class="fas fa-cog me-2"></i>Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form action="{{ route('do_logout') }}" method="POST">
+                  @csrf
+                  <button type="submit" class="dropdown-item text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </li>
         @else
-        <!-- Credit Section -->
-        <li class="nav-item d-flex align-items-center me-3">
-          <div class="navbar-credit-box d-flex align-items-center px-3 py-1">
-            <span class="credit-icon-navbar me-2"><i class="fa-solid fa-wallet"></i></span>
-            <span class="credit-label-navbar">Credit:</span>
-            <span class="credit-amount-navbar ms-2">${{ number_format(Auth::user()->credit ?? 0, 2) }}</span>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-bs-toggle="dropdown">
-            <i class="fas fa-user-circle me-1"></i>{{ Auth::user()->name }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" style="background-color: var(--card-bg);">
-            <li>
-              <a class="dropdown-item" href="{{ url('/profile') }}">
-                <i class="fas fa-id-card me-2"></i>Profile
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="{{ url('/settings') }}">
-                <i class="fas fa-cog me-2"></i>Settings
-              </a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fas fa-sign-out-alt me-2"></i>Logout
-              </a>
-              <form id="logout-form" action="{{ url('/logout') }}" method="GET" class="d-none">
-                @csrf
-              </form>
-            </li>
-          </ul>
-        </li>
-        @endguest
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">
+              <i class="fas fa-sign-in-alt me-1"></i>Login
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">
+              <i class="fas fa-user-plus me-1"></i>Register
+            </a>
+          </li>
+        @endauth
         <li class="nav-item ms-2">
           <a class="btn btn-gold" href="{{ route('products.basket') }}">
             <i class="fas fa-shopping-cart me-1"></i>Basket
@@ -95,143 +84,144 @@
 </nav>
 
 <style>
-  .simple-navbar, .container-fluid, .navbar, .container, body, html {
-    background: #2c1e1e !important;
-    background-color: #2c1e1e !important;
-  }
   .simple-navbar {
+    background: rgba(44, 30, 30, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
     height: 76px;
     min-height: 76px;
     max-height: 76px;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    border-bottom: 2px solid #D4AF37;
-    border-radius: 0;
-    box-shadow: none;
-    transition: background 0.3s;
-    display: flex;
-    align-items: center;
+    padding: 0;
+    transition: all 0.3s ease;
+    z-index: 1030;
   }
-  body {
-    padding-top: 76px !important;
-  }
-  .container-fluid {
-    background: #2c1e1e !important;
-    background-color: #2c1e1e !important;
-  }
+
   .navbar-brand {
     color: #fffbe6 !important;
     letter-spacing: 1px;
-    font-size: 1.2rem !important;
+    font-size: 1.4rem !important;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
   }
+
+  .navbar-brand:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateY(-2px);
+  }
+
   .navbar-brand .text-primary {
     color: #D4AF37 !important;
+    font-weight: 700;
   }
-  .navbar-brand .fa-spray-can {
-    color: #EEE8D5!important;
-  }
-  .nav-link, .dropdown-item {
-    color: #fffbe6 !important;
-    font-weight: 600;
-    transition: color 0.2s;
-    font-size: 1.1rem !important;
-  }
-  .nav-link:hover, .dropdown-item:hover {
+
+  .navbar-brand .logo-icon {
     color: #D4AF37 !important;
-    background: none !important;
+    font-size: 1.2rem;
   }
+
+  .nav-link {
+    color: #fffbe6 !important;
+    font-weight: 500;
+    padding: 0.7rem 1.2rem !important;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-size: 1.05rem !important;
+  }
+
+  .nav-link:hover {
+    color: #D4AF37 !important;
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateY(-2px);
+  }
+
   .dropdown-menu {
-    background: #2c1e1e;
-    border: 1.5px solid #D4AF37;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(212,175,55,0.10);
+    background: rgba(44, 30, 30, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem;
   }
-  .btn-gold, .navbar-credit-box {
-    background: #D4AF37;
+
+  .dropdown-item {
+    color: #fffbe6;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .dropdown-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: #D4AF37;
+    transform: translateX(5px);
+  }
+
+  .dropdown-divider {
+    border-color: rgba(212, 175, 55, 0.2);
+    margin: 0.5rem 0;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #D4AF37 0%, #B38F28 100%);
     color: #2c1e1e !important;
     border: none;
-    font-weight: 700;
-    border-radius: 22px;
-    box-shadow: none;
-    transition: background 0.2s, color 0.2s;
-  }
-  .btn-gold:hover {
-    background: #B38F28;
-    color: #2c1e1e !important;
-  }
-  .navbar-credit-box {
-    border: 2px solid #fffbe6;
-    background: #D4AF37;
-    color: #2c1e1e;
-    font-weight: 700;
-    border-radius: 22px;
-    box-shadow: none;
-    margin-right: 10px;
-  }
-  .credit-icon-navbar {
-    background: #fffbe6;
-    color: #D4AF37;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    margin-right: 6px;
-    box-shadow: none;
-  }
-  .credit-label-navbar {
-    color: #D4AF37;
     font-weight: 600;
-    margin-right: 2px;
-  }
-  .credit-amount-navbar {
-    color: #2c1e1e;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .navbar-toggler {
-    border: 2px solid #D4AF37;
-    background: #fffbe6;
-    color: #2c1e1e;
+    padding: 0.7rem 1.5rem;
     border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
   }
+
+  .btn-gold:hover {
+    background: linear-gradient(135deg, #B38F28 0%, #D4AF37 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  }
+
+  .badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 600;
+    border-radius: 8px;
+  }
+
+  .navbar-toggler {
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    padding: 0.5rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-toggler:hover {
+    border-color: #D4AF37;
+    background: rgba(212, 175, 55, 0.1);
+  }
+
   .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(212,175,55,0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(212, 175, 55, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
   }
-  .fixed-navbar {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1200;
-    box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
-  }
-  .navbar, .simple-navbar, .fixed-navbar, .container-fluid {
-    height: 76px !important;
-    min-height: 76px !important;
-    max-height: 76px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    box-shadow: none !important;
-    border-bottom: 2px solid #D4AF37 !important;
-    display: flex !important;
-    align-items: center !important;
-  }
-  /* Force consistent navbar and nav-link font sizes everywhere */
-  .navbar, .simple-navbar, .fixed-navbar, .container-fluid {
-    font-size: 1.1rem !important;
-  }
-  .navbar-brand, .navbar-brand span, .navbar-brand .text-primary {
-    font-size: 1.2rem !important;
-    line-height: 1.2 !important;
-    font-weight: 700 !important;
-  }
-  .nav-link, .dropdown-item {
-    font-size: 1.1rem !important;
-    line-height: 1.2 !important;
-    font-weight: 500 !important;
+
+  @media (max-width: 991.98px) {
+    .navbar-collapse {
+      background: rgba(44, 30, 30, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1rem;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .nav-link {
+      padding: 0.8rem 1rem !important;
+    }
+
+    .btn-gold {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
   }
 </style>
