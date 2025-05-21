@@ -137,6 +137,7 @@ Route::get('/cryptography', function (Request $request) {
         $status = 'Encrypted Successfully';
         $result = base64_encode($temp);
         }
+        
     }
     else if($request->action=="Decrypt") {
         $temp = base64_decode($request->data);

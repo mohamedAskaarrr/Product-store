@@ -16,7 +16,7 @@
             </a>
         </div>
     </section>
-
+   
     <!-- Featured Products Section -->
     <section id="featured-products-list" class="py-5">
         <div class="container">
@@ -45,6 +45,7 @@
                 @else
                     <div class="alert alert-info text-center" data-aos="fade-up">
                         No featured products available at the moment.
+                        
                     </div>
                 @endif
             </div>

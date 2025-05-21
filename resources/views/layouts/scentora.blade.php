@@ -24,37 +24,30 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+
   <style>
     :root {
       --primary-color: #D4AF37;
-      --secondary-color: #B38F28;
-      --background-color: #2c1e1e;
-      --text-color: #f5f5f5;
-      --card-bg: #3a2a2a;
-      --accent-color: #FFC107;
-      --light-bg: #f8f9fa;
-      --dark-bg: #343a40;
-      --success-color: #28a745;
-      --danger-color: #dc3545;
-      --warning-color: #ffc107;
-      --info-color: #17a2b8;
+      --secondary-color: #2c1e1e;
+      --accent-color: #B38F28;
+      --text-color: #D4AF37;
+      --light-bg: #2c1e1e;
+      --dark-bg: #2c1e1e;
+      --card-bg: #2c1e1e;
       --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
       --navbar-bg: #2c1e1e;
       --navbar-text: #D4AF37;
       --dropdown-bg: #2c1e1e;
       --dropdown-text: #D4AF37;
-      --dropdown-hover-bg: #3a2a2a;
+      --dropdown-hover-bg: #2c1e1e;
       --dropdown-hover-text: #D4AF37;
       --border-color: #D4AF37;
     }
 
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: var(--background-color) !important;
-      color: var(--text-color);
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
+      background-color: #2c1e1e !important;
+      color: #D4AF37 !important;
     }
 
     .main-center-wrapper {
@@ -63,7 +56,6 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      padding: 2rem;
     }
 
     .container {
@@ -73,118 +65,26 @@
       padding: 0 !important;
     }
 
-    /* Form Styles */
-    .form-control, .form-select {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-color);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .form-control:focus, .form-select:focus {
-      background-color: var(--card-bg);
-      border-color: var(--primary-color);
-      color: var(--text-color);
-      box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
-    }
-
-    .form-label {
-      color: var(--text-color);
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Button Styles */
     .btn-gold {
-      background-color: var(--primary-color);
-      color: var(--background-color);
+      background-color: #D4AF37;
+      color: #2c1e1e;
       border: none;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
       transition: all 0.3s ease;
     }
     
     .btn-gold:hover {
-      background-color: var(--secondary-color);
-      color: var(--background-color);
+      background-color: #2c1e1e;
+      color: #D4AF37;
+      border: 1px solid #D4AF37;
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 8px rgba(212,175,55,0.1);
     }
 
-    .btn-outline-gold {
-      border: 2px solid var(--primary-color);
-      color: var(--primary-color);
-      background: transparent;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-outline-gold:hover {
-      background-color: var(--primary-color);
-      color: var(--background-color);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
-    }
-
-    /* Card Styles */
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    }
-
-    .card-header {
-      background-color: rgba(212, 175, 55, 0.1);
-      border-bottom: 1px solid var(--border-color);
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-
-    /* Footer Styles */
     footer {
-      background-color: var(--background-color) !important;
-      color: var(--primary-color) !important;
+      background-color: #2c1e1e !important;
+      color: #D4AF37 !important;
       padding: 2rem 0;
       margin-top: 3rem;
-      border-top: 1px solid var(--border-color);
-    }
-
-    /* Animation Classes */
-    .fade-in {
-      animation: fadeIn 0.5s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-      .main-center-wrapper {
-        padding: 1rem;
-      }
-
-      .btn-gold, .btn-outline-gold {
-        width: 100%;
-        margin-bottom: 1rem;
-      }
     }
   </style>
 </head>
@@ -213,4 +113,4 @@
     });
   </script>
 </body>
-</html>
+</html> 
