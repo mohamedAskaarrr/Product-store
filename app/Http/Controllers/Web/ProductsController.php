@@ -277,7 +277,9 @@ public function index()
 
 public function markAsFavorite($id)
 {
-
+    if (!auth()->user() || !auth()->user()->hasRole('Admin')) {
+        abort(403, 'Only administrators can mark products as favorites.');
+    }
 
     $product = Product::findOrFail($id);
     
@@ -309,6 +311,10 @@ public function removeFromBasket(Basket $basket)
 
 public function showFavourites()
 {
+    if (!auth()->user() || !auth()->user()->hasRole('Admin')) {
+        abort(403, 'Only administrators can view favorites.');
+    }
+
     $user = auth()->user();
     $products = Product::where('favourite', 1)->get();
 

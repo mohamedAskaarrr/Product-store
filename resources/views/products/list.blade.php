@@ -238,14 +238,13 @@
                         @if($product->stock <= 0)
                             <span class="badge modern-badge-out position-absolute top-0 end-0 m-2">Out of Stock</span>
                         @endif
-                        @can('purchase_products')
+                        @role('Admin')
                             @if ($product->favorite)
                                 <span class="badge modern-badge-fav position-absolute top-0 start-0 m-2">
                                     <i class="fas fa-heart"></i> Favorited
                                 </span>
                             @endif
-                        @endcan
-                      
+                        @endrole
                     </div>
                     <div class="modern-product-body flex-grow-1 d-flex flex-column justify-content-between p-4">
                         <div>
@@ -313,8 +312,7 @@
 
                                 <button class="btn modern-btn-disabled w-100" disabled>Out of Stock</button>
                             @endif
-                            
-                            @can('purchase_products')
+                            @role('Admin')
                                 @if (!$product->favorite)
                                     <form action="{{ route('products.markAsFavorite', $product->id) }}" method="POST" class="d-inline">
                                         @csrf
@@ -324,7 +322,7 @@
                                         </button>
                                     </form>
                                 @endif
-                            @endcan
+                            @endrole
                             @can('edit_products')
                                 <a href="{{ route('products_edit', $product->id) }}" class="btn modern-btn-edit">
                                     <i class="fas fa-edit"></i>
