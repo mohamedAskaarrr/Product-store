@@ -76,103 +76,110 @@
 
 <style>
     .crypto-card {
-        background: linear-gradient(135deg, var(--card-bg) 0%, #2c1e1e 100%);
-        border: 1px solid var(--primary-color);
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        background: rgba(17, 17, 17, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .crypto-card:hover {
+        transform: translateY(-5px);
     }
 
     .crypto-input, .crypto-output, .crypto-select {
-        background-color: rgba(0, 0, 0, 0.2);
-        border: 1px solid var(--primary-color);
-        color: var(--text-color);
-        font-family: 'Courier New', monospace;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        color: #fff;
+        font-family: 'Fira Code', monospace;
+        border-radius: 12px;
+        padding: 15px;
         resize: none;
     }
 
     .crypto-input:focus, .crypto-output:focus, .crypto-select:focus {
-        background-color: rgba(0, 0, 0, 0.3);
         border-color: var(--primary-color);
-        color: var(--text-color);
-        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+        outline: none;
     }
 
     .crypto-select {
         cursor: pointer;
-        padding: 0.75rem;
         appearance: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D4AF37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 1rem center;
-        background-size: 16px 12px;
     }
 
     .crypto-select option {
-        background-color: var(--card-bg);
-        color: var(--text-color);
-        padding: 1rem;
+        background-color: #1a1a1a;
+        color: #fff;
+        padding: 15px;
     }
 
     .btn-gold {
-        background-color: var(--primary-color);
-        color: var(--background-color);
+        background: linear-gradient(45deg, var(--primary-color), #e6c158);
+        color: #000;
         border: none;
+        border-radius: 12px;
+        padding: 12px 25px;
+        font-weight: 600;
         transition: all 0.3s ease;
     }
 
     .btn-gold:hover {
-        background-color: var(--secondary-color);
         transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
     }
 
     .btn-outline-gold {
         color: var(--primary-color);
-        border-color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        border-radius: 12px;
+        transition: all 0.3s ease;
     }
 
     .btn-outline-gold:hover {
-        background-color: var(--primary-color);
-        color: var(--background-color);
+        background: var(--primary-color);
+        color: #000;
     }
 
     .status-badge {
-        display: inline-block;
-        padding: 0.5rem 1rem;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 16px;
         border-radius: 50px;
-        font-size: 0.9rem;
         font-weight: 500;
     }
 
     .status-success {
-        background-color: rgba(40, 167, 69, 0.1);
-        color: #28a745;
-        border: 1px solid #28a745;
+        background: rgba(40, 167, 69, 0.15);
+        color: #2ecc71;
+        border: 1px solid rgba(46, 204, 113, 0.3);
     }
 
     .status-failed {
-        background-color: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-        border: 1px solid #dc3545;
-    }
-
-    .crypto-result {
-        position: relative;
+        background: rgba(172, 159, 160, 0.15);
+        color: #e74c3c;
+        border: 1px solid rgba(231, 76, 60, 0.3);
     }
 
     .crypto-header::after {
         content: '';
         position: absolute;
-        bottom: -15px;
+        bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 100px;
-        height: 3px;
+        width: 150px;
+        height: 4px;
         background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+        border-radius: 2px;
     }
 
     @media (max-width: 768px) {
-        .crypto-select {
-            font-size: 0.9rem;
+        .crypto-card {
+            margin: 0 10px;
         }
     }
 </style>
