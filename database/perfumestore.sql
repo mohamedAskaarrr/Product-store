@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2025 at 12:13 AM
+-- Generation Time: May 24, 2025 at 01:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,7 +61,7 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:16:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:7;a:5:{s:1:\"a\";i:9;s:1:\"b\";s:13:\"view_products\";s:1:\"c\";s:13:\"View Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:4:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;}}i:8;a:5:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"purchase_products\";s:1:\"c\";s:17:\"Purchase Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:3;i:2;i:4;}}i:9;a:5:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"manage_inventory\";s:1:\"c\";s:16:\"Manage Inventory\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:10;a:5:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"manage_promotions\";s:1:\"c\";s:17:\"Manage Promotions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:5:{s:1:\"a\";i:13;s:1:\"b\";s:10:\"view_sales\";s:1:\"c\";s:10:\"View Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:12;a:5:{s:1:\"a\";i:14;s:1:\"b\";s:22:\"manage_customer_credit\";s:1:\"c\";s:22:\"Manage Customer Credit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:5:{s:1:\"a\";i:15;s:1:\"b\";s:14:\"view_customers\";s:1:\"c\";s:14:\"View Customers\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:14;a:5:{s:1:\"a\";i:16;s:1:\"b\";s:14:\"manage_refunds\";s:1:\"c\";s:14:\"Manage Refunds\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:15;a:5:{s:1:\"a\";i:21;s:1:\"b\";s:7:\"AddRole\";s:1:\"c\";s:7:\"AddRole\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:5:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}i:2;a:3:{s:1:\"a\";i:4;s:1:\"b\";s:7:\"Manager\";s:1:\"d\";s:3:\"web\";}i:3;a:3:{s:1:\"a\";i:3;s:1:\"b\";s:8:\"Customer\";s:1:\"d\";s:3:\"web\";}i:4;a:3:{s:1:\"a\";i:5;s:1:\"b\";s:8:\"Supplier\";s:1:\"d\";s:3:\"web\";}}}', 1748124789);
+('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:17:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:7;a:5:{s:1:\"a\";i:9;s:1:\"b\";s:13:\"view_products\";s:1:\"c\";s:13:\"View Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:4:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;}}i:8;a:5:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"purchase_products\";s:1:\"c\";s:17:\"Purchase Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:3;i:2;i:4;}}i:9;a:5:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"manage_inventory\";s:1:\"c\";s:16:\"Manage Inventory\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:10;a:5:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"manage_promotions\";s:1:\"c\";s:17:\"Manage Promotions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:5:{s:1:\"a\";i:13;s:1:\"b\";s:10:\"view_sales\";s:1:\"c\";s:10:\"View Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:12;a:5:{s:1:\"a\";i:14;s:1:\"b\";s:22:\"manage_customer_credit\";s:1:\"c\";s:22:\"Manage Customer Credit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:5:{s:1:\"a\";i:15;s:1:\"b\";s:14:\"view_customers\";s:1:\"c\";s:14:\"View Customers\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:14;a:5:{s:1:\"a\";i:16;s:1:\"b\";s:14:\"manage_refunds\";s:1:\"c\";s:14:\"Manage Refunds\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:15;a:5:{s:1:\"a\";i:21;s:1:\"b\";s:7:\"AddRole\";s:1:\"c\";s:7:\"AddRole\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:5:{s:1:\"a\";i:22;s:1:\"b\";s:7:\"add_fav\";s:1:\"c\";s:7:\"add_fav\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}}s:5:\"roles\";a:4:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}i:2;a:3:{s:1:\"a\";i:4;s:1:\"b\";s:7:\"Manager\";s:1:\"d\";s:3:\"web\";}i:3;a:3:{s:1:\"a\";i:3;s:1:\"b\";s:8:\"Customer\";s:1:\"d\";s:3:\"web\";}}}', 1748127910);
 
 -- --------------------------------------------------------
 
@@ -215,7 +215,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (3, 'App\\Models\\User', 22),
 (3, 'App\\Models\\User', 23),
 (4, 'App\\Models\\User', 27),
-(5, 'App\\Models\\User', 26);
+(5, 'App\\Models\\User', 26),
+(5, 'App\\Models\\User', 28);
 
 -- --------------------------------------------------------
 
@@ -264,7 +265,8 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `guard_name`, `created_
 (14, 'manage_customer_credit', 'Manage Customer Credit', 'web', NULL, NULL),
 (15, 'view_customers', 'View Customers', 'web', NULL, NULL),
 (16, 'manage_refunds', 'Manage Refunds', 'web', NULL, NULL),
-(21, 'AddRole', 'AddRole', 'web', NULL, NULL);
+(21, 'AddRole', 'AddRole', 'web', NULL, NULL),
+(22, 'add_fav', 'add_fav', 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -392,7 +394,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (10, 3),
 (10, 4),
 (11, 1),
-(11, 5),
 (12, 1),
 (13, 1),
 (14, 1),
@@ -400,7 +401,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (15, 2),
 (16, 1),
 (16, 4),
-(21, 1);
+(21, 1),
+(22, 3);
 
 -- --------------------------------------------------------
 
@@ -422,6 +424,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('1Z8KVvXtRBVae8TXnlm1hXMvYAzb9y9yNOJl86Oh', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQXJTWEFjcnByOW0xN0xuZVUzaDFDYk1BTjZDOFI1SUY0Q3k2TEplYyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTE6Imh0dHA6Ly95YWF6cy5sb2NhbGhvc3QuY29tL2RlZnVsdC1wZXJtaXNzaW9uLWNoYW5nZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748040387),
 ('DdXEZdfuFuFBSA7Sx5wvr8ilTHQsOutBjGJVHglM', 25, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiN3RvZjZFVGFpS3Z0RXJ5bzlpaEJ0RVVxZDVwTDFMbHpweEdkYjl6RCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NToic3RhdGUiO3M6NDA6Im5KaENxM0hGQmZqNzdiRnI1bHl6RnVIT29yZmRUaGlEWlZBMjRRU0UiO3M6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI1O30=', 1747750323),
 ('HnE6rnt6MVXzPWo20ndmP7xpWYY0vJmmFlJHZ0RG', 25, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSXFoNEhlaHdiQkMyT2Ftc3ZYaDNFQUFBTEt6bFh4YkI1VzZ2WWtSTiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC91c2Vycy9jcmVhdGUiO31zOjM6InVybCI7YToxOntzOjg6ImludGVuZGVkIjtzOjIxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyNTt9', 1747753398);
 
@@ -457,11 +460,12 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `credit`, `created_at`, `updated_at`, `deleted_at`, `email_offers`, `order_updates`, `currency`, `language`, `theme`, `data_sharing`) VALUES
 (16, 'Ahmed Ali Said', 'malisobh2010@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 111111.00, '2025-03-11 05:32:37', '2025-03-18 01:54:30', NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (20, 'mohamed askar', 'huss44@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(21, 'yassin', 'yassin.shaher2005@gmail.com', '2025-05-18 16:24:50', '$2y$12$ChO03f.WxQk1OhH9hLrENOGgPOGSyWlIbJOm1HGQysx9Mr6IZuq7O', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
+(21, 'yassin', 'yassin.shaher2005@gmail.com', '2025-05-18 16:24:50', '$2y$12$ChO03f.WxQk1OhH9hLrENOGgPOGSyWlIbJOm1HGQysx9Mr6IZuq7O', NULL, 100000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (23, 'yassin2', 'yassinchinco@gmail.com', '2025-05-18 16:52:12', '$2y$12$1ILE8oUIkgU02aPZEmcR8eAs8NBKPS7Ub/h/JEhEzdy9YiFQkirfO', NULL, 52999.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (25, 'Seif Waheed', 'seifwaheed559@gmail.com', '2025-05-19 13:26:33', '$2y$12$QNR0Isi7cPetqIDqE0mU8e5JCWmLemdOlEyPKN1h8XAIf0Ben/A2O', NULL, 975000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (26, 'ahmed essam', 'essam@gmail.com', NULL, '$2y$12$zUKKA3x1hAWYC6q8TSQSKeFZRj3vQdWf1EubQ4j9BCetrIVX8NxpK', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(27, '3assm', 'essm@gmail.com', NULL, '$2y$12$ZKxMawoG6/h5ArYVEJF9BOrMmhUXyL8hN1CB.nb0AoN4sbdTRhF9a', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0);
+(27, '3assm', 'essm@gmail.com', NULL, '$2y$12$ZKxMawoG6/h5ArYVEJF9BOrMmhUXyL8hN1CB.nb0AoN4sbdTRhF9a', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
+(28, 'mohamed askar', 'f@gmail.com', '2025-05-23 19:50:58', '$2y$12$s..5dcKvc3ymb30.k19gpuZWiCQ7MHWpw2Xl1NkV9cMfPcIxs6KVe', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0);
 
 --
 -- Indexes for dumped tables
@@ -616,7 +620,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -640,7 +644,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
