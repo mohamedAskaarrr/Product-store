@@ -201,3 +201,13 @@ Route::get('/cryptography', function (Request $request) {
     return view('cryptography', compact('data', 'result', 'action', 'status'));
    })->name('cryptography');
    
+// Password Reset Routes
+Route::get('forgot-password', [UsersController::class, 'showForgotPasswordForm'])
+    ->name('password.request');
+Route::post('forgot-password', [UsersController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+Route::get('reset-password/{token}', [UsersController::class, 'showResetForm'])
+    ->name('password.reset');
+Route::post('reset-password', [UsersController::class, 'reset'])
+    ->name('password.update');
+   
