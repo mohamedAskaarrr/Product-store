@@ -21,6 +21,16 @@
           </a>
         </li> 
         @endrole
+        @role('Admin')
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('Defultpermissionchange') }}">
+            <i class="fas fa-table"></i>  change Defult permission
+          </a>
+        </li> 
+        @endrole
+
+     
+
         <li class="nav-item">
           <a class="nav-link" href="{{ route('about') }}">
             <i class="fas fa-info-circle me-1"></i>About Us

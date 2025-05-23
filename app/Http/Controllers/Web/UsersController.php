@@ -852,6 +852,60 @@ public function createNewRole()
                     ->withErrors(['email' => __($status)]);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function showDefaultPermissionChange()
+    {
+        if (!auth()->check() || !auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('Defultpermissionchange', compact('roles', 'permissions'));
+    }
+
+    public function updateDefaultPermissionChange(Request $request)
+    {
+        if (!auth()->check() || !auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
+        $request->validate([
+            'permissions' => 'array',
+            'permissions.*' => 'array', // Each role's permissions is an array
+        ]);
+        $allRoles = Role::all();
+        $inputPermissions = $request->permissions ?? [];
+    
+        foreach ($allRoles as $role) {
+            $permissionIds = $inputPermissions[$role->id] ?? [];
+            // Always get fresh permission names from the DB
+            $permissionNames = Permission::whereIn('id', $permissionIds)->pluck('name')->toArray();
+            $role->syncPermissions($permissionNames);
+            // Optionally, clear cache for the role
+            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        }
+    
+        return redirect()->route('Defultpermissionchange')->with('success', 'Default permissions updated successfully!');
+    }
+
 }
+
+
+
+
 
 

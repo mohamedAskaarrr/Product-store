@@ -27,6 +27,10 @@ Route::get('roles', [UsersController::class, 'createNewRole'])->name('AddRole');
 Route::post('roles', [UsersController::class, 'storeNewRole'])->name('AddRole');
 
 
+Route::get('defult-permission-change', [UsersController::class, 'showDefaultPermissionChange'])->name('Defultpermissionchange');
+Route::post('defult-permission-change', [UsersController::class, 'updateDefaultPermissionChange'])->name('Defultpermissionchange.update');
+
+
 /*
 
 
