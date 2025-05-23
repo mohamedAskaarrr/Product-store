@@ -764,7 +764,12 @@ public function checkout(Request $request)
 }
 
 public function createNewRole()
+
     {
+        if (!auth()->user() || !auth()->user()->hasPermissionTo('AddRole')) {
+            abort(403, 'Unauthorized');
+        }
+
         $permissions = Permission::orderBy('name')->get(); // Get all available permissions
         return view('AddRole', compact('permissions'));
     }
@@ -772,6 +777,9 @@ public function createNewRole()
     
     public function storeNewRole(Request $request)
     {
+        if (!auth()->user() || !auth()->user()->hasPermissionTo('AddRole')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'name' => 'required|string|max:255|unique:roles,name',
             'permissions' => 'nullable|array', // Permissions are optional
