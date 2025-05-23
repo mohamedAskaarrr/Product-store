@@ -762,4 +762,39 @@ public function checkout(Request $request)
             ->with('warning', 'An error occurred while processing your purchase. Please try again.');
     }
 }
+
+public function createNewRole()
+    {
+        $permissions = Permission::orderBy('name')->get(); // Get all available permissions
+        return view('AddRole', compact('permissions'));
+    }
+
+    
+    public function storeNewRole(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:roles,name',
+            'permissions' => 'nullable|array', // Permissions are optional
+            'permissions.*' => 'exists:permissions,id' // Ensure submitted permission IDs exist
+        ]);
+
+        // Create the role (guard_name will default to 'web' or your default guard)
+        $role = Role::create(['name' => $request->name]);
+
+        // Assign permissions if any are selected
+        if ($request->has('permissions') && !empty($request->permissions)) {
+            // Ensure permissions are valid Permission model instances or their IDs/names
+            $validPermissions = Permission::whereIn('id', $request->permissions)->get();
+            $role->syncPermissions($validPermissions);
+        }
+
+        // Redirect back to the create form with a success message,
+        // or to another page like an admin dashboard.
+        return redirect()->route('AddRole')
+                         ->with('success', "Role '{$role->name}' created successfully!");
+    }
+
+
 }
+
+

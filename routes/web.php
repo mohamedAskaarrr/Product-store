@@ -20,7 +20,19 @@ Route::get('/', function () {
     }
     return view('home');
 })->name('home');
+
+
+
+Route::get('roles', [UsersController::class, 'createNewRole'])->name('AddRole');
+Route::post('roles', [UsersController::class, 'storeNewRole'])->name('AddRole');
+
+
 /*
+
+
+
+
+
 
 |--------------------------------------------------------------------------
 | Authentication Routes

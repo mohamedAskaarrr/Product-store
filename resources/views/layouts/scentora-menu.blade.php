@@ -12,7 +12,15 @@
           <a class="nav-link" href="{{ route('products_list') }}">
             <i class="fas fa-shopping-bag me-1"></i>Shop
           </a>
-        </li>            
+        </li>   
+        
+        @role('Admin')
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('AddRole') }}">
+            <i class="fas fa-person"></i>Add Role
+          </a>
+        </li> 
+        @endrole
         <li class="nav-item">
           <a class="nav-link" href="{{ route('about') }}">
             <i class="fas fa-info-circle me-1"></i>About Us
