@@ -139,6 +139,67 @@
             padding: 0 !important;
         }
     </style>
+
+    <style>
+        /* Styles for the Sort By dropdown */
+        .search-section .dropdown .sort-dropdown-menu {
+            background: rgba(44, 30, 30, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(212, 175, 55, 0.3) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+            padding: 0.5rem !important;
+        }
+
+        .search-section .dropdown .dropdown-item {
+            color: #fffbe6 !important;
+            padding: 0.7rem 1rem !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            background-color: transparent !important; /* Ensure no default white background */
+        }
+
+        .search-section .dropdown .dropdown-item:hover,
+        .search-section .dropdown .dropdown-item:focus,
+        .search-section .dropdown .dropdown-item.active {
+            background: rgba(212, 175, 55, 0.1) !important;
+            color: #D4AF37 !important;
+            transform: translateX(5px) !important;
+        }
+
+         .search-section .dropdown-divider {
+            border-color: rgba(212, 175, 55, 0.2) !important;
+            margin: 0.5rem 0 !important;
+        }
+
+        /* Specific styles for the Sort By dropdown button to match search inputs */
+        .search-section .dropdown-toggle {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #fffbe6;
+            border-radius: 12px;
+            padding: 0.375rem 0.75rem 0.375rem 2.5rem; /* Adjusted padding to match search inputs */
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .search-section .dropdown-toggle:hover {
+            color: #D4AF37; /* Gold text color on hover */
+            background: rgba(255, 255, 255, 0.15); /* Slightly lighter background on hover */
+            border-color: #D4AF37; /* Gold border on hover */
+        }
+
+        .search-section .dropdown-toggle::after {
+             /* styles for the dropdown arrow */
+             color: #D4AF37; /* Gold arrow color */
+             margin-left: 0.5rem; /* Space between text and arrow */
+        }
+
+    </style>
 </head>
 
 <body>
@@ -199,13 +260,18 @@
                             <div class="col-md-2">
                                 <div class="search-input-group">
                                     <i class="fas fa-sort sort-icon"></i>
-                                    <select name="sort" class="form-select search-input">
-                                        <option value="">Sort By</option>
-                                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
-                                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
-                                        <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
-                                        <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
-                                    </select>
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle form-control search-input text-start d-flex align-items-center justify-content-between" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Sort By
+                                        </button>
+                                        <ul class="dropdown-menu sort-dropdown-menu" aria-labelledby="sortDropdown">
+                                            <li><a class="dropdown-item" href="#" data-sort="">Sort By</a></li>
+                                            <li><a class="dropdown-item" href="#" data-sort="price_asc">Price: Low to High</a></li>
+                                            <li><a class="dropdown-item" href="#" data-sort="price_desc">Price: High to Low</a></li>
+                                            <li><a class="dropdown-item" href="#" data-sort="name_asc">Name: A to Z</a></li>
+                                            <li><a class="dropdown-item" href="#" data-sort="name_desc">Name: Z to A</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -414,6 +480,7 @@
         transform: translateY(-50%);
         color: #D4AF37;
         font-size: 1.1rem;
+        margin-top: -2px;
     }
 
     .search-input {
@@ -751,6 +818,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial update on page load
     updatePermissionsForRole();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sortDropdownItems = document.querySelectorAll('.search-section .dropdown-item');
+    sortDropdownItems.forEach(item => {
+        item.addEventListener('click', function (e) {
+            e.preventDefault();
+            const sortValue = this.getAttribute('data-sort');
+            const form = this.closest('.search-form');
+            if (form) {
+                let sortInput = form.querySelector('input[name="sort"]');
+                if (!sortInput) {
+                    sortInput = document.createElement('input');
+                    sortInput.type = 'hidden';
+                    sortInput.name = 'sort';
+                    form.appendChild(sortInput);
+                }
+                sortInput.value = sortValue;
+                form.submit();
+            }
+        });
+    });
 });
 </script>
 
