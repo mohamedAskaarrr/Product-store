@@ -76,7 +76,7 @@
                                 <div class="mb-3">
                                     <h6 class="text-gold mb-2">{{ $category }}</h6>
                                     <div class="d-flex flex-wrap gap-2">
-                                        @foreach($permissions as $permission)
+                            @foreach($permissions as $permission)
                                             @if($user->hasPermissionTo($permission))
                                                 <span class="badge bg-dark text-gold border border-gold">
                                                     {{ str_replace('_', ' ', ucfirst($permission)) }}
