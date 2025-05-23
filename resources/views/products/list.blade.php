@@ -177,9 +177,11 @@
         .search-section .dropdown-toggle {
             background-color: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(212, 175, 55, 0.3);
-            color: #fffbe6;
+            color: rgba(255, 251, 230, 0.6); /* Dimmed color to match placeholders */
+            font-family: inherit;
+            font-weight: inherit;
             border-radius: 12px;
-            padding: 0.375rem 0.75rem 0.375rem 2.5rem; /* Adjusted padding to match search inputs */
+            padding: 0.375rem 0.75rem 0.375rem 2.8rem; /* Adjusted padding to match search inputs */
             height: 45px;
             display: flex;
             align-items: center;
@@ -197,6 +199,16 @@
              /* styles for the dropdown arrow */
              color: #D4AF37; /* Gold arrow color */
              margin-left: 0.5rem; /* Space between text and arrow */
+        }
+
+        .sort-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #D4AF37;
+            font-size: 1.1rem;
+            margin-top: -2px;
         }
 
     </style>
