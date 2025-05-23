@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -22,30 +24,50 @@ class ProductsController extends Controller {
         $this->middleware('auth:web')->except('list');
     }
 
-	public function list(Request $request) {
-        
+	public function index(): View
+    {
+        $products = Product::where('featured', true)->take(3)->get();
+        return view('home', compact('products'));
+    }
 
-
+	public function list(Request $request): View {
 		$query = Product::select("products.*");
 
-		$query->when($request->keywords, 
-		fn($q)=> $q->where("name", "like", "%$request->keywords%"));
+		// Handle search
+		$query->when($request->keyword, 
+			fn($q) => $q->where("name", "like", "%{$request->keyword}%"));
 
+		// Handle price filters
 		$query->when($request->min_price, 
-		fn($q)=> $q->where("price", ">=", $request->min_price));
+			fn($q) => $q->where("price", ">=", $request->min_price));
 		
-		$query->when($request->max_price, fn($q)=> 
-		$q->where("price", "<=", $request->max_price));
+		$query->when($request->max_price, 
+			fn($q) => $q->where("price", "<=", $request->max_price));
 		
-		$query->when($request->order_by, 
-		fn($q)=> $q->orderBy($request->order_by, $request->order_direction??"ASC"));
+		// Handle sorting
+		if ($request->has('sort')) {
+			switch ($request->sort) {
+				case 'price_asc':
+					$query->orderBy('price', 'ASC');
+					break;
+				case 'price_desc':
+					$query->orderBy('price', 'DESC');
+					break;
+				case 'name_asc':
+					$query->orderBy('name', 'ASC');
+					break;
+				case 'name_desc':
+					$query->orderBy('name', 'DESC');
+					break;
+			}
+		}
 
 		$products = $query->get();
 
 		return view('products.list', compact('products'));
 	}
 
-	public function edit(Request $request, Product $product = null) {
+	public function edit(Request $request, Product $product = null): View {
 
 		if(!Auth::user()) return redirect('/');
 
@@ -245,7 +267,7 @@ public function basket()
 }
 
 
-public function addstock(Request $request, product $product)
+public function addstock(Request $request, Product $product)
 
 {  
   
@@ -265,15 +287,6 @@ public function addstock(Request $request, product $product)
     return redirect()->back()->with('success', 'Stock updated successfully!');
 
 }
-
-// In app/Http/Controllers/Web/ProductsController.php
-// In app/Http/Controllers/Web/ProductsController.php
-public function index()
-{
- $products = Product::where('featured', true)->take(3)->get();
- return view('home', compact('products'));
-}
-
 
 public function markAsFavorite($id)
 {

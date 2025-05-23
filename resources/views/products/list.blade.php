@@ -207,7 +207,6 @@
                                         <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
                                     </select>
                                 </div>
-                                
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-gold w-100">
