@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2025 at 01:06 AM
+-- Generation Time: May 24, 2025 at 02:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -78,6 +78,39 @@ CREATE TABLE `cache_locks` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `daily_financial_summary`
+-- (See below for the actual view)
+--
+CREATE TABLE `daily_financial_summary` (
+`date` date
+,`total_sales` decimal(10,2)
+,`total_expenses` decimal(10,2)
+,`net_profit` decimal(10,2)
+,`number_of_sales` bigint(21)
+,`number_of_expenses` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'paid',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -89,6 +122,24 @@ CREATE TABLE `failed_jobs` (
   `payload` longtext NOT NULL,
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `financial_transactions`
+--
+
+CREATE TABLE `financial_transactions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` datetime NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `description` text NOT NULL,
+  `reference_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `reference_type` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -221,6 +272,21 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `monthly_financial_summary`
+-- (See below for the actual view)
+--
+CREATE TABLE `monthly_financial_summary` (
+`month` varchar(7)
+,`total_sales` decimal(32,2)
+,`total_expenses` decimal(32,2)
+,`net_profit` decimal(32,2)
+,`number_of_sales` bigint(21)
+,`number_of_expenses` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_reset_tokens`
 --
 
@@ -266,7 +332,15 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `guard_name`, `created_
 (15, 'view_customers', 'View Customers', 'web', NULL, NULL),
 (16, 'manage_refunds', 'Manage Refunds', 'web', NULL, NULL),
 (21, 'AddRole', 'AddRole', 'web', NULL, NULL),
-(22, 'add_fav', 'add_fav', 'web', NULL, NULL);
+(22, 'add_fav', 'add_fav', 'web', NULL, NULL),
+(32, 'view_financial_reports', 'View Financial Reports', 'web', NULL, NULL),
+(33, 'manage_expenses', 'Manage Expenses', 'web', NULL, NULL),
+(34, 'view_expenses', 'View Expenses', 'web', NULL, NULL),
+(35, 'manage_sales', 'Manage Sales', 'web', NULL, NULL),
+(36, 'manage_profit', 'Manage Profit', 'web', NULL, NULL),
+(37, 'view_profit', 'View Profit', 'web', NULL, NULL),
+(38, 'manage_financial_transactions', 'Manage Financial Transactions', 'web', NULL, NULL),
+(39, 'view_financial_transactions', 'View Financial Transactions', 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -301,6 +375,22 @@ INSERT INTO `products` (`id`, `code`, `name`, `price`, `stock`, `model`, `descri
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `profit`
+--
+
+CREATE TABLE `profit` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `total_sales` decimal(10,2) NOT NULL,
+  `total_expenses` decimal(10,2) NOT NULL,
+  `net_profit` decimal(10,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `purchases`
 --
 
@@ -328,6 +418,39 @@ INSERT INTO `purchases` (`id`, `user_id`, `product_id`, `quantity`, `total_price
 (6, 23, 24, 1, 8000.00, '2025-05-19 16:52:09', '2025-05-19 16:52:09', NULL),
 (7, 25, 24, 1, 8000.00, '2025-05-20 10:20:52', '2025-05-20 10:20:52', NULL),
 (8, 25, 23, 1, 1000.00, '2025-05-20 11:06:53', '2025-05-20 11:06:53', NULL);
+
+--
+-- Triggers `purchases`
+--
+DELIMITER $$
+CREATE TRIGGER `after_sale_insert` AFTER INSERT ON `purchases` FOR EACH ROW BEGIN
+    -- Update sales table
+    INSERT INTO sales (date, total_amount, total_products, payment_method, created_at, updated_at)
+    VALUES (CURDATE(), NEW.total_price, NEW.quantity, 'credit', NOW(), NOW())
+    ON DUPLICATE KEY UPDATE 
+        total_amount = total_amount + NEW.total_price,
+        total_products = total_products + NEW.quantity,
+        updated_at = NOW();
+    
+    -- Update profit table
+    INSERT INTO profit (date, total_sales, total_expenses, net_profit, created_at, updated_at)
+    SELECT 
+        CURDATE(),
+        COALESCE(SUM(total_amount), 0),
+        COALESCE((SELECT SUM(amount) FROM expenses WHERE date = CURDATE()), 0),
+        COALESCE(SUM(total_amount), 0) - COALESCE((SELECT SUM(amount) FROM expenses WHERE date = CURDATE()), 0),
+        NOW(),
+        NOW()
+    FROM sales
+    WHERE date = CURDATE()
+    ON DUPLICATE KEY UPDATE 
+        total_sales = VALUES(total_sales),
+        total_expenses = VALUES(total_expenses),
+        net_profit = VALUES(net_profit),
+        updated_at = NOW();
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -402,7 +525,39 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (16, 1),
 (16, 4),
 (21, 1),
-(22, 3);
+(22, 3),
+(32, 1),
+(32, 4),
+(33, 1),
+(33, 4),
+(34, 1),
+(34, 4),
+(35, 1),
+(35, 4),
+(36, 1),
+(36, 4),
+(37, 1),
+(37, 4),
+(38, 1),
+(39, 1),
+(39, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `total_products` int(11) NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'completed',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -467,6 +622,24 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 (27, '3assm', 'essm@gmail.com', NULL, '$2y$12$ZKxMawoG6/h5ArYVEJF9BOrMmhUXyL8hN1CB.nb0AoN4sbdTRhF9a', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (28, 'mohamed askar', 'f@gmail.com', '2025-05-23 19:50:58', '$2y$12$s..5dcKvc3ymb30.k19gpuZWiCQ7MHWpw2Xl1NkV9cMfPcIxs6KVe', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `daily_financial_summary`
+--
+DROP TABLE IF EXISTS `daily_financial_summary`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `daily_financial_summary`  AS SELECT `p`.`date` AS `date`, `p`.`total_sales` AS `total_sales`, `p`.`total_expenses` AS `total_expenses`, `p`.`net_profit` AS `net_profit`, count(distinct `s`.`id`) AS `number_of_sales`, count(distinct `e`.`id`) AS `number_of_expenses` FROM ((`profit` `p` left join `sales` `s` on(`s`.`date` = `p`.`date`)) left join `expenses` `e` on(`e`.`date` = `p`.`date`)) GROUP BY `p`.`date` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `monthly_financial_summary`
+--
+DROP TABLE IF EXISTS `monthly_financial_summary`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `monthly_financial_summary`  AS SELECT date_format(`p`.`date`,'%Y-%m') AS `month`, sum(`p`.`total_sales`) AS `total_sales`, sum(`p`.`total_expenses`) AS `total_expenses`, sum(`p`.`net_profit`) AS `net_profit`, count(distinct `s`.`id`) AS `number_of_sales`, count(distinct `e`.`id`) AS `number_of_expenses` FROM ((`profit` `p` left join `sales` `s` on(`s`.`date` = `p`.`date`)) left join `expenses` `e` on(`e`.`date` = `p`.`date`)) GROUP BY date_format(`p`.`date`,'%Y-%m') ;
+
 --
 -- Indexes for dumped tables
 --
@@ -492,11 +665,28 @@ ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`);
 
 --
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expenses_date_index` (`date`),
+  ADD KEY `expenses_category_index` (`category`);
+
+--
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `financial_transactions`
+--
+ALTER TABLE `financial_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `financial_transactions_date_index` (`date`),
+  ADD KEY `financial_transactions_type_index` (`type`),
+  ADD KEY `financial_transactions_reference_index` (`reference_id`,`reference_type`);
 
 --
 -- Indexes for table `jobs`
@@ -552,6 +742,13 @@ ALTER TABLE `products`
   ADD UNIQUE KEY `code` (`code`);
 
 --
+-- Indexes for table `profit`
+--
+ALTER TABLE `profit`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `profit_date_unique` (`date`);
+
+--
 -- Indexes for table `purchases`
 --
 ALTER TABLE `purchases`
@@ -572,6 +769,13 @@ ALTER TABLE `roles`
 ALTER TABLE `role_has_permissions`
   ADD PRIMARY KEY (`permission_id`,`role_id`),
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sales_date_index` (`date`);
 
 --
 -- Indexes for table `sessions`
@@ -599,9 +803,21 @@ ALTER TABLE `basket`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `financial_transactions`
+--
+ALTER TABLE `financial_transactions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -620,13 +836,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `profit`
+--
+ALTER TABLE `profit`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `purchases`
@@ -639,6 +861,12 @@ ALTER TABLE `purchases`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
