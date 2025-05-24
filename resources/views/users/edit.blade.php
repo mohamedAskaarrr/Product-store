@@ -170,7 +170,16 @@ $(document).ready(function(){
         <div class="col-md-8">
             <div class="card edit-card" data-aos="fade-up">
                 <div class="card-body">
-                    <h4 class="card-title mb-4 text-gold">Edit User</h4>
+                    <h4 class="card-title mb-4 text-gold">Edit User
+                        @if(auth()->user()->hasRole('Admin') && !$user->email_verified_at)
+                            <form action="{{ route('users.admin_verify', $user->id) }}" method="POST" style="display:inline; margin-left: 8px;">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm" title="Verify this account" style="padding:2px 8px; font-size:0.9em;">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </form>
+                        @endif
+                    </h4>
                     
                     @if($errors->any())
                         <div class="alert alert-danger">

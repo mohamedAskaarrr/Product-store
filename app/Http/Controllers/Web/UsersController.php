@@ -236,10 +236,18 @@ class UsersController extends Controller {
         
         // Update credit if user has permission
         if(auth()->user()->hasPermissionTo('manage_customer_credit')) {
-            $user->credit = $request->credit;
+            try {
+                $user->credit = $request->credit;
+                $user->save();
+            } catch (\Illuminate\Database\QueryException $e) {
+                if (str_contains($e->getMessage(), 'Out of range value')) {
+                    return redirect()->back()->withInput()->withErrors(['credit' => 'Credit value is too high.']);
+                }
+                throw $e;
+            }
+        } else {
+            $user->save();
         }
-        
-        $user->save();
 
         if(auth()->user()->hasPermissionTo('show_users')) {
             // Sync only one role
@@ -1208,6 +1216,16 @@ public function createNewRole()
             return redirect()->route('login')
                 ->withErrors(['email' => 'GitHub login failed: ' . $e->getMessage()]);
         }
+    }
+
+    public function adminVerify(User $user)
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
+        $user->email_verified_at = now();
+        $user->save();
+        return redirect()->back()->with('success', 'User verified successfully.');
     }
 
 }
