@@ -33,7 +33,7 @@
     <div class="d-flex gap-2 mt-3">
         <a href="{{ route('manage.financials') }}" class="btn btn-gold"><i class="fas fa-arrow-left me-2"></i>Back to Financials</a>
         @can('manage_expenses')
-        <a href="{{ route('manage.financials.expenses.edit', $expense->id) }}" class="btn btn-info"><i class="fas fa-edit me-2"></i>Edit</a>
+        <a href="{{ route('manage.financials.expenses.edit', ['id' => $expense->id, 'return' => url()->current()]) }}" class="btn btn-info"><i class="fas fa-edit me-2"></i>Edit</a>
         @endcan
     </div>
 </div>

@@ -243,3 +243,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/manage-financials/expenses/{id}/edit', [FinancialsController::class, 'editExpense'])->name('manage.financials.expenses.edit');
 });
    
+Route::get('/orders/{order}/details', [UsersController::class, 'orderDetails'])->name('order.details');
+Route::post('/orders/{order}/refund', [UsersController::class, 'refundOrder'])->name('order.refund');
+   

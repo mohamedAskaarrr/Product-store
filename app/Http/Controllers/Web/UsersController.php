@@ -450,19 +450,17 @@ class UsersController extends Controller {
         if (!auth()->user() || (auth()->id() != $user->id && !auth()->user()->hasPermissionTo('show_users'))) {
             abort(403, 'Unauthorized');
         }
+        $orders = $user->orders()->with('items.product')->orderByDesc('created_at')->get();
+        return view('users.purchase_history', compact('user', 'orders'));
+    }
 
-        $purchases = \DB::table('purchases')
-            ->join('products', 'purchases.product_id', '=', 'products.id')
-            ->where('purchases.user_id', $user->id)
-            ->select(
-                'purchases.*',
-                'products.name as product_name',
-                'products.photo as product_photo'
-            )
-            ->orderByDesc('purchases.created_at')
-            ->get();
-
-        return view('users.purchase_history', compact('user', 'purchases'));
+    public function orderDetails($orderId)
+    {
+        $order = \App\Models\Order::with('items.product', 'user')->findOrFail($orderId);
+        if (!auth()->user() || (auth()->id() != $order->user_id && !auth()->user()->hasPermissionTo('show_users'))) {
+            abort(403, 'Unauthorized');
+        }
+        return view('users.order_details', compact('order'));
     }
 
     public function processPurchase(Request $request, Product $product)
@@ -622,17 +620,45 @@ public function refundPurchase($purchaseId)
         return redirect()->back()->with('error', 'Purchase not found');
     }
 
+    // Find the sale that matches date and payment method (and optionally status)
+    $sale = DB::table('sales')
+        ->where('date', date('Y-m-d', strtotime($purchase->created_at)))
+        ->where('payment_method', $purchase->payment_method ?? 'credit') // fallback to 'credit' if not set
+        // ->where('status', 'completed') // Uncomment if you want to match status too
+        ->first();
+
     DB::beginTransaction();
     try {
+        // Refund credit to user
         DB::table('users')
             ->where('id', $purchase->user_id)
             ->increment('credit', $purchase->total_price);
 
+        // Restock product
         DB::table('products')
             ->where('id', $purchase->product_id)
             ->increment('stock', $purchase->quantity);
 
+        // Deduct from the correct sale
+        if ($sale) {
+            $newTotalAmount = $sale->total_amount - $purchase->total_price;
+            $newTotalProducts = $sale->total_products - $purchase->quantity;
+            if ($newTotalAmount <= 0 || $newTotalProducts <= 0) {
+                DB::table('sales')->where('id', $sale->id)->delete();
+            } else {
+                DB::table('sales')->where('id', $sale->id)->update([
+                    'total_amount' => $newTotalAmount,
+                    'total_products' => $newTotalProducts,
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        // Delete the purchase
         DB::table('purchases')->where('id', $purchaseId)->delete();
+
+        // Update profit for that date
+        app(\App\Http\Controllers\Web\FinancialsController::class)->updateProfitForDate(date('Y-m-d', strtotime($purchase->created_at)));
 
         DB::commit();
         return redirect()->back()->with('success', 'Refund processed successfully');
@@ -900,6 +926,83 @@ public function createNewRole()
         }
     
         return redirect()->route('Defultpermissionchange')->with('success', 'Default permissions updated successfully!');
+    }
+
+    public function refundOrder($orderId)
+    {
+        if (!auth()->user() || !auth()->user()->hasPermissionTo('manage_refunds')) {
+            abort(403, 'Unauthorized');
+        }
+        $order = \App\Models\Order::with('items.product')->find($orderId);
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found');
+        }
+        if ($order->status === 'refunded' || $order->status === 'cancelled') {
+            return redirect()->back()->with('warning', 'Order already refunded or cancelled.');
+        }
+        \DB::beginTransaction();
+        try {
+            // Refund credit to user
+            \DB::table('users')->where('id', $order->user_id)->increment('credit', $order->total_price);
+            // Restock all products
+            foreach ($order->items as $item) {
+                \DB::table('products')->where('id', $item->product_id)->increment('stock', $item->quantity);
+            }
+            // Mark order as refunded
+            $order->status = 'refunded';
+            $order->save();
+            // Mark sale as refunded
+            \DB::table('sales')->where('order_id', $order->id)->update(['status' => 'refunded', 'updated_at' => now()]);
+            // Update profit for the order date
+            $orderDate = $order->created_at ? $order->created_at->format('Y-m-d') : now()->format('Y-m-d');
+            // Remove sale amount from sales table for that date
+            $total_sales = \DB::table('sales')->where('date', $orderDate)->where('status', '!=', 'refunded')->sum('total_amount');
+            $total_expenses = \DB::table('expenses')->where('date', $orderDate)->sum('amount');
+            $net_profit = $total_sales - $total_expenses;
+            $exists = \DB::table('profit')->where('date', $orderDate)->exists();
+            if ($exists) {
+                \DB::table('profit')->where('date', $orderDate)->update([
+                    'total_sales' => $total_sales,
+                    'total_expenses' => $total_expenses,
+                    'net_profit' => $net_profit,
+                    'updated_at' => now(),
+                ]);
+            } else {
+                \DB::table('profit')->insert([
+                    'date' => $orderDate,
+                    'total_sales' => $total_sales,
+                    'total_expenses' => $total_expenses,
+                    'net_profit' => $net_profit,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            // Send refund email only if user has order_updates enabled
+            if ($order->user->order_updates) {
+                try {
+                    $emailItems = $order->items->map(function($item) {
+                        return (object) [
+                            'name' => $item->product->name ?? 'N/A',
+                            'quantity' => $item->quantity,
+                            'price' => $item->unit_price,
+                        ];
+                    });
+                    \Mail::to($order->user->email)->send(new \App\Mail\OrderRefunded(
+                        $order->user,
+                        $emailItems,
+                        $order->total_price,
+                        $order->order_number
+                    ));
+                } catch (\Exception $e) {
+                    \Log::error('Refund email sending error: ' . $e->getMessage());
+                }
+            }
+            \DB::commit();
+            return redirect()->back()->with('success', 'Order refunded and products restocked.');
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to refund order: ' . $e->getMessage());
+        }
     }
 
 }

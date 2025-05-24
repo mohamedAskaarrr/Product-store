@@ -91,8 +91,8 @@
                             @can('view_sales')
                             <a href="{{ route('manage.financials.sales.show', $sale->id) }}" class="btn btn-sm btn-info">Details</a>
                             @endcan
-                            <a href="#" class="btn btn-sm btn-outline-gold">Edit</a>
-                            <form action="#" method="POST" style="display:inline-block">
+                            <a href="{{ route('manage.financials.sales.edit', ['id' => $sale->id, 'return' => url()->current()]) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <form action="{{ route('manage.financials.sales.delete', $sale->id) }}" method="POST" style="display:inline-block">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
@@ -191,8 +191,8 @@
                             @can('view_expenses')
                             <a href="{{ route('manage.financials.expenses.show', $expense->id) }}" class="btn btn-sm btn-info">Details</a>
                             @endcan
-                            <a href="#" class="btn btn-sm btn-outline-gold">Edit</a>
-                            <form action="#" method="POST" style="display:inline-block">
+                            <a href="{{ route('manage.financials.expenses.edit', ['id' => $expense->id, 'return' => url()->current()]) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <form action="{{ route('manage.financials.expenses.delete', $expense->id) }}" method="POST" style="display:inline-block">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
@@ -260,11 +260,7 @@
                         <td>${{ number_format($profit->net_profit, 2) }}</td>
                         @can('manage_profit')
                         <td>
-                            <a href="#" class="btn btn-sm btn-outline-gold">Edit</a>
-                            <form action="#" method="POST" style="display:inline-block">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            <a href="#" class="btn btn-sm btn-secondary">Edit</a>
                         </td>
                         @endcan
                     </tr>

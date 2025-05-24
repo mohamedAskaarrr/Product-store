@@ -35,7 +35,7 @@
     </div>
     <div class="d-flex gap-2">
         <button type="submit" class="btn btn-gold">{{ isset($sale) ? 'Save Changes' : 'Add Sale' }}</button>
-        <a href="{{ isset($sale) ? route('manage.financials.sales.show', $sale->id) : route('manage.financials') }}" class="btn btn-secondary ms-2">Cancel</a>
+        <a href="{{ isset($returnUrl) ? $returnUrl : (isset($sale) ? route('manage.financials.sales.show', $sale->id) : route('manage.financials')) }}" class="btn btn-secondary ms-2">Cancel</a>
     </div>
 </form>
 <script>

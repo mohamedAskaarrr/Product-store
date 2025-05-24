@@ -44,7 +44,18 @@ class FinancialsController extends Controller
         return redirect()->route('manage.financials')->with('success', 'Sale added successfully.');
     }
     public function updateSale(Request $request, $id) { $this->authorize('manage_sales'); /* ... */ }
-    public function deleteSale($id) { $this->authorize('manage_sales'); /* ... */ }
+    public function deleteSale($id)
+    {
+        $this->authorize('manage_sales');
+        $sale = \DB::table('sales')->where('id', $id)->first();
+        if (!$sale) {
+            return redirect()->route('manage.financials')->with('error', 'Sale not found.');
+        }
+        \DB::table('sales')->where('id', $id)->delete();
+        // Update profit for that date
+        $this->updateProfitForDate($sale->date);
+        return redirect()->route('manage.financials')->with('success', 'Sale deleted successfully.');
+    }
     public function showSale($id)
     {
         if (!auth()->user()->can('view_sales')) {
@@ -52,12 +63,21 @@ class FinancialsController extends Controller
         }
         $sale = \DB::table('sales')->where('id', $id)->first();
         if (!$sale) abort(404);
-        // Optionally fetch related purchases/products for this sale's date
-        $products = \DB::table('purchases')
-            ->join('products', 'purchases.product_id', '=', 'products.id')
-            ->whereDate('purchases.created_at', $sale->date)
-            ->select('products.*', 'purchases.quantity', 'purchases.total_price')
-            ->get();
+        $products = collect();
+        if ($sale->order_id) {
+            $order = \App\Models\Order::with('items.product')->find($sale->order_id);
+            if ($order) {
+                $products = $order->items->map(function($item) {
+                    return (object) [
+                        'name' => $item->product->name ?? 'N/A',
+                        'model' => $item->product->model ?? '',
+                        'quantity' => $item->quantity,
+                        'price' => $item->unit_price,
+                        'total_price' => $item->total_price,
+                    ];
+                });
+            }
+        }
         return view('financials.sale-details', compact('sale', 'products'));
     }
     public function editSale($id)
@@ -67,7 +87,8 @@ class FinancialsController extends Controller
         }
         $sale = \DB::table('sales')->where('id', $id)->first();
         if (!$sale) abort(404);
-        return view('financials.edit-sale', compact('sale'));
+        $returnUrl = request()->query('return', route('manage.financials'));
+        return view('financials.edit-sale', compact('sale', 'returnUrl'));
     }
     // Expenses CRUD
     public function storeExpense(Request $request) {
@@ -95,7 +116,18 @@ class FinancialsController extends Controller
         return redirect()->route('manage.financials')->with('success', 'Expense added successfully.');
     }
     public function updateExpense(Request $request, $id) { $this->authorize('manage_expenses'); /* ... */ }
-    public function deleteExpense($id) { $this->authorize('manage_expenses'); /* ... */ }
+    public function deleteExpense($id)
+    {
+        $this->authorize('manage_expenses');
+        $expense = \DB::table('expenses')->where('id', $id)->first();
+        if (!$expense) {
+            return redirect()->route('manage.financials')->with('error', 'Expense not found.');
+        }
+        \DB::table('expenses')->where('id', $id)->delete();
+        // Update profit for that date
+        $this->updateProfitForDate($expense->date);
+        return redirect()->route('manage.financials')->with('success', 'Expense deleted successfully.');
+    }
     public function showExpense($id)
     {
         if (!auth()->user()->can('view_expenses')) {
@@ -112,7 +144,8 @@ class FinancialsController extends Controller
         }
         $expense = \DB::table('expenses')->where('id', $id)->first();
         if (!$expense) abort(404);
-        return view('financials.edit-expense', compact('expense'));
+        $returnUrl = request()->query('return', route('manage.financials'));
+        return view('financials.edit-expense', compact('expense', 'returnUrl'));
     }
     // Profit CRUD
     public function storeProfit(Request $request) {
@@ -134,7 +167,11 @@ class FinancialsController extends Controller
         return redirect()->route('manage.financials')->with('success', 'Profit added successfully.');
     }
     public function updateProfit(Request $request, $id) { $this->authorize('manage_profit'); /* ... */ }
-    public function deleteProfit($id) { $this->authorize('manage_profit'); /* ... */ }
+    public function deleteProfit($id)
+    {
+        // Prevent manual deletion of profit
+        return redirect()->route('manage.financials')->with('error', 'Profit records cannot be deleted. They are calculated automatically.');
+    }
 
     // Helper to update profit for a given date
     private function updateProfitForDate($date)

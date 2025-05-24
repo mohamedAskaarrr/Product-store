@@ -167,85 +167,116 @@ class ProductsController extends Controller {
 public function checkout()
 {
     $user = Auth::user();
-    
     if (!$user) {
         return redirect()->route('login')->with('warning', 'You need to be logged in to checkout.');
     }
-
     $basketItems = Basket::where('user_id', $user->id)
         ->join('products', 'basket.product_id', '=', 'products.id')
         ->select('basket.*', 'products.name as product_name', 'products.price', 'products.stock')
         ->get();
-    
     if ($basketItems->isEmpty()) {
         return redirect()->route('products.basket')->with('warning', 'Your basket is empty.');
     }
-
     $totalCost = 0;
     foreach ($basketItems as $item) {
         $totalCost += $item->price * $item->quantity;
-        
         if ($item->stock < $item->quantity) {
             return redirect()->route('products.basket')
                 ->with('error', "Not enough stock available for {$item->product_name}");
         }
     }
-
     if ($user->credit < $totalCost) {
         return redirect()->route('products.basket')
             ->with('error', 'Insufficient credit to complete the purchase.');
     }
-
     DB::beginTransaction();
     try {
         $user->decrement('credit', $totalCost);
-
+        // Create Order
+        $order = new \App\Models\Order();
+        $order->user_id = $user->id;
+        $order->order_number = 'ORD-' . strtoupper(uniqid());
+        $order->total_price = $totalCost;
+        $order->status = 'completed';
+        $order->save();
+        // Create OrderItems and update stock
+        $totalProducts = 0;
         foreach ($basketItems as $item) {
+            \App\Models\OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'unit_price' => $item->price,
+                'total_price' => $item->price * $item->quantity,
+            ]);
             DB::table('products')
                 ->where('id', $item->product_id)
                 ->decrement('stock', $item->quantity);
-
-            DB::table('purchases')->insert([
-                'user_id' => $user->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'total_price' => $item->price * $item->quantity,
+            $totalProducts += $item->quantity;
+        }
+        // Insert a new sale for this order
+        DB::table('sales')->insert([
+            'order_id' => $order->id,
+            'date' => $order->created_at ? $order->created_at->format('Y-m-d') : now()->format('Y-m-d'),
+            'total_amount' => $order->total_price,
+            'total_products' => $totalProducts,
+            'payment_method' => 'credit',
+            'status' => 'completed',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        // Update profit for this order's date
+        $orderDate = $order->created_at ? $order->created_at->format('Y-m-d') : now()->format('Y-m-d');
+        $total_sales = DB::table('sales')->where('date', $orderDate)->where('status', '!=', 'refunded')->sum('total_amount');
+        $total_expenses = DB::table('expenses')->where('date', $orderDate)->sum('amount');
+        $net_profit = $total_sales - $total_expenses;
+        $exists = DB::table('profit')->where('date', $orderDate)->exists();
+        if ($exists) {
+            DB::table('profit')->where('date', $orderDate)->update([
+                'total_sales' => $total_sales,
+                'total_expenses' => $total_expenses,
+                'net_profit' => $net_profit,
+                'updated_at' => now(),
+            ]);
+        } else {
+            DB::table('profit')->insert([
+                'date' => $orderDate,
+                'total_sales' => $total_sales,
+                'total_expenses' => $total_expenses,
+                'net_profit' => $net_profit,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
         }
-
         Basket::where('user_id', $user->id)->delete();
-        
         DB::commit();
-
+        // Send confirmation email if enabled
         if($user->order_updates) {
             try {
-                Mail::to($user->email)->send(new PurchaseConfirmation(
+                $emailItems = $order->items->map(function($item) {
+                    return (object) [
+                        'name' => $item->product->name ?? 'N/A',
+                        'quantity' => $item->quantity,
+                        'price' => $item->unit_price,
+                    ];
+                });
+                Mail::to($user->email)->send(new \App\Mail\PurchaseConfirmation(
                     $user,
-                    $basketItems->map(function($item) {
-                        return (object)[
-                            'name' => $item->product_name,
-                            'quantity' => $item->quantity,
-                            'price' => $item->price
-                        ];
-                    }),
+                    $emailItems,
                     $totalCost,
-                    'ORD-' . strtoupper(uniqid())
+                    $order->order_number
                 ));
             } catch (\Exception $e) {
                 \Log::error('Email sending error: ' . $e->getMessage());
             }
         }
-
+        // TODO: Send refund email in refundOrder
         return redirect()->route('products.basket')
             ->with('success', 'Purchase completed successfully!');
-            
     } catch (\Exception $e) {
         DB::rollBack();
         \Log::error('Checkout error: ' . $e->getMessage());
         \Log::error('Stack trace: ' . $e->getTraceAsString());
-        
         return redirect()->route('products.basket')
             ->with('error', 'An error occurred during checkout. Please try again.');
     }

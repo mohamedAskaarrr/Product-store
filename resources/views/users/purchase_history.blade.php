@@ -18,72 +18,43 @@
         </div>
     </div>
 
-    @if($purchases->isEmpty())
+    @if($orders->isEmpty())
         <div class="card empty-state-card">
             <div class="card-body text-center py-5">
                 <i class="fas fa-shopping-bag fa-3x text-gold mb-3"></i>
-                <h4 class="text-gold mb-3">No Purchases Yet</h4>
-                <p class="text-light mb-4">You haven't made any purchases yet. Start shopping to see your purchase history here.</p>
+                <h4 class="text-gold mb-3">No Orders Yet</h4>
+                <p class="text-light mb-4">You haven't made any orders yet. Start shopping to see your order history here.</p>
                 <a href="{{ route('products_list') }}" class="btn btn-gold">
                     <i class="fas fa-shopping-cart me-2"></i>Start Shopping
                 </a>
             </div>
         </div>
     @else
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            @foreach($purchases as $purchase)
-            <div class="col">
-                <div class="card h-100 purchase-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <h5 class="card-title text-gold mb-0">{{ $purchase->product_name }}</h5>
-                            <span class="badge bg-gold">{{ $purchase->quantity }}</span>
-                        </div>
-                        
-                        <div class="text-center mb-3">
-                            @if($purchase->product_photo)
-                                <img src="{{ asset('images/' . $purchase->product_photo) }}" 
-                                     class="img-fluid rounded purchase-img" 
-                                     alt="{{ $purchase->product_name }}">
-                            @else
-                                <div class="no-image">
-                                    <i class="fas fa-image"></i>
-                                    <span>No Image</span>
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="purchase-details">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-light">Total Price:</span>
-                                <span class="price-badge">${{ number_format($purchase->total_price, 2) }}</span>
-                            </div>
-                            
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="text-light">Purchase Date:</span>
-                                <span class="date-badge">
-                                    {{ $purchase->created_at ? \Carbon\Carbon::parse($purchase->created_at)->format('M d, Y') : '' }}
-                                    <small class="d-block text-light">
-                                        {{ $purchase->created_at ? \Carbon\Carbon::parse($purchase->created_at)->format('H:i') : '' }}
-                                    </small>
-                                </span>
-                            </div>
-
-                            @if(auth()->user()->hasPermissionTo('manage_refunds'))
-                            <div class="text-center mt-3">
-                                <form action="{{ route('purchase.refund', $purchase->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-refund" onclick="return confirm('Are you sure you want to refund this purchase? This will return the money to the user and restock the product.')">
-                                        <i class="fas fa-undo-alt me-2"></i>Refund
-                                    </button>
-                                </form>
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th class="border-gold">Order #</th>
+                        <th class="border-gold">Date</th>
+                        <th class="border-gold">Total</th>
+                        <th class="border-gold">Status</th>
+                        <th class="border-gold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($orders as $order)
+                    <tr>
+                        <td class="border-gold">{{ $order->order_number }}</td>
+                        <td class="border-gold">{{ $order->created_at ? \Carbon\Carbon::parse($order->created_at)->format('M d, Y H:i') : '' }}</td>
+                        <td class="border-gold">${{ number_format($order->total_price, 2) }}</td>
+                        <td class="border-gold">{{ ucfirst($order->status) }}</td>
+                        <td class="border-gold">
+                            <a href="{{ route('order.details', $order->id) }}" class="btn btn-info btn-sm">View Details</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     @endif
 </div>
