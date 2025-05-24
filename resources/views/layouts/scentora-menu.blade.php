@@ -57,13 +57,6 @@
           </a>
         </li>
         @endcan
-        @can('show_users')
-        <li class="nav-item">
-          <a class="nav-link" href="{{route('cryptography')}}">
-            <i class="fas fa-shield-alt me-1"></i>Cryptography
-          </a>
-        </li>
-        @endcan
         @php
             $showFinancials = false;
             if (auth()->check()) {
