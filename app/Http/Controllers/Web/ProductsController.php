@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Basket;
 use App\Mail\PurchaseConfirmation;
+use App\Models\User;
 
 
 class ProductsController extends Controller {
@@ -26,6 +27,18 @@ class ProductsController extends Controller {
 
 	public function index(): View
     {
+        if (auth()->check()) {
+            $roles = auth()->user()->getRoleNames()->toArray();
+            if (in_array('Admin', $roles) || in_array('Manager', $roles)) {
+                return redirect()->route('dashboard');
+            }
+        }
+        $email = emailFromLoginCertificate();
+        if($email && !auth()->user()) {
+            $user = User::where('email', $email)->first();
+            if($user) Auth::login($user);
+        }
+        
         $products = Product::where('featured', true)->take(3)->get();
         return view('home', compact('products'));
     }
