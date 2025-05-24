@@ -245,4 +245,6 @@ Route::middleware(['auth'])->group(function () {
    
 Route::get('/orders/{order}/details', [UsersController::class, 'orderDetails'])->name('order.details');
 Route::post('/orders/{order}/refund', [UsersController::class, 'refundOrder'])->name('order.refund');
+Route::post('/orders/{order}/request-refund', [UsersController::class, 'requestRefund'])->name('order.requestRefund');
+Route::get('/orders/{order}/confirm-refund', [UsersController::class, 'confirmRefund'])->name('order.confirmRefund');
    

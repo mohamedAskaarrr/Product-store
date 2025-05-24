@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2025 at 04:28 AM
+-- Generation Time: May 24, 2025 at 05:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,7 +61,7 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:25:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:5:{s:1:\"a\";i:9;s:1:\"b\";s:13:\"view_products\";s:1:\"c\";s:13:\"View Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}}i:8;a:5:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"purchase_products\";s:1:\"c\";s:17:\"Purchase Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:3;}}i:9;a:5:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"manage_inventory\";s:1:\"c\";s:16:\"Manage Inventory\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:10;a:5:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"manage_promotions\";s:1:\"c\";s:17:\"Manage Promotions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:11;a:5:{s:1:\"a\";i:13;s:1:\"b\";s:10:\"view_sales\";s:1:\"c\";s:10:\"View Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:12;a:5:{s:1:\"a\";i:14;s:1:\"b\";s:22:\"manage_customer_credit\";s:1:\"c\";s:22:\"Manage Customer Credit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:13;a:5:{s:1:\"a\";i:15;s:1:\"b\";s:14:\"view_customers\";s:1:\"c\";s:14:\"View Customers\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:14;a:5:{s:1:\"a\";i:16;s:1:\"b\";s:14:\"manage_refunds\";s:1:\"c\";s:14:\"Manage Refunds\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:15;a:5:{s:1:\"a\";i:21;s:1:\"b\";s:7:\"AddRole\";s:1:\"c\";s:7:\"AddRole\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:5:{s:1:\"a\";i:22;s:1:\"b\";s:7:\"add_fav\";s:1:\"c\";s:7:\"add_fav\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}i:17;a:5:{s:1:\"a\";i:32;s:1:\"b\";s:22:\"view_financial_reports\";s:1:\"c\";s:22:\"View Financial Reports\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:18;a:5:{s:1:\"a\";i:33;s:1:\"b\";s:15:\"manage_expenses\";s:1:\"c\";s:15:\"Manage Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:19;a:5:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"view_expenses\";s:1:\"c\";s:13:\"View Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:20;a:5:{s:1:\"a\";i:35;s:1:\"b\";s:12:\"manage_sales\";s:1:\"c\";s:12:\"Manage Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:21;a:5:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"manage_profit\";s:1:\"c\";s:13:\"Manage Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:22;a:5:{s:1:\"a\";i:37;s:1:\"b\";s:11:\"view_profit\";s:1:\"c\";s:11:\"View Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:23;a:5:{s:1:\"a\";i:38;s:1:\"b\";s:29:\"manage_financial_transactions\";s:1:\"c\";s:29:\"Manage Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:5:{s:1:\"a\";i:39;s:1:\"b\";s:27:\"view_financial_transactions\";s:1:\"c\";s:27:\"View Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}}s:5:\"roles\";a:5:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:5;s:1:\"b\";s:8:\"Supplier\";s:1:\"d\";s:3:\"web\";}i:2;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}i:3;a:3:{s:1:\"a\";i:4;s:1:\"b\";s:7:\"Manager\";s:1:\"d\";s:3:\"web\";}i:4;a:3:{s:1:\"a\";i:3;s:1:\"b\";s:8:\"Customer\";s:1:\"d\";s:3:\"web\";}}}', 1748137804);
+('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:26:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:5:{s:1:\"a\";i:9;s:1:\"b\";s:13:\"view_products\";s:1:\"c\";s:13:\"View Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}}i:8;a:5:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"purchase_products\";s:1:\"c\";s:17:\"Purchase Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:3;}}i:9;a:5:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"manage_inventory\";s:1:\"c\";s:16:\"Manage Inventory\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:10;a:5:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"manage_promotions\";s:1:\"c\";s:17:\"Manage Promotions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:11;a:5:{s:1:\"a\";i:13;s:1:\"b\";s:10:\"view_sales\";s:1:\"c\";s:10:\"View Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:12;a:5:{s:1:\"a\";i:14;s:1:\"b\";s:22:\"manage_customer_credit\";s:1:\"c\";s:22:\"Manage Customer Credit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:13;a:5:{s:1:\"a\";i:15;s:1:\"b\";s:14:\"view_customers\";s:1:\"c\";s:14:\"View Customers\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:14;a:5:{s:1:\"a\";i:16;s:1:\"b\";s:14:\"manage_refunds\";s:1:\"c\";s:14:\"Manage Refunds\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:15;a:5:{s:1:\"a\";i:21;s:1:\"b\";s:7:\"AddRole\";s:1:\"c\";s:7:\"AddRole\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:5:{s:1:\"a\";i:22;s:1:\"b\";s:7:\"add_fav\";s:1:\"c\";s:7:\"add_fav\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}i:17;a:5:{s:1:\"a\";i:32;s:1:\"b\";s:22:\"view_financial_reports\";s:1:\"c\";s:22:\"View Financial Reports\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:18;a:5:{s:1:\"a\";i:33;s:1:\"b\";s:15:\"manage_expenses\";s:1:\"c\";s:15:\"Manage Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:19;a:5:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"view_expenses\";s:1:\"c\";s:13:\"View Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:20;a:5:{s:1:\"a\";i:35;s:1:\"b\";s:12:\"manage_sales\";s:1:\"c\";s:12:\"Manage Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:21;a:5:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"manage_profit\";s:1:\"c\";s:13:\"Manage Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:22;a:5:{s:1:\"a\";i:37;s:1:\"b\";s:11:\"view_profit\";s:1:\"c\";s:11:\"View Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:23;a:5:{s:1:\"a\";i:38;s:1:\"b\";s:29:\"manage_financial_transactions\";s:1:\"c\";s:29:\"Manage Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:5:{s:1:\"a\";i:39;s:1:\"b\";s:27:\"view_financial_transactions\";s:1:\"c\";s:27:\"View Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:25;a:5:{s:1:\"a\";i:40;s:1:\"b\";s:14:\"request_refund\";s:1:\"c\";s:14:\"Request Refund\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}}s:5:\"roles\";a:5:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:5;s:1:\"b\";s:8:\"Supplier\";s:1:\"d\";s:3:\"web\";}i:2;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}i:3;a:3:{s:1:\"a\";i:4;s:1:\"b\";s:7:\"Manager\";s:1:\"d\";s:3:\"web\";}i:4;a:3:{s:1:\"a\";i:3;s:1:\"b\";s:8:\"Customer\";s:1:\"d\";s:3:\"web\";}}}', 1748142210);
 
 -- --------------------------------------------------------
 
@@ -230,14 +230,11 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (3, 'App\\Models\\User', 25),
 (4, 'App\\Models\\User', 16),
 (4, 'App\\Models\\User', 25),
-(5, 'App\\Models\\User', 23),
 (5, 'App\\Models\\User', 25),
 (7, 'App\\Models\\User', 25),
 (8, 'App\\Models\\User', 25),
 (9, 'App\\Models\\User', 16),
-(9, 'App\\Models\\User', 23),
 (9, 'App\\Models\\User', 25),
-(10, 'App\\Models\\User', 23),
 (10, 'App\\Models\\User', 25),
 (11, 'App\\Models\\User', 25),
 (11, 'App\\Models\\User', 26),
@@ -308,6 +305,21 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `order_number`, `total_price`, `status`, `created_at`, `updated_at`) VALUES
+(1, 23, 'ORD-68312EF62BB0E', 9000.00, 'completed', '2025-05-23 23:29:10', '2025-05-23 23:29:10'),
+(2, 23, 'ORD-68313052A4AB1', 17000.00, 'completed', '2025-05-23 23:34:58', '2025-05-23 23:34:58'),
+(3, 23, 'ORD-683130B9479DD', 40000.00, 'completed', '2025-05-23 23:36:41', '2025-05-23 23:36:41'),
+(4, 23, 'ORD-6831318E44C7E', 1000.00, 'refunded', '2025-05-23 23:40:14', '2025-05-23 23:45:17'),
+(5, 23, 'ORD-68313194BFDB3', 8000.00, 'refunded', '2025-05-23 23:40:20', '2025-05-23 23:44:32'),
+(6, 23, 'ORD-683133896F3A6', 8000.00, 'refunded', '2025-05-23 23:48:41', '2025-05-23 23:49:18'),
+(7, 23, 'ORD-68313413E5674', 8000.00, 'refunded', '2025-05-23 23:50:59', '2025-05-23 23:52:25'),
+(8, 23, 'ORD-68313630BBFFA', 1000.00, 'completed', '2025-05-24 00:00:00', '2025-05-24 00:00:00'),
+(9, 23, 'ORD-6831381C8ABF4', 1000.00, 'refunded', '2025-05-24 00:08:12', '2025-05-24 00:08:52');
+
 -- --------------------------------------------------------
 
 --
@@ -324,6 +336,23 @@ CREATE TABLE `order_items` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `unit_price`, `total_price`, `created_at`, `updated_at`) VALUES
+(1, 1, 23, 1, 1000.00, 1000.00, '2025-05-23 23:29:10', '2025-05-23 23:29:10'),
+(2, 1, 24, 1, 8000.00, 8000.00, '2025-05-23 23:29:10', '2025-05-23 23:29:10'),
+(3, 2, 23, 1, 1000.00, 1000.00, '2025-05-23 23:34:58', '2025-05-23 23:34:58'),
+(4, 2, 24, 2, 8000.00, 16000.00, '2025-05-23 23:34:58', '2025-05-23 23:34:58'),
+(5, 3, 24, 5, 8000.00, 40000.00, '2025-05-23 23:36:41', '2025-05-23 23:36:41'),
+(6, 4, 23, 1, 1000.00, 1000.00, '2025-05-23 23:40:14', '2025-05-23 23:40:14'),
+(7, 5, 24, 1, 8000.00, 8000.00, '2025-05-23 23:40:20', '2025-05-23 23:40:20'),
+(8, 6, 24, 1, 8000.00, 8000.00, '2025-05-23 23:48:41', '2025-05-23 23:48:41'),
+(9, 7, 24, 1, 8000.00, 8000.00, '2025-05-23 23:50:59', '2025-05-23 23:50:59'),
+(10, 8, 23, 1, 1000.00, 1000.00, '2025-05-24 00:00:00', '2025-05-24 00:00:00'),
+(11, 9, 23, 1, 1000.00, 1000.00, '2025-05-24 00:08:12', '2025-05-24 00:08:12');
 
 -- --------------------------------------------------------
 
@@ -381,7 +410,8 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `guard_name`, `created_
 (36, 'manage_profit', 'Manage Profit', 'web', NULL, NULL),
 (37, 'view_profit', 'View Profit', 'web', NULL, NULL),
 (38, 'manage_financial_transactions', 'Manage Financial Transactions', 'web', NULL, NULL),
-(39, 'view_financial_transactions', 'View Financial Transactions', 'web', NULL, NULL);
+(39, 'view_financial_transactions', 'View Financial Transactions', 'web', NULL, NULL),
+(40, 'request_refund', 'Request Refund', 'web', '2025-05-24 02:57:55', '2025-05-24 02:57:55');
 
 -- --------------------------------------------------------
 
@@ -410,8 +440,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `code`, `name`, `price`, `stock`, `model`, `description`, `photo`, `created_at`, `updated_at`, `deleted_at`, `featured`, `favourite`) VALUES
-(23, '002', 'mohamed', 1000.00, 99, '20001', 'hh', '2 (1).jpeg', '2025-05-11 16:26:21', '2025-05-23 22:22:35', NULL, 1, 0),
-(24, 'jpg-258', 'Jean Paul Gaultier de Bleu', 8000.00, 99, 'Jean Paul Gaultier', 'The original men\'s fragrance by Gaultier. In a secret Garden of Eden, Gaultier opens the gates and Le Beau makes a striking appearance. The tone is set by his sculptural body, adorned only with a golden vine leaf. Beneath this couture detail, we discover a natural man who loves seduction and freedom in the simplest form. How can we not be captivated? His hypnotic personality, his exotically sensual Eau de Toilette. Nothing is more fresh and powerful than Le Beau.', 'JpgDeBlu.jpg', '2025-05-18 16:58:44', '2025-05-23 22:22:28', NULL, 1, 1);
+(23, '002', 'mohamed', 1000.00, 96, '20001', 'hh', '2 (1).jpeg', '2025-05-11 16:26:21', '2025-05-23 22:22:35', NULL, 1, 0),
+(24, 'jpg-258', 'Jean Paul Gaultier de Bleu', 8000.00, 91, 'Jean Paul Gaultier', 'The original men\'s fragrance by Gaultier. In a secret Garden of Eden, Gaultier opens the gates and Le Beau makes a striking appearance. The tone is set by his sculptural body, adorned only with a golden vine leaf. Beneath this couture detail, we discover a natural man who loves seduction and freedom in the simplest form. How can we not be captivated? His hypnotic personality, his exotically sensual Eau de Toilette. Nothing is more fresh and powerful than Le Beau.', 'JpgDeBlu.jpg', '2025-05-18 16:58:44', '2025-05-23 22:22:28', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -434,7 +464,7 @@ CREATE TABLE `profit` (
 --
 
 INSERT INTO `profit` (`id`, `date`, `total_sales`, `total_expenses`, `net_profit`, `created_at`, `updated_at`) VALUES
-(1, '2025-05-24', 25000.00, 0.00, 25000.00, '2025-05-24 01:21:20', '2025-05-23 23:15:13'),
+(1, '2025-05-24', 67000.00, 0.00, 67000.00, '2025-05-24 01:21:20', '2025-05-24 00:08:52'),
 (4, '2025-05-21', 0.00, 2500.00, -2500.00, '2025-05-23 22:43:43', '2025-05-23 23:17:01');
 
 -- --------------------------------------------------------
@@ -504,6 +534,30 @@ CREATE TRIGGER `after_sale_insert` AFTER INSERT ON `purchases` FOR EACH ROW BEGI
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `refund_requests`
+--
+
+CREATE TABLE `refund_requests` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `reason` text DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `refund_requests`
+--
+
+INSERT INTO `refund_requests` (`id`, `order_id`, `user_id`, `reason`, `status`, `created_at`, `updated_at`) VALUES
+(1, 8, 23, 'I no longer need this product', 'pending', '2025-05-24 00:04:59', '2025-05-24 00:04:59'),
+(2, 9, 23, 'hate it', 'completed', '2025-05-24 00:08:27', '2025-05-24 00:08:52');
 
 -- --------------------------------------------------------
 
@@ -600,7 +654,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (37, 4),
 (38, 1),
 (39, 1),
-(39, 4);
+(39, 4),
+(40, 3);
 
 -- --------------------------------------------------------
 
@@ -610,6 +665,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 
 CREATE TABLE `sales` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED DEFAULT NULL,
   `date` date NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
   `total_products` int(11) NOT NULL,
@@ -623,10 +679,14 @@ CREATE TABLE `sales` (
 -- Dumping data for table `sales`
 --
 
-INSERT INTO `sales` (`id`, `date`, `total_amount`, `total_products`, `payment_method`, `status`, `created_at`, `updated_at`) VALUES
-(1, '2025-05-24', 1000.00, 1, 'credit', 'completed', '2025-05-24 01:21:20', '2025-05-24 01:21:20'),
-(2, '2025-05-24', 16000.00, 2, 'credit', 'completed', '2025-05-24 01:21:20', '2025-05-24 01:21:20'),
-(3, '2025-05-24', 8000.00, 1, 'credit', 'completed', '2025-05-24 01:23:45', '2025-05-24 01:23:45');
+INSERT INTO `sales` (`id`, `order_id`, `date`, `total_amount`, `total_products`, `payment_method`, `status`, `created_at`, `updated_at`) VALUES
+(5, NULL, '2025-05-24', 66000.00, 10, 'credit', 'completed', '2025-05-23 23:34:58', '2025-05-23 23:36:41'),
+(6, 4, '2025-05-24', 1000.00, 1, 'credit', 'refunded', '2025-05-23 23:40:14', '2025-05-23 23:45:17'),
+(7, 5, '2025-05-24', 8000.00, 1, 'credit', 'refunded', '2025-05-23 23:40:20', '2025-05-23 23:44:32'),
+(8, 6, '2025-05-24', 8000.00, 1, 'credit', 'refunded', '2025-05-23 23:48:41', '2025-05-23 23:49:18'),
+(9, 7, '2025-05-24', 8000.00, 1, 'credit', 'refunded', '2025-05-23 23:50:59', '2025-05-23 23:52:25'),
+(10, 8, '2025-05-24', 1000.00, 1, 'credit', 'completed', '2025-05-24 00:00:00', '2025-05-24 00:00:00'),
+(11, 9, '2025-05-24', 1000.00, 1, 'credit', 'refunded', '2025-05-24 00:08:12', '2025-05-24 00:08:52');
 
 -- --------------------------------------------------------
 
@@ -648,8 +708,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('nbeqwhYBKcCGWkIWUnOaNxac15bFbgYAWS4O8Qog', 23, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoia0twUjA3STB0bFVrd3pkTU91SFJvc0E5M2JucXRna3lidVRieVE2ayI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHBzOi8vcHJvZHVjdC1zdG9yZS50ZXN0L2Jhc2tldCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjIzO30=', 1748052638),
-('xadqdFGdwjyOOChPvP5ngDq2Ty15NwZX1iqOXCEi', 29, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYkY5RFhaeE1XaHBZNWFIcldGVnRQVEt1T2s4eXJScW14MFE0dUVkTSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyNjoiaHR0cHM6Ly9wcm9kdWN0LXN0b3JlLnRlc3QiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo1MjoiaHR0cHM6Ly9wcm9kdWN0LXN0b3JlLnRlc3QvdXNlcnMvMjMvcHVyY2hhc2UtaGlzdG9yeSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI5O30=', 1748053467);
+('nbeqwhYBKcCGWkIWUnOaNxac15bFbgYAWS4O8Qog', 23, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoia0twUjA3STB0bFVrd3pkTU91SFJvc0E5M2JucXRna3lidVRieVE2ayI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTI6Imh0dHBzOi8vcHJvZHVjdC1zdG9yZS50ZXN0L3VzZXJzLzIzL3B1cmNoYXNlLWhpc3RvcnkiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyMzt9', 1748056156),
+('xadqdFGdwjyOOChPvP5ngDq2Ty15NwZX1iqOXCEi', 29, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYkY5RFhaeE1XaHBZNWFIcldGVnRQVEt1T2s4eXJScW14MFE0dUVkTSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyNjoiaHR0cHM6Ly9wcm9kdWN0LXN0b3JlLnRlc3QiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo0NDoiaHR0cHM6Ly9wcm9kdWN0LXN0b3JlLnRlc3QvbWFuYWdlLWZpbmFuY2lhbHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyOTt9', 1748056185);
 
 -- --------------------------------------------------------
 
@@ -684,7 +744,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 (16, 'Ahmed Ali Said', 'malisobh2010@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 111111.00, '2025-03-11 05:32:37', '2025-03-18 01:54:30', NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (20, 'mohamed askar', 'huss44@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (21, 'yassin', 'yassin.shaher2005@gmail.com', '2025-05-18 16:24:50', '$2y$12$ChO03f.WxQk1OhH9hLrENOGgPOGSyWlIbJOm1HGQysx9Mr6IZuq7O', NULL, 100000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(23, 'yassin2', 'yassinchinco@gmail.com', '2025-05-18 16:52:12', '$2y$12$1ILE8oUIkgU02aPZEmcR8eAs8NBKPS7Ub/h/JEhEzdy9YiFQkirfO', NULL, 26999.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
+(23, 'yassin2', 'yassinchinco@gmail.com', '2025-05-18 16:52:12', '$2y$12$1ILE8oUIkgU02aPZEmcR8eAs8NBKPS7Ub/h/JEhEzdy9YiFQkirfO', NULL, 959000.00, NULL, NULL, NULL, 0, 1, 'USD', 'en', 'dark', 0),
 (25, 'Seif Waheed', 'seifwaheed559@gmail.com', '2025-05-19 13:26:33', '$2y$12$QNR0Isi7cPetqIDqE0mU8e5JCWmLemdOlEyPKN1h8XAIf0Ben/A2O', NULL, 975000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (26, 'ahmed essam', 'essam@gmail.com', NULL, '$2y$12$zUKKA3x1hAWYC6q8TSQSKeFZRj3vQdWf1EubQ4j9BCetrIVX8NxpK', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
 (27, '3assm', 'essm@gmail.com', NULL, '$2y$12$ZKxMawoG6/h5ArYVEJF9BOrMmhUXyL8hN1CB.nb0AoN4sbdTRhF9a', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
@@ -842,6 +902,14 @@ ALTER TABLE `purchases`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `refund_requests`
+--
+ALTER TABLE `refund_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -860,7 +928,8 @@ ALTER TABLE `role_has_permissions`
 --
 ALTER TABLE `sales`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `sales_date_index` (`date`);
+  ADD KEY `sales_date_index` (`date`),
+  ADD KEY `sales_order_id_foreign` (`order_id`);
 
 --
 -- Indexes for table `sessions`
@@ -885,7 +954,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `expenses`
@@ -921,19 +990,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -954,6 +1023,12 @@ ALTER TABLE `purchases`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT for table `refund_requests`
+--
+ALTER TABLE `refund_requests`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
@@ -963,7 +1038,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1015,11 +1090,24 @@ ALTER TABLE `purchases`
   ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
+-- Constraints for table `refund_requests`
+--
+ALTER TABLE `refund_requests`
+  ADD CONSTRAINT `refund_requests_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `refund_requests_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `role_has_permissions`
 --
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `sales`
+--
+ALTER TABLE `sales`
+  ADD CONSTRAINT `sales_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

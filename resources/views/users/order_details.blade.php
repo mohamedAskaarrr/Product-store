@@ -9,7 +9,13 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark text-gold"><strong>Date:</strong> {{ $order->created_at ? \Carbon\Carbon::parse($order->created_at)->format('M d, Y H:i') : '' }}</li>
                 <li class="list-group-item bg-dark text-gold"><strong>Total:</strong> ${{ number_format($order->total_price, 2) }}</li>
-                <li class="list-group-item bg-dark text-gold"><strong>Status:</strong> {{ ucfirst($order->status) }}</li>
+                <li class="list-group-item bg-dark text-gold"><strong>Status:</strong> 
+                    @if($pendingRefundRequest)
+                        {{ ucfirst($order->status) }} (Refund Request Pending)
+                    @else
+                        {{ ucfirst($order->status) }}
+                    @endif
+                </li>
             </ul>
         </div>
     </div>
@@ -48,6 +54,40 @@
             </form>
             @endif
         @endcan
+        @can('request_refund')
+            @if($canRequestRefund)
+                <button type="button" class="btn btn-refund" data-bs-toggle="modal" data-bs-target="#refundRequestModal">
+                    <i class="fas fa-undo-alt me-2"></i>Request Refund
+                </button>
+            @elseif($pendingRefundRequest)
+                <span class="badge bg-warning text-dark">Refund request pending</span>
+            @endif
+        @endcan
+    </div>
+
+    <!-- Refund Request Modal -->
+    <div class="modal fade" id="refundRequestModal" tabindex="-1" aria-labelledby="refundRequestModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form action="{{ route('order.requestRefund', $order->id) }}" method="POST">
+            @csrf
+            <div class="modal-header">
+              <h5 class="modal-title" id="refundRequestModalLabel">Request Refund</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="refund-reason" class="form-label">Reason for refund (optional):</label>
+                <textarea class="form-control" id="refund-reason" name="reason" rows="3" maxlength="1000" placeholder="Describe why you are requesting a refund..."></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-gold">Submit Request</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 </div>
 <style>
@@ -77,4 +117,8 @@
         box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
     }
 </style>
-@endsection 
+@endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+@endpush 

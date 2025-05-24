@@ -460,7 +460,13 @@ class UsersController extends Controller {
         if (!auth()->user() || (auth()->id() != $order->user_id && !auth()->user()->hasPermissionTo('show_users'))) {
             abort(403, 'Unauthorized');
         }
-        return view('users.order_details', compact('order'));
+        // Check for pending refund request
+        $pendingRefundRequest = \DB::table('refund_requests')
+            ->where('order_id', $order->id)
+            ->where('status', 'pending')
+            ->exists();
+        $canRequestRefund = $order->status === 'completed' && !$pendingRefundRequest;
+        return view('users.order_details', compact('order', 'pendingRefundRequest', 'canRequestRefund'));
     }
 
     public function processPurchase(Request $request, Product $product)
@@ -1002,6 +1008,124 @@ public function createNewRole()
         } catch (\Exception $e) {
             \DB::rollBack();
             return redirect()->back()->with('error', 'Failed to refund order: ' . $e->getMessage());
+        }
+    }
+
+    public function requestRefund(Request $request, $orderId)
+    {
+        $order = \App\Models\Order::with('user')->findOrFail($orderId);
+        $user = auth()->user();
+        if (!$user || $user->id !== $order->user_id || !$user->hasPermissionTo('request_refund')) {
+            abort(403, 'Unauthorized');
+        }
+        if ($order->status === 'refunded' || $order->status === 'cancelled') {
+            return redirect()->back()->with('warning', 'Order already refunded or cancelled.');
+        }
+        $pending = \DB::table('refund_requests')
+            ->where('order_id', $order->id)
+            ->where('status', 'pending')
+            ->exists();
+        if ($pending) {
+            return redirect()->back()->with('warning', 'A refund request is already pending for this order.');
+        }
+        $request->validate([
+            'reason' => 'nullable|string|max:1000',
+        ]);
+        \DB::table('refund_requests')->insert([
+            'order_id' => $order->id,
+            'user_id' => $user->id,
+            'reason' => $request->reason,
+            'status' => 'pending',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        // Generate a signed token for confirmation
+        $token = \Str::random(48) . '-' . time();
+        \Cache::put('refund_confirm_' . $order->id . '_' . $token, true, now()->addHours(6));
+        // Send email to admin (use mail config or fallback)
+        $adminEmail = config('mail.from.address') ?: 'yassinchinco@gmail.com';
+        \Mail::to($adminEmail)->send(new \App\Mail\RefundRequestNotification($user, $order, $request->reason, $token));
+        return redirect()->back()->with('success', 'Refund request submitted. Our team will review it soon.');
+    }
+
+    public function confirmRefund(Request $request, $orderId)
+    {
+        $order = \App\Models\Order::with('items.product', 'user')->findOrFail($orderId);
+        $token = $request->query('token');
+        if (!$token || !\Cache::pull('refund_confirm_' . $order->id . '_' . $token)) {
+            return response('Invalid or expired confirmation link.', 403);
+        }
+        // Check for a pending refund request
+        $refundRequest = \DB::table('refund_requests')
+            ->where('order_id', $order->id)
+            ->where('status', 'pending')
+            ->orderByDesc('created_at')
+            ->first();
+        if (!$refundRequest) {
+            return response('No pending refund request found.', 404);
+        }
+        // Process the refund (reuse refundOrder logic)
+        \DB::beginTransaction();
+        try {
+            \DB::table('users')->where('id', $order->user_id)->increment('credit', $order->total_price);
+            foreach ($order->items as $item) {
+                \DB::table('products')->where('id', $item->product_id)->increment('stock', $item->quantity);
+            }
+            $order->status = 'refunded';
+            $order->save();
+            \DB::table('sales')->where('order_id', $order->id)->update(['status' => 'refunded', 'updated_at' => now()]);
+            $orderDate = $order->created_at ? $order->created_at->format('Y-m-d') : now()->format('Y-m-d');
+            $total_sales = \DB::table('sales')->where('date', $orderDate)->where('status', '!=', 'refunded')->sum('total_amount');
+            $total_expenses = \DB::table('expenses')->where('date', $orderDate)->sum('amount');
+            $net_profit = $total_sales - $total_expenses;
+            $exists = \DB::table('profit')->where('date', $orderDate)->exists();
+            if ($exists) {
+                \DB::table('profit')->where('date', $orderDate)->update([
+                    'total_sales' => $total_sales,
+                    'total_expenses' => $total_expenses,
+                    'net_profit' => $net_profit,
+                    'updated_at' => now(),
+                ]);
+            } else {
+                \DB::table('profit')->insert([
+                    'date' => $orderDate,
+                    'total_sales' => $total_sales,
+                    'total_expenses' => $total_expenses,
+                    'net_profit' => $net_profit,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            // Mark refund request as completed
+            \DB::table('refund_requests')->where('id', $refundRequest->id)->update([
+                'status' => 'completed',
+                'updated_at' => now(),
+            ]);
+            // Send refund email to user if enabled
+            if ($order->user->order_updates) {
+                try {
+                    $emailItems = $order->items->map(function($item) {
+                        return (object) [
+                            'name' => $item->product->name ?? 'N/A',
+                            'quantity' => $item->quantity,
+                            'price' => $item->unit_price,
+                        ];
+                    });
+                    \Mail::to($order->user->email)->send(new \App\Mail\OrderRefunded(
+                        $order->user,
+                        $emailItems,
+                        $order->total_price,
+                        $order->order_number
+                    ));
+                } catch (\Exception $e) {
+                    \Log::error('Refund email sending error: ' . $e->getMessage());
+                }
+            }
+            \DB::commit();
+            return response('Refund processed successfully.', 200);
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            return response('Failed to process refund: ' . $e->getMessage(), 500);
         }
     }
 
