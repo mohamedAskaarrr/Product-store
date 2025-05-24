@@ -187,13 +187,19 @@
         <a href="{{ route('password.request') }}" class="link-custom small">Forgot password?</a>
       </div>
 
-      <button type="submit" class="btn btn-custom-primary w-100 mb-3">Login</button>
-      <a href="{{ route('login_with_google') }}" class="btn btn-outline-custom w-100 mb-3">
-        <i class="bi bi-google me-2"></i>Sign in with Google
-      </a>
-      <a href="{{ route('login.facebook') }}" class="btn btn-outline-custom w-100 mb-3">
-        <i class="bi bi-facebook me-2"></i>Sign in with Facebook
-      </a>
+      <div class="form-group mb-2 d-flex flex-column gap-2">
+        <button type="submit" class="btn btn-custom-primary w-100">Login</button>
+        
+        <div class="social-buttons">
+          <a href="{{ route('login_with_google') }}" class="btn btn-outline-custom w-100 mb-2">
+            <i class="bi bi-google me-2"></i>Login with Google
+          </a>
+          <a href="{{ route('login_with_github') }}" class="btn btn-outline-custom w-100 mb-2">
+            <i class="bi bi-github me-2"></i>Login with GitHub
+          </a>
+        </div>
+      </div>
+
       <div class="text-center mt-4">
         <small class="text-muted-custom">Don't have an account? <a href="{{ route('register') }}" class="link-custom">Register here</a></small>
       </div>

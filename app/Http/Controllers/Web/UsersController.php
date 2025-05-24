@@ -165,10 +165,11 @@ class UsersController extends Controller {
 }
 
     public function doLogout(Request $request) {
-    	
-    	Auth::logout();
-
-        return redirect('/');
+        Auth::logout();
+        $request->session()->flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login')->with('success', 'You have been successfully logged out.');
     }
 
     public function profile(Request $request, User $user = null) {
@@ -328,6 +329,14 @@ class UsersController extends Controller {
 
     public function handleGoogleCallback() {
         try {
+            if (app()->environment('local')) {
+                // Disable SSL verification for local development
+                \Config::set('services.google.verify', false);
+                \Config::set('services.google.guzzle', [
+                    'verify' => false
+                ]);
+            }
+            
             $googleUser = Socialite::driver('google')->user();
             \Log::info('Google user data received', ['email' => $googleUser->email]);
             
@@ -1126,6 +1135,78 @@ public function createNewRole()
         } catch (\Exception $e) {
             \DB::rollBack();
             return response('Failed to process refund: ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function redirectToGithub()
+    {
+        \Log::info('GitHub redirect method called');
+        if (app()->environment('local')) {
+            \Log::info('Local environment detected, disabling SSL verification');
+            \Config::set('services.github.verify', false);
+            \Config::set('services.github.guzzle', [
+                'verify' => false
+            ]);
+        }
+        try {
+            return Socialite::driver('github')->redirect();
+        } catch (\Exception $e) {
+            \Log::error('GitHub redirect error: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+            return redirect()->route('login')
+                ->withErrors(['email' => 'GitHub login failed: ' . $e->getMessage()]);
+        }
+    }
+
+    public function handleGithubCallback(Request $request)
+    {
+        try {
+            if (app()->environment('local')) {
+                \Config::set('services.github.verify', false);
+                \Config::set('services.github.guzzle', [
+                    'verify' => false
+                ]);
+            }
+
+            $githubUser = Socialite::driver('github')->user();
+            \Log::info('GitHub user data received', ['email' => $githubUser->email]);
+            
+            // First try to find a user with this GitHub ID
+            $user = User::where('github_id', $githubUser->id)->first();
+            
+            if (!$user) {
+                $user = User::where('email', $githubUser->email)->first();
+                
+                if ($user) {
+                    \Log::info('Updating existing user with GitHub data');
+                    $user->github_id = $githubUser->id;
+                    $user->github_token = $githubUser->token;
+                    $user->github_refresh_token = $githubUser->refreshToken;
+                    $user->email_verified_at = now();
+                    $user->save();
+                } else {
+                    \Log::info('Creating new user from GitHub data');
+                    $user = User::create([
+                        'github_id' => $githubUser->id,
+                        'name' => $githubUser->name ?? $githubUser->nickname,
+                        'email' => $githubUser->email,
+                        'github_token' => $githubUser->token,
+                        'github_refresh_token' => $githubUser->refreshToken,
+                        'email_verified_at' => now(),
+                        'password' => bcrypt(Str::random(16))
+                    ]);
+                    $user->assignRole('Customer');
+                }
+            }
+            
+            Auth::login($user);
+            return redirect('/');
+            
+        } catch (\Exception $e) {
+            \Log::error('GitHub login error: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+            return redirect()->route('login')
+                ->withErrors(['email' => 'GitHub login failed: ' . $e->getMessage()]);
         }
     }
 

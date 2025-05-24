@@ -93,9 +93,9 @@
               <li><a class="dropdown-item" href="{{ route('settings') }}"><i class="fas fa-cog me-2"></i>Settings</a></li>
               <li><hr class="dropdown-divider"></li>
               <li>
-                <form action="{{ route('do_logout') }}" method="POST">
+                <form action="{{ route('do_logout') }}" method="POST" class="m-0">
                   @csrf
-                  <button type="submit" class="dropdown-item text-danger">
+                  <button type="submit" class="dropdown-item text-danger w-100 text-start">
                     <i class="fas fa-sign-out-alt me-2"></i>Logout
                   </button>
                 </form>

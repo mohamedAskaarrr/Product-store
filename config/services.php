@@ -5,6 +5,10 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
+        'verify' => env('APP_ENV') !== 'local',
+        'guzzle' => [
+            'verify' => env('APP_ENV') !== 'local',
+        ],
     ],
     /*
     |--------------------------------------------------------------------------
@@ -39,10 +43,24 @@ return [
         ],
     ],
 
-    'facebook' => [
-        'client_id' => env('FACEBOOK_CLIENT_ID'),
-        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => env('FACEBOOK_REDIRECT_URI'),
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => env('GITHUB_REDIRECT_URI'),
+        'verify' => env('GITHUB_VERIFY', true),
+        'guzzle' => [
+            'verify' => env('GITHUB_VERIFY', true),
+        ],
+    ],
+
+    'discord' => [
+        'client_id' => env('DISCORD_CLIENT_ID'),
+        'client_secret' => env('DISCORD_CLIENT_SECRET'),
+        'redirect' => env('DISCORD_REDIRECT_URI'),
+        'verify' => env('APP_ENV') !== 'local',
+        'guzzle' => [
+            'verify' => env('APP_ENV') !== 'local',
+        ],
     ],
 
 ];

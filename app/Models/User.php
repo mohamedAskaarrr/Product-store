@@ -29,14 +29,22 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'google_token',
+        'google_refresh_token',
+        'github_id',
+        'github_token',
+        'github_refresh_token',
+        'discord_id',
+        'discord_token',
+        'discord_refresh_token',
         'credit',
         'email_offers',
         'order_updates',
         'currency',
         'language',
         'theme',
-        'data_sharing',
-        'facebook_id'
+        'data_sharing'
     ];
  
 

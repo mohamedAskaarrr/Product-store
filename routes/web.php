@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\FinancialsController;
+use App\Http\Controllers\Auth\SocialAuthController;
 
 
 Route::get('/', function () {
@@ -58,10 +59,24 @@ Route::get('verify', [UsersController::class, 'verify'])->name('verify');
 Route::get('/email/resend', [UsersController::class, 'resendVerification'])->name('resend.verification');
 
 // Social Authentication
-Route::get('login/google', [UsersController::class, 'redirectToGoogle'])->name('login_with_google');
-Route::get('login/google/callback', [UsersController::class, 'handleGoogleCallback']);
-Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
-Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+Route::get('/auth/google',
+[UsersController::class, 'redirectToGoogle'])
+->name('login_with_google');
+Route::get('/auth/google/callback',
+[UsersController::class, 'handleGoogleCallback']);
+
+// GitHub Authentication (specific routes)
+Route::get('/auth/github', [UsersController::class, 'redirectToGithub'])
+    ->name('login_with_github');
+Route::get('/auth/github/callback', [UsersController::class, 'handleGithubCallback']);
+
+// Social Media Authentication Routes (for other providers)
+Route::get('auth/{provider}/redirect', [SocialAuthController::class, 'redirectToProvider'])
+    ->name('social.redirect')
+    ->where('provider', '^(?!github$|google$).*$');
+Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])
+    ->name('social.callback')
+    ->where('provider', '^(?!github$|google$).*$');
 
 /*
 |--------------------------------------------------------------------------
@@ -247,4 +262,13 @@ Route::get('/orders/{order}/details', [UsersController::class, 'orderDetails'])-
 Route::post('/orders/{order}/refund', [UsersController::class, 'refundOrder'])->name('order.refund');
 Route::post('/orders/{order}/request-refund', [UsersController::class, 'requestRefund'])->name('order.requestRefund');
 Route::get('/orders/{order}/confirm-refund', [UsersController::class, 'confirmRefund'])->name('order.confirmRefund');
+   
+// Terms and Privacy
+Route::get('/terms', function () {
+    return view('legal.terms');
+})->name('terms');
+
+Route::get('/privacy', function () {
+    return view('legal.privacy');
+})->name('privacy');
    

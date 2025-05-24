@@ -163,10 +163,14 @@
 
       <button type="submit" class="btn btn-custom-primary w-100 mb-3">Create Account</button>
 
-      <!-- Add Facebook login button here -->
-      <a href="{{ route('login.facebook') }}" class="btn btn-outline-custom w-100 mb-3">
-          <i class="bi bi-facebook me-2"></i>Sign up with Facebook
-      </a>
+      <div class="social-buttons">
+        <a href="{{ route('login_with_google') }}" class="btn btn-outline-custom w-100 mb-2">
+          <i class="bi bi-google me-2"></i>Sign up with Google
+        </a>
+        <a href="{{ route('login_with_github') }}" class="btn btn-outline-custom w-100 mb-2">
+          <i class="bi bi-github me-2"></i>Sign up with GitHub
+        </a>
+      </div>
 
       <div class="text-center">
         <small class="text-muted-custom">Already have an account? <a href="{{ route('login') }}" class="link-custom">login here</a></small>
