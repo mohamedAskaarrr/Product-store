@@ -22,15 +22,15 @@ function fetchAndRender(type) {
             let dataset, label, color;
             if (type === 'sales') {
                 dataset = data.map(d => d.total_sales);
-                label = 'Sales';
+                label = 'Daily Sales';
                 color = '#4e73df';
             } else if (type === 'expenses') {
                 dataset = data.map(d => d.total_expenses);
-                label = 'Expenses';
+                label = 'Daily Expenses';
                 color = '#e74a3b';
             } else {
                 dataset = data.map(d => d.net_profit);
-                label = 'Profit';
+                label = 'Daily Profit';
                 color = '#1cc88a';
             }
             if (chart) chart.destroy();
