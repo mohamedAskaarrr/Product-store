@@ -83,5 +83,28 @@ fetchAndRender('sales');
     color: #D4AF37 !important;
 }
 .text-gold { color: #D4AF37 !important; }
+@media (max-width: 576px) {
+    .container.py-4 {
+        padding: 0.5rem !important;
+    }
+    h2.text-gold {
+        font-size: 1.1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    #toggle-group {
+        flex-direction: column !important;
+        display: flex !important;
+        gap: 0.5rem !important;
+    }
+    #toggle-group .btn {
+        width: 100% !important;
+        font-size: 1rem !important;
+        padding: 0.7rem 1rem !important;
+    }
+    #statsChart {
+        max-width: 100vw !important;
+        min-width: 0 !important;
+    }
+}
 </style>
 @endsection 

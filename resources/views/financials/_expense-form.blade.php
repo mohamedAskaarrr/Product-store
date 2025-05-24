@@ -81,4 +81,28 @@ document.addEventListener('DOMContentLoaded', function() {
     paySelect.addEventListener('change', togglePayOther);
     togglePayOther();
 });
-</script> 
+</script>
+<style>
+@media (max-width: 576px) {
+    form.card.p-4 {
+        padding: 0.7rem !important;
+        border-radius: 0.7rem !important;
+    }
+    .form-label {
+        font-size: 1rem !important;
+    }
+    .form-control, .category-select, .payment-method-select {
+        font-size: 1rem !important;
+        padding: 0.7rem 1rem !important;
+    }
+    .d-flex.gap-2 {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    .btn {
+        width: 100% !important;
+        font-size: 1rem !important;
+        padding: 0.7rem 1rem !important;
+    }
+}
+</style> 

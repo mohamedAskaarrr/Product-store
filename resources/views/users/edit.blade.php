@@ -10,84 +10,76 @@
 
     <!-- Additional Styling -->
     <style>
-        /* Soft Green Background */
+        /* Remove green background, use theme */
         body {
-            background: linear-gradient(135deg, #a8d08d 0%, #81c784 100%); /* Soft Green Gradient */
+            background-color: #2c1e1e !important;
+            color: #D4AF37 !important;
             font-family: 'Arial', sans-serif;
             padding-top: 20px;
         }
-
         .container {
-            background-color: rgba(255, 255, 255, 0.9); /* Transparent White for contrast */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
+            background: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            color: #D4AF37 !important;
         }
-
         h1 {
-            color: #2c1e1e ;
+            color: #D4AF37 !important;
             font-weight: bold;
         }
-
         .form-control {
             border-radius: 8px;
             font-size: 16px;
             padding: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #2c1e1e !important;
+            color: #D4AF37 !important;
+            border: 1px solid #D4AF37 !important;
         }
-
         .form-control:focus {
-            border-color: #2c1e1e ;
-            box-shadow: 0 0 5px rgba(118, 215, 196, 0.8);
+            border-color: #D4AF37 !important;
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.15);
+            color: #D4AF37 !important;
         }
-
         .form-label {
             font-weight: 500;
-            color: #333;
+            color: #D4AF37 !important;
         }
-
         button {
             border-radius: 25px;
             padding: 12px 20px;
             font-size: 16px;
             transition: transform 0.3s ease, background-color 0.4s ease;
-            background-color:  #2c1e1e;
-            color: white;
+            background-color: #D4AF37 !important;
+            color: #2c1e1e !important;
             border: none;
         }
-
         button:hover {
             transform: scale(1.05);
-            background-color:  #2c1e1e;
+            background-color: #2c1e1e !important;
+            color: #D4AF37 !important;
+            border: 1px solid #D4AF37 !important;
         }
-
         button i {
             margin-right: 10px;
         }
-
-        /* Reset links */
         a#clean_roles, a#clean_permissions {
             color: #d32f2f;
             font-size: 14px;
             text-decoration: none;
         }
-
         a#clean_roles:hover, a#clean_permissions:hover {
             text-decoration: underline;
         }
-
-        /* Alert messages */
         .alert-danger {
             font-size: 14px;
             padding: 10px;
             margin-top: 15px;
             border-radius: 5px;
+            background-color: #2c1e1e !important;
+            border: 1px solid #D4AF37 !important;
+            color: #D4AF37 !important;
         }
-
-        /* Adjust margins for responsive layouts */
         @media (max-width: 768px) {
             .col-12 {
                 padding-left: 15px;

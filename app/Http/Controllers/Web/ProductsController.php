@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -25,7 +26,7 @@ class ProductsController extends Controller {
         $this->middleware('auth:web')->except('list');
     }
 
-	public function index(): View
+	public function index(): View|RedirectResponse
     {
         if (auth()->check()) {
             $roles = auth()->user()->getRoleNames()->toArray();

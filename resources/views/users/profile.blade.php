@@ -107,6 +107,56 @@
     .fade-in {
         animation: fadeIn 0.5s ease forwards;
     }
+    .profile-card .row.g-0 {
+        flex-direction: column;
+    }
+    .profile-card .border-end {
+        border: none !important;
+        border-bottom: 2px solid #D4AF37 !important;
+        margin-bottom: 2rem;
+        padding-right: 0 !important;
+    }
+    .profile-card .ps-md-4 {
+        padding-left: 0 !important;
+    }
+}
+/* Extra mobile tweaks for xs screens */
+@media (max-width: 576px) {
+    .container.py-5 {
+        padding: 0.5rem !important;
+    }
+    .profile-card {
+        padding: 1rem !important;
+        border-radius: 10px !important;
+    }
+    .profile-card img.rounded-circle {
+        width: 70px !important;
+        height: 70px !important;
+    }
+    .profile-card h3 {
+        font-size: 1.1rem !important;
+    }
+    .profile-card .btn, .profile-card .btn-outline-gold {
+        width: 100% !important;
+        margin-bottom: 0.5rem !important;
+        font-size: 1rem !important;
+        padding: 0.7rem 1rem !important;
+    }
+    .profile-card .d-flex.flex-wrap.gap-2.mb-4 {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    .profile-card .badge {
+        font-size: 0.95rem !important;
+        padding: 0.4em 0.7em !important;
+        margin-bottom: 0.2em !important;
+    }
+    .profile-card .mb-3, .profile-card .mb-2 {
+        margin-bottom: 0.7rem !important;
+    }
+    .profile-card .d-flex.flex-wrap.gap-2 {
+        gap: 0.3rem !important;
+    }
 }
 
 body, .profile-card, .container {
@@ -158,20 +208,6 @@ body, .profile-card, .container {
     background: #1e1e1e !important;
     color: #D4AF37 !important;
     border: 1.5px solid #D4AF37;
-}
-@media (max-width: 767.98px) {
-    .profile-card .row.g-0 {
-        flex-direction: column;
-    }
-    .profile-card .border-end {
-        border: none !important;
-        border-bottom: 2px solid #D4AF37 !important;
-        margin-bottom: 2rem;
-        padding-right: 0 !important;
-    }
-    .profile-card .ps-md-4 {
-        padding-left: 0 !important;
-    }
 }
 </style>
 @endsection

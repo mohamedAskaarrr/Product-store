@@ -218,6 +218,52 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
     }
+    @media (max-width: 576px) {
+        .container.py-4 {
+            padding: 0.5rem !important;
+        }
+        .row.mb-4 > .col-md-6, .row.mb-4 > .col-md-6.text-end {
+            flex: 0 0 100%;
+            max-width: 100%;
+            text-align: left !important;
+            margin-bottom: 0.5rem !important;
+        }
+        .row.mb-4 {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+        }
+        .d-flex.gap-2, .d-flex {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+        }
+        .btn, .btn-gold, .btn-view, .btn-edit, .btn-delete {
+            width: 100% !important;
+            margin-bottom: 0.3rem !important;
+            font-size: 1rem !important;
+            padding: 0.7rem 1rem !important;
+        }
+        .badge {
+            font-size: 0.95rem !important;
+            padding: 0.4em 0.7em !important;
+            margin-bottom: 0.2em !important;
+        }
+        .table-responsive {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        .table {
+            min-width: 600px !important;
+            font-size: 0.95rem !important;
+        }
+        .form-control {
+            font-size: 1rem !important;
+            padding: 0.7rem 1rem !important;
+        }
+        form.d-flex.gap-2 {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+        }
+    }
 </style>
 
 @endsection

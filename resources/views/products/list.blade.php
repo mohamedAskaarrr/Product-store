@@ -769,6 +769,80 @@
             padding: 0.7rem 1.2rem;
         }
     }
+
+    @media (max-width: 576px) {
+        .products-page-wrapper {
+            padding: 0.5rem !important;
+        }
+        .products-heading-section {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            margin-bottom: 1rem !important;
+        }
+        .products-icon {
+            font-size: 1.5rem !important;
+            padding: 4px 8px !important;
+        }
+        .products-heading {
+            font-size: 1.1rem !important;
+        }
+        .products-subtitle {
+            font-size: 0.9rem !important;
+        }
+        .search-section {
+            margin-top: 1rem !important;
+            padding: 0.5rem 0 !important;
+        }
+        .search-card {
+            padding: 0.5rem !important;
+        }
+        .search-form .row.g-3 > div[class^='col-'] {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        .search-input, .btn-gold {
+            margin-bottom: 0.5rem !important;
+            font-size: 1rem !important;
+            height: 40px !important;
+        }
+        .modern-product-img-wrap {
+            min-height: 100px !important;
+            padding: 0.5rem !important;
+        }
+        .modern-product-img {
+            max-width: 100% !important;
+            max-height: 80px !important;
+        }
+        .modern-product-title {
+            font-size: 1rem !important;
+        }
+        .modern-price {
+            font-size: 1rem !important;
+        }
+        .modern-actions .btn {
+            padding: 0.5rem 0.7rem !important;
+            font-size: 0.95rem !important;
+        }
+        .modern-product-card {
+            min-width: 0 !important;
+            padding: 0.5rem !important;
+        }
+        .admin-dashboard-card {
+            flex-direction: column !important;
+            gap: 1rem !important;
+            padding: 1rem !important;
+        }
+        .dashboard-actions {
+            width: 100% !important;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .dashboard-actions .btn {
+            width: 100% !important;
+            margin-bottom: 0.5rem !important;
+        }
+    }
 </style>
 
 <script>

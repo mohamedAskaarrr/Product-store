@@ -114,6 +114,39 @@
     border-color: #D4AF37;
     color: #fffbe6;
   }
+
+  @media (max-width: 576px) {
+    .login-form-wrapper {
+      padding: 1rem !important;
+      border-radius: 1rem !important;
+      max-width: 98vw !important;
+    }
+    .login-icon-wrapper {
+      width: 56px !important;
+      height: 56px !important;
+      font-size: 1.2rem !important;
+    }
+    .login-icon-wrapper .bi {
+      font-size: 1.5rem !important;
+    }
+    h2.mb-2 {
+      font-size: 1.2rem !important;
+    }
+    .form-control-dark, .input-group-text-dark {
+      font-size: 1rem !important;
+      padding: 0.7rem 0.8rem !important;
+    }
+    .btn-custom-primary {
+      font-size: 1rem !important;
+      padding: 0.7rem 1rem !important;
+      border-radius: 0.5rem !important;
+    }
+    .login-fullscreen {
+      align-items: flex-start !important;
+      padding-top: 2rem !important;
+      height: 100vh !important;
+    }
+  }
 </style>
 @endsection
 

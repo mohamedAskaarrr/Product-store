@@ -66,5 +66,27 @@
     }
     .text-gold { color: #D4AF37 !important; }
     .text-white { color: #fffbe6 !important; }
+    @media (max-width: 576px) {
+        .container.py-4 {
+            padding: 0.5rem !important;
+        }
+        .table-responsive {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        .table {
+            min-width: 600px !important;
+            font-size: 0.95rem !important;
+        }
+        .d-flex.gap-2.mt-3 {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+        }
+        .btn {
+            width: 100% !important;
+            font-size: 1rem !important;
+            padding: 0.7rem 1rem !important;
+        }
+    }
 </style>
 @endsection 

@@ -20,5 +20,16 @@
     padding: 2rem 1.5rem;
     margin: 0 auto;
 }
+@media (max-width: 576px) {
+    .edit-form-wrapper {
+        padding: 1rem !important;
+        border-radius: 0.7rem !important;
+        max-width: 98vw !important;
+    }
+    h2.text-gold {
+        font-size: 1.1rem !important;
+        margin-bottom: 1rem !important;
+    }
+}
 </style>
 @endsection 

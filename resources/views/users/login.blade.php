@@ -142,6 +142,41 @@
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.5) !important; /* Gold shadow */
   }
+  @media (max-width: 576px) {
+    .login-form-wrapper {
+      padding: 1rem !important;
+      border-radius: 1rem !important;
+      max-width: 98vw !important;
+    }
+    .login-icon-wrapper {
+      width: 56px !important;
+      height: 56px !important;
+      font-size: 1.2rem !important;
+    }
+    .login-icon-wrapper .bi {
+      font-size: 1.5rem !important;
+    }
+    h2.mb-2 {
+      font-size: 1.2rem !important;
+    }
+    .form-control-dark, .input-group-text-dark {
+      font-size: 1rem !important;
+      padding: 0.7rem 0.8rem !important;
+    }
+    .btn-custom-primary, .btn-outline-custom {
+      font-size: 1rem !important;
+      padding: 0.7rem 1rem !important;
+      border-radius: 0.5rem !important;
+    }
+    .social-buttons .btn {
+      margin-bottom: 0.4rem !important;
+    }
+    .login-fullscreen {
+      align-items: flex-start !important;
+      padding-top: 2rem !important;
+      height: 100vh !important;
+    }
+  }
 </style>
 @endsection
 

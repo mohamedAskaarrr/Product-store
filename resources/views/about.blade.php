@@ -86,5 +86,33 @@
     .text-gold {
         color: #D4AF37;
     }
+
+    @media (max-width: 576px) {
+        .about-card {
+            padding: 0.7rem !important;
+            border-radius: 6px !important;
+        }
+        .content-card {
+            padding: 0.7rem !important;
+            border-radius: 6px !important;
+        }
+        .commitment-section .row {
+            flex-direction: column !important;
+        }
+        .commitment-card {
+            margin-bottom: 1rem !important;
+            padding: 1rem !important;
+            border-radius: 6px !important;
+        }
+        h1.text-gold, h2.text-gold {
+            font-size: 1.2rem !important;
+        }
+        .commitment-card h3 {
+            font-size: 1rem !important;
+        }
+        p, .lead {
+            font-size: 1rem !important;
+        }
+    }
 </style>
 @endsection
