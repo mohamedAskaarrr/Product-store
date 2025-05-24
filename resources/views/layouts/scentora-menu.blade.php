@@ -31,11 +31,25 @@
 
      
 
+        @php
+            $showAbout = false;
+            if (!auth()->check()) {
+                $showAbout = true;
+            } else {
+                $roles = auth()->user()->getRoleNames()->toArray();
+                if (in_array('Customer', $roles) || in_array('Employee', $roles)) {
+                    $showAbout = true;
+                }
+            }
+        @endphp
+
+        @if($showAbout)
         <li class="nav-item">
           <a class="nav-link" href="{{ route('about') }}">
             <i class="fas fa-info-circle me-1"></i>About Us
           </a>
-        </li>        
+        </li>
+        @endif
         @can('show_users')
         <li class="nav-item">
           <a class="nav-link" href="{{ route('users') }}">
@@ -50,6 +64,22 @@
           </a>
         </li>
         @endcan
+        @php
+            $showFinancials = false;
+            if (auth()->check()) {
+                $user = auth()->user();
+                if ($user->can('manage_sales') || $user->can('manage_expenses') || $user->can('manage_profit')) {
+                    $showFinancials = true;
+                }
+            }
+        @endphp
+        @if($showFinancials)
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('manage.financials') }}">
+            <i class="fas fa-coins me-1"></i>Manage Financials
+          </a>
+        </li>
+        @endif
       </ul>
       <ul class="navbar-nav">
         @auth

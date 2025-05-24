@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Web\DashboardController;
+use App\Http\Controllers\Web\FinancialsController;
 
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        $roles = auth()->user()->getRoleNames()->toArray();
+        if (in_array('Admin', $roles) || in_array('Manager', $roles)) {
+            return redirect()->route('dashboard');
+        }
+    }
     $email = emailFromLoginCertificate();
     if($email && !auth()->user()) {
         $user = User::where('email', $email)->first();
@@ -127,17 +135,18 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 // Home & About
-Route::get('/', function () {
-    $email = emailFromLoginCertificate();
-    if($email && !auth()->user()) {
-        $user = User::where('email', $email)->first();
-        if($user) Auth::login($user);
-    }
-    return view('home');
-})->name('home');
-
 Route::get('/about', function () {
-    return view('about');
+    // If not logged in, allow (guest)
+    if (!auth()->check()) {
+        return view('about');
+    }
+    // If Customer or Employee, allow
+    $roles = auth()->user()->getRoleNames()->toArray();
+    if (in_array('Customer', $roles) || in_array('Employee', $roles)) {
+        return view('about');
+    }
+    // Otherwise, block
+    abort(403, 'Unauthorized');
 })->name('about');
 
 // Public Product List
@@ -148,7 +157,7 @@ Route::get('products', [ProductsController::class, 'list'])->name('products_list
 | Development Routes (Remove in Production)
 |--------------------------------------------------------------------------
 */
-Route::get('/', [App\Http\Controllers\Web\ProductsController::class, 'index'])->name('home');
+// Route::get('/', [App\Http\Controllers\Web\ProductsController::class, 'index'])->name('home');
 
 // Route::get('/register', [App\Http\Controllers\Web\UsersController::class, 'doregister'])->name('register');
 
@@ -214,4 +223,23 @@ Route::get('reset-password/{token}', [UsersController::class, 'showResetForm'])
     ->name('password.reset');
 Route::post('reset-password', [UsersController::class, 'reset'])
     ->name('password.update');
+   
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/data', [DashboardController::class, 'getMonthlyStats'])->name('dashboard.data');
+    Route::get('/manage-financials', [FinancialsController::class, 'index'])->name('manage.financials');
+    Route::post('/manage-financials/sales', [FinancialsController::class, 'storeSale'])->name('manage.financials.sales.store');
+    Route::put('/manage-financials/sales/{id}', [FinancialsController::class, 'updateSale'])->name('manage.financials.sales.update');
+    Route::delete('/manage-financials/sales/{id}', [FinancialsController::class, 'deleteSale'])->name('manage.financials.sales.delete');
+    Route::post('/manage-financials/expenses', [FinancialsController::class, 'storeExpense'])->name('manage.financials.expenses.store');
+    Route::put('/manage-financials/expenses/{id}', [FinancialsController::class, 'updateExpense'])->name('manage.financials.expenses.update');
+    Route::delete('/manage-financials/expenses/{id}', [FinancialsController::class, 'deleteExpense'])->name('manage.financials.expenses.delete');
+    Route::post('/manage-financials/profit', [FinancialsController::class, 'storeProfit'])->name('manage.financials.profit.store');
+    Route::put('/manage-financials/profit/{id}', [FinancialsController::class, 'updateProfit'])->name('manage.financials.profit.update');
+    Route::delete('/manage-financials/profit/{id}', [FinancialsController::class, 'deleteProfit'])->name('manage.financials.profit.delete');
+    Route::get('/manage-financials/sales/{id}', [FinancialsController::class, 'showSale'])->name('manage.financials.sales.show');
+    Route::get('/manage-financials/expenses/{id}', [FinancialsController::class, 'showExpense'])->name('manage.financials.expenses.show');
+    Route::get('/manage-financials/sales/{id}/edit', [FinancialsController::class, 'editSale'])->name('manage.financials.sales.edit');
+    Route::get('/manage-financials/expenses/{id}/edit', [FinancialsController::class, 'editExpense'])->name('manage.financials.expenses.edit');
+});
    
