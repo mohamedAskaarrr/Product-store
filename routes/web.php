@@ -239,6 +239,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/manage-financials/profit', [FinancialsController::class, 'storeProfit'])->name('manage.financials.profit.store');
     Route::put('/manage-financials/profit/{id}', [FinancialsController::class, 'updateProfit'])->name('manage.financials.profit.update');
     Route::delete('/manage-financials/profit/{id}', [FinancialsController::class, 'deleteProfit'])->name('manage.financials.profit.delete');
+    Route::get('/manage-financials/sales/all', [FinancialsController::class, 'allSales'])->name('manage.financials.sales.all');
+    Route::get('/manage-financials/expenses/all', [FinancialsController::class, 'allExpenses'])->name('manage.financials.expenses.all');
+    Route::get('/manage-financials/profit/all', [FinancialsController::class, 'allProfits'])->name('manage.financials.profit.all');
     Route::get('/manage-financials/sales/{id}', [FinancialsController::class, 'showSale'])->name('manage.financials.sales.show');
     Route::get('/manage-financials/expenses/{id}', [FinancialsController::class, 'showExpense'])->name('manage.financials.expenses.show');
     Route::get('/manage-financials/sales/{id}/edit', [FinancialsController::class, 'editSale'])->name('manage.financials.sales.edit');

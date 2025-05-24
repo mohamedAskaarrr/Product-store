@@ -17,7 +17,10 @@
     @endif
     <div class="row">
         <div class="col-md-12 mb-4">
-            <h4 class="text-gold">Sales</h4>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="text-gold mb-0">Sales</h4>
+                <a href="{{ route('manage.financials.sales.all') }}" class="btn btn-gold btn-sm ms-2">See All</a>
+            </div>
             @can('manage_sales')
             <a href="#" class="btn btn-gold mb-2" data-bs-toggle="modal" data-bs-target="#addSaleModal">Add Sale</a>
             <!-- Add Sale Modal -->
@@ -104,7 +107,10 @@
             </table>
         </div>
         <div class="col-md-12 mb-4">
-            <h4 class="text-gold">Expenses</h4>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="text-gold mb-0">Expenses</h4>
+                <a href="{{ route('manage.financials.expenses.all') }}" class="btn btn-gold btn-sm ms-2">See All</a>
+            </div>
             @can('manage_expenses')
             <a href="#" class="btn btn-gold mb-2" data-bs-toggle="modal" data-bs-target="#addExpenseModal">Add Expense</a>
             <!-- Add Expense Modal -->
@@ -204,7 +210,10 @@
             </table>
         </div>
         <div class="col-md-12 mb-4">
-            <h4 class="text-gold">Profit</h4>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="text-gold mb-0">Profit</h4>
+                <a href="{{ route('manage.financials.profit.all') }}" class="btn btn-gold btn-sm ms-2">See All</a>
+            </div>
             @can('manage_profit')
             <a href="#" class="btn btn-gold mb-2" data-bs-toggle="modal" data-bs-target="#addProfitModal">Add Profit</a>
             <!-- Add Profit Modal -->

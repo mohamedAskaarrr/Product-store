@@ -15,9 +15,9 @@ class FinancialsController extends Controller
         if (!($user->can('manage_sales') || $user->can('manage_expenses') || $user->can('manage_profit'))) {
             abort(403, 'Unauthorized');
         }
-        $sales = DB::table('sales')->orderByDesc('date')->get();
-        $expenses = DB::table('expenses')->orderByDesc('date')->get();
-        $profits = DB::table('profit')->orderByDesc('date')->get();
+        $sales = DB::table('sales')->orderByDesc('date')->limit(5)->get();
+        $expenses = DB::table('expenses')->orderByDesc('date')->limit(5)->get();
+        $profits = DB::table('profit')->orderByDesc('date')->limit(5)->get();
         return view('manage-financials', compact('sales', 'expenses', 'profits', 'user'));
     }
     // Sales CRUD
@@ -198,5 +198,59 @@ class FinancialsController extends Controller
                 'updated_at' => now(),
             ]);
         }
+    }
+
+    // Show all sales with filtering and pagination
+    public function allSales(Request $request)
+    {
+        $query = DB::table('sales')->orderByDesc('date');
+        if ($request->filled('date')) {
+            $query->where('date', $request->date);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        $sales = $query->paginate(20);
+        return view('financials.list', [
+            'type' => 'sales',
+            'records' => $sales,
+            'filters' => $request->only(['date', 'status'])
+        ]);
+    }
+
+    // Show all expenses with filtering and pagination
+    public function allExpenses(Request $request)
+    {
+        $query = DB::table('expenses')->orderByDesc('date');
+        if ($request->filled('date')) {
+            $query->where('date', $request->date);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+        $expenses = $query->paginate(20);
+        return view('financials.list', [
+            'type' => 'expenses',
+            'records' => $expenses,
+            'filters' => $request->only(['date', 'status', 'category'])
+        ]);
+    }
+
+    // Show all profits with filtering and pagination
+    public function allProfits(Request $request)
+    {
+        $query = DB::table('profit')->orderByDesc('date');
+        if ($request->filled('date')) {
+            $query->where('date', $request->date);
+        }
+        $profits = $query->paginate(20);
+        return view('financials.list', [
+            'type' => 'profits',
+            'records' => $profits,
+            'filters' => $request->only(['date'])
+        ]);
     }
 } 
