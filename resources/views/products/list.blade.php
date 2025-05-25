@@ -819,13 +819,23 @@
         .modern-price {
             font-size: 1rem !important;
         }
-        .modern-actions .btn {
-            padding: 0.5rem 0.7rem !important;
-            font-size: 0.95rem !important;
+        .modern-actions .btn,
+        .modern-btn-buy,
+        .modern-btn-edit,
+        .modern-btn-delete,
+        .modern-btn-fav,
+        .modern-btn-disabled,
+        .btn,
+        .btn-gold,
+        .btn-outline-gold {
+            width: 100% !important;
+            font-size: 1rem !important;
+            padding: 0.7rem 1rem !important;
+            margin-bottom: 0.5rem !important;
         }
-        .modern-product-card {
-            min-width: 0 !important;
-            padding: 0.5rem !important;
+        .modern-actions {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
         }
         .admin-dashboard-card {
             flex-direction: column !important;

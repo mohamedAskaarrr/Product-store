@@ -236,11 +236,19 @@
             flex-direction: column !important;
             gap: 0.5rem !important;
         }
-        .btn, .btn-gold, .btn-view, .btn-edit, .btn-delete {
+        .btn,
+        .btn-gold,
+        .btn-view,
+        .btn-edit,
+        .btn-delete {
             width: 100% !important;
-            margin-bottom: 0.3rem !important;
             font-size: 1rem !important;
             padding: 0.7rem 1rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        .btn-group, .d-flex.gap-2 {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
         }
         .badge {
             font-size: 0.95rem !important;
