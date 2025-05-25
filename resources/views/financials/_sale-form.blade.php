@@ -73,10 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
         flex-direction: column !important;
         gap: 0.5rem !important;
     }
-    .btn {
+    .btn,
+    .btn-gold,
+    .btn-secondary {
         width: 100% !important;
         font-size: 1rem !important;
         padding: 0.7rem 1rem !important;
+        margin-bottom: 0.5rem !important;
     }
 }
 </style> 

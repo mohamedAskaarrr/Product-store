@@ -255,6 +255,21 @@
     .alert-warning {
         border-left: 4px solid #ffc107;
     }
+
+    @media (max-width: 576px) {
+        .btn,
+        .btn-gold,
+        .btn-delete {
+            width: 100% !important;
+            font-size: 1rem !important;
+            padding: 0.7rem 1rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        .basket-actions, .d-flex.gap-2, .btn-group {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+        }
+    }
 </style>
 @endsection
 

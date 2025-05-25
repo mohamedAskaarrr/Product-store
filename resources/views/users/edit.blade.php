@@ -86,6 +86,22 @@
                 padding-right: 15px;
             }
         }
+        @media (max-width: 576px) {
+            .btn,
+            .btn-gold,
+            .btn-outline-gold,
+            .btn-success,
+            .btn-secondary {
+                width: 100% !important;
+                font-size: 1rem !important;
+                padding: 0.7rem 1rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .d-flex.justify-content-between, .d-flex.gap-2 {
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+            }
+        }
     </style>
 </head>
 <body>
