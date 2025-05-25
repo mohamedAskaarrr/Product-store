@@ -49,42 +49,44 @@
             </div>
         </form>
 
-        <div class="table-responsive">
-            <table class="table table-dark table-hover">
-                <thead>
-                    <tr>
-                        <th class="border-gold">Order #</th>
-                        <th class="border-gold">Date</th>
-                        <th class="border-gold">Total</th>
-                        <th class="border-gold">Status</th>
-                        <th class="border-gold">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($orders as $order)
-                    <tr>
-                        <td class="border-gold">{{ $order->order_number }}</td>
-                        <td class="border-gold">{{ $order->created_at ? \Carbon\Carbon::parse($order->created_at)->format('M d, Y H:i') : '' }}</td>
-                        <td class="border-gold">
-                            <span class="badge bg-credit">${{ number_format($order->total_price, 2) }}</span>
-                        </td>
-                        <td class="border-gold">{{ ucfirst($order->status) }}</td>
-                        <td class="border-gold">
-                            <div class="btn-group">
-                                <a href="{{ route('order.details', $order->id) }}" class="btn btn-view btn-sm">
-                                    <i class="fas fa-eye"></i> Details
-                                </a>
-                                @if($order->status === 'completed')
-                                    <button type="button" class="btn btn-refund btn-sm" data-bs-toggle="modal" data-bs-target="#refundRequestModal{{ $order->id }}">
-                                        <i class="fas fa-undo-alt"></i> Request Refund
-                                    </button>
-                                @endif
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="purchase-history-table-wrapper">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th class="border-gold">Order #</th>
+                            <th class="border-gold">Date</th>
+                            <th class="border-gold">Total</th>
+                            <th class="border-gold">Status</th>
+                            <th class="border-gold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($orders as $order)
+                        <tr>
+                            <td class="border-gold">{{ $order->order_number }}</td>
+                            <td class="border-gold">{{ $order->created_at ? \Carbon\Carbon::parse($order->created_at)->format('M d, Y H:i') : '' }}</td>
+                            <td class="border-gold">
+                                <span class="badge bg-credit">${{ number_format($order->total_price, 2) }}</span>
+                            </td>
+                            <td class="border-gold">{{ ucfirst($order->status) }}</td>
+                            <td class="border-gold">
+                                <div class="btn-group">
+                                    <a href="{{ route('order.details', $order->id) }}" class="btn btn-view btn-sm">
+                                        <i class="fas fa-eye"></i> Details
+                                    </a>
+                                    @if($order->status === 'completed')
+                                        <button type="button" class="btn btn-refund btn-sm" data-bs-toggle="modal" data-bs-target="#refundRequestModal{{ $order->id }}">
+                                            <i class="fas fa-undo-alt"></i> Request Refund
+                                        </button>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     @endif
 </div>
@@ -123,21 +125,45 @@
         background-color: #2c1e1e;
         color: #f5f5f5;
     }
+    .purchase-history-table-wrapper {
+        background: #2c1e1e;
+        border: 1px solid #D4AF37;
+        border-radius: 1rem;
+        box-shadow: 0 0 24px 0 rgba(212,175,55,0.10);
+        overflow: hidden;
+        padding: 0;
+    }
     .table-dark {
         background-color: #2c1e1e !important;
         color: #f5f5f5 !important;
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 0;
+        border: none !important;
+    }
+    .table-dark thead {
+        border-bottom: 1px solid #D4AF37;
+    }
+    .table-dark thead tr {
+        border-bottom: 1px solid #D4AF37;
     }
     .table-dark thead th {
         background-color: #3a2a2a !important;
         color: #D4AF37 !important;
-        border-color: #D4AF37 !important;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        border: none !important;
+        padding: 0.75rem;
+    }
+    .table-dark thead th:first-child {
+        border-top-left-radius: calc(1rem - 1px);
+    }
+    .table-dark thead th:last-child {
+        border-top-right-radius: calc(1rem - 1px);
     }
     .table-dark tbody tr {
         background-color: #2c1e1e !important;
-        border-color: #D4AF37 !important;
         transition: all 0.3s ease;
     }
     .table-dark tbody tr:hover {
@@ -146,9 +172,26 @@
         box-shadow: 0 4px 8px rgba(212, 175, 55, 0.1);
     }
     .table-dark td {
-        border-color: #D4AF37 !important;
         color: #f5f5f5 !important;
         vertical-align: middle;
+        border: none !important;
+        padding: 0.75rem;
+    }
+    .table-dark tbody tr:last-child td {
+        border-bottom: none;
+    }
+    .table-dark tbody tr:last-child td:first-child {
+        border-bottom-left-radius: calc(1rem - 1px);
+    }
+    .table-dark tbody tr:last-child td:last-child {
+        border-bottom-right-radius: calc(1rem - 1px);
+    }
+    .table-responsive > .table-dark {
+        overflow: hidden;
+        border: none !important;
+    }
+    .table-dark th, .table-dark td {
+        border-color: transparent !important;
     }
     .border-gold {
         border-color: #D4AF37 !important;
@@ -225,6 +268,26 @@
     }
     .btn-close {
         filter: invert(1) grayscale(100%) brightness(200%);
+    }
+    @media (max-width: 768px) {
+        .purchase-history-table-wrapper {
+            padding: 1rem;
+        }
+        .container {
+            padding: 1rem;
+        }
+    }
+    @media (max-width: 576px) {
+        .purchase-history-table-wrapper {
+            padding: 0.8rem;
+        }
+        .container {
+            padding: 0.8rem;
+        }
+        .btn-group > .btn {
+             padding: 0.3rem 0.6rem;
+             font-size: 0.875rem;
+        }
     }
 </style>
 
