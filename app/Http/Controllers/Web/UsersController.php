@@ -459,7 +459,18 @@ class UsersController extends Controller {
         if (!auth()->user() || (auth()->id() != $user->id && !auth()->user()->hasPermissionTo('show_users'))) {
             abort(403, 'Unauthorized');
         }
-        $orders = $user->orders()->with('items.product')->orderByDesc('created_at')->get();
+        
+        $query = $user->orders()->with('items.product')->orderByDesc('created_at');
+        
+        if (request()->filled('date')) {
+            $query->whereDate('created_at', request('date'));
+        }
+        
+        if (request()->filled('status')) {
+            $query->where('status', request('status'));
+        }
+        
+        $orders = $query->get();
         return view('users.purchase_history', compact('user', 'orders'));
     }
 

@@ -30,6 +30,25 @@
             </div>
         </div>
     @else
+        <form method="GET" class="mb-3 row g-2 align-items-end">
+            <div class="col-auto">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" name="date" id="date" class="form-control" value="{{ request('date') }}">
+            </div>
+            <div class="col-auto">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="">All</option>
+                    <option value="completed" @if(request('status')=='completed') selected @endif>Completed</option>
+                    <option value="pending" @if(request('status')=='pending') selected @endif>Pending</option>
+                    <option value="cancelled" @if(request('status')=='cancelled') selected @endif>Cancelled</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-gold">Filter</button>
+            </div>
+        </form>
+
         <div class="table-responsive">
             <table class="table table-dark table-hover">
                 <thead>
@@ -46,10 +65,21 @@
                     <tr>
                         <td class="border-gold">{{ $order->order_number }}</td>
                         <td class="border-gold">{{ $order->created_at ? \Carbon\Carbon::parse($order->created_at)->format('M d, Y H:i') : '' }}</td>
-                        <td class="border-gold">${{ number_format($order->total_price, 2) }}</td>
+                        <td class="border-gold">
+                            <span class="badge bg-credit">${{ number_format($order->total_price, 2) }}</span>
+                        </td>
                         <td class="border-gold">{{ ucfirst($order->status) }}</td>
                         <td class="border-gold">
-                            <a href="{{ route('order.details', $order->id) }}" class="btn btn-info btn-sm">View Details</a>
+                            <div class="btn-group">
+                                <a href="{{ route('order.details', $order->id) }}" class="btn btn-view btn-sm">
+                                    <i class="fas fa-eye"></i> Details
+                                </a>
+                                @if($order->status === 'completed')
+                                    <button type="button" class="btn btn-refund btn-sm" data-bs-toggle="modal" data-bs-target="#refundRequestModal{{ $order->id }}">
+                                        <i class="fas fa-undo-alt"></i> Request Refund
+                                    </button>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -59,81 +89,94 @@
     @endif
 </div>
 
+@foreach($orders as $order)
+@if($order->status === 'completed')
+<!-- Refund Request Modal for each order -->
+<div class="modal fade" id="refundRequestModal{{ $order->id }}" tabindex="-1" aria-labelledby="refundRequestModalLabel{{ $order->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-gold">
+            <form action="{{ route('order.requestRefund', $order->id) }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="refundRequestModalLabel{{ $order->id }}">Request Refund for Order #{{ $order->order_number }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Reason for Refund</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-gold">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endif
+@endforeach
+
 <style>
     body {
         background-color: #2c1e1e;
         color: #f5f5f5;
     }
-
-    .container {
-        background-color: #2c1e1e;
-        border-radius: 12px;
-        padding: 30px;
+    .table-dark {
+        background-color: #2c1e1e !important;
+        color: #f5f5f5 !important;
     }
-
-    .purchase-card {
-        background-color: #3a2a2a;
-        border: 1px solid #D4AF37;
-        border-radius: 12px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .purchase-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(212, 175, 55, 0.1);
-    }
-
-    .purchase-img {
-        max-height: 200px;
-        width: auto;
-        border: 2px solid #D4AF37;
-        border-radius: 8px;
-        padding: 8px;
-        background-color: #2c1e1e;
-    }
-
-    .no-image {
-        width: 100%;
-        height: 200px;
-        background-color: #2c1e1e;
-        border: 2px solid #D4AF37;
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: #D4AF37;
-        font-size: 0.9rem;
-        gap: 8px;
-    }
-
-    .no-image i {
-        font-size: 2rem;
-    }
-
-    .badge.bg-gold {
-        background-color: #D4AF37;
-        color: #2c1e1e;
-        font-weight: 500;
-        padding: 6px 12px;
-        border-radius: 20px;
-    }
-
-    .price-badge {
-        background-color: #2c1e1e;
-        color: #D4AF37;
-        padding: 6px 12px;
-        border-radius: 20px;
+    .table-dark thead th {
+        background-color: #3a2a2a !important;
+        color: #D4AF37 !important;
+        border-color: #D4AF37 !important;
         font-weight: 600;
-        border: 1px solid #D4AF37;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-
-    .date-badge {
-        color: #D4AF37;
-        font-weight: 500;
-        text-align: right;
+    .table-dark tbody tr {
+        background-color: #2c1e1e !important;
+        border-color: #D4AF37 !important;
+        transition: all 0.3s ease;
     }
-
+    .table-dark tbody tr:hover {
+        background-color: #3a2a2a !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.1);
+    }
+    .table-dark td {
+        border-color: #D4AF37 !important;
+        color: #f5f5f5 !important;
+        vertical-align: middle;
+    }
+    .border-gold {
+        border-color: #D4AF37 !important;
+    }
+    .form-control {
+        background-color: #2c1e1e !important;
+        border-color: #D4AF37 !important;
+        color: #f5f5f5 !important;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus {
+        background-color: #3a2a2a !important;
+        border-color: #D4AF37 !important;
+        color: #f5f5f5 !important;
+        box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+    }
+    .btn-view {
+        background-color: #D4AF37 !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        transition: all 0.3s ease;
+    }
+    .btn-refund {
+        background-color: #E5C158 !important;
+        color: #2c1e1e !important;
+        border: none !important;
+        transition: all 0.3s ease;
+    }
     .empty-state-card {
         max-width: 600px;
         margin: 0 auto;
@@ -141,16 +184,13 @@
         border: 1px solid #D4AF37;
         border-radius: 12px;
     }
-
     .text-gold {
         color: #D4AF37;
         font-weight: 600;
     }
-
     .text-light {
         color: #f5f5f5 !important;
     }
-
     .btn-gold {
         background-color: #D4AF37;
         color: #2c1e1e;
@@ -160,49 +200,31 @@
         font-weight: 500;
         border-radius: 20px;
     }
-
     .btn-gold:hover {
         background-color: #B38F28;
         color: #2c1e1e;
         transform: scale(1.05);
         box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
     }
-
-    .purchase-details {
-        background-color: #2c1e1e;
-        border-radius: 8px;
-        padding: 12px;
-        margin-top: 12px;
-    }
-
-    .btn-refund {
-        background-color: #D4AF37 !important;
-        color: #2c1e1e !important;
-        border: none !important;
-        transition: all 0.3s ease;
+    .badge.bg-credit {
+        background-color: #D4AF37;
+        color: #2c1e1e;
         font-weight: 500;
-        padding: 8px 16px;
-        border-radius: 6px;
+        padding: 6px 12px;
+        border-radius: 20px;
     }
-
-    .btn-refund:hover {
-        background-color: #B38F28 !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
+    .modal-content {
+        background-color: #2c1e1e !important;
+        border: 1px solid #D4AF37;
     }
-
-    @media (max-width: 768px) {
-        .purchase-img {
-            max-height: 150px;
-        }
-        
-        .no-image {
-            height: 150px;
-        }
-        
-        .card-body {
-            padding: 1rem;
-        }
+    .modal-header {
+        border-bottom-color: #D4AF37;
+    }
+    .modal-footer {
+        border-top-color: #D4AF37;
+    }
+    .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
     }
 </style>
 
