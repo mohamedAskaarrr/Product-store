@@ -102,6 +102,7 @@ Route::middleware('auth')->group(function () {
     // Purchase History
     Route::get('/users/{user}/purchase-history', [UsersController::class, 'purchaseHistory'])->name('purchase_history');
     Route::post('/purchases/{purchase}/refund', [UsersController::class, 'refundPurchase'])->name('purchase.refund');
+    Route::post('users/{user}/verify', [UsersController::class, 'adminVerify'])->name('users.admin_verify');
 });
 
 /*

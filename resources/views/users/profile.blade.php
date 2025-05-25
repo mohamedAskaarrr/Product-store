@@ -28,7 +28,16 @@
                         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
                              alt="Profile" class="rounded-circle mb-3 border border-3 border-gold"
                              width="120" height="120">
-                        <h3 class="mb-0 text-gold">{{ $user->name }}</h3>
+                        <h3 class="mb-0 text-gold">{{ $user->name }}
+                            @if(auth()->user()->hasRole('Admin') && !$user->email_verified_at)
+                                <form action="{{ route('users.admin_verify', $user->id) }}" method="POST" style="display:inline; margin-left: 8px;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success btn-sm" title="Verify this account" style="padding:2px 8px; font-size:0.9em;">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        </h3>
                         <p class="text-light mb-2">{{ $user->email }}</p>
                         <div class="mb-3">
                             @foreach($user->roles as $role)
