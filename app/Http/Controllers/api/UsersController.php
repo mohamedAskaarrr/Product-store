@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< Updated upstream
 namespace App\Http\Controllers\Api;
 
 
@@ -43,27 +44,69 @@ class UsersController extends Controller
         // if (!Auth::attempt($request->only('email', 'password'))) {
         //     return response()->json(['error' => 'Invalid credentials'], 401);
         // }
+=======
+    namespace App\Http\Controllers\Api;
 
-        $user = User::where('email', $request->email)->first();
-        $token = $user->createToken('API Token')->accessToken;
 
-        return response()->json([
-            'token' => $token,
-            'user' => $user->only('id', 'name', 'email')
-        ]);
-    }
+    use Illuminate\Foundation\Validation\ValidatesRequests;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
+    use Artisan;
+    use App\Http\Controllers\Controller;
+    use App\Models\User;
+    use Illuminate\Support\Facades\Hash;
+    use Illuminate\Validation\ValidationException;
 
-    public function users(Request $request)
+    class UsersController extends Controller
     {
-        return response()->json([
-            'users' => User::select('id', 'name', 'email')->get()
-        ]);
-    }
+        use ValidatesRequests;
 
-    public function logout(Request $request)
-    {
-        $request->user()->token()->revoke();
-        return response()->json(['message' => 'Logged out']);
+        /**
+         * Handle user login and return access token
+         *
+         * @param Request $request
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function login(Request $request)
+        {
+            if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return response()->json(['error' => 'Invalid login info.'], 401);
+            }
+
+            $user = User::where('email', $request->email)
+                ->select('id', 'name', 'email')->first();
+
+                $token = $user->createToken('app');
+
+            return response()->json(['token'=>$token->accessToken , 'user' => $user->getAttributes()]);
+        }
+>>>>>>> Stashed changes
+
+        /**
+         * Get list of users
+         *
+         * @param Request $request
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function users(Request $request)
+        {
+            $users = User::select('id', 'name', 'email')->get()->toArray();
+            return response()->json(['users' => $users]);
+        }
+
+        /**
+         * Handle user logout
+         *
+         * @param Request $request
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function logout(Request $request)
+        {
+            $request->user()->token()->revoke();
+
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ]);
+        }
     }
-}
 

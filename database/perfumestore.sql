@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 24, 2025 at 05:10 AM
+-- Host: localhost
+-- Generation Time: May 24, 2025 at 08:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,7 +61,7 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:26:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:5:{s:1:\"a\";i:9;s:1:\"b\";s:13:\"view_products\";s:1:\"c\";s:13:\"View Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}}i:8;a:5:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"purchase_products\";s:1:\"c\";s:17:\"Purchase Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:3;}}i:9;a:5:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"manage_inventory\";s:1:\"c\";s:16:\"Manage Inventory\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:10;a:5:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"manage_promotions\";s:1:\"c\";s:17:\"Manage Promotions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:11;a:5:{s:1:\"a\";i:13;s:1:\"b\";s:10:\"view_sales\";s:1:\"c\";s:10:\"View Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:12;a:5:{s:1:\"a\";i:14;s:1:\"b\";s:22:\"manage_customer_credit\";s:1:\"c\";s:22:\"Manage Customer Credit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:13;a:5:{s:1:\"a\";i:15;s:1:\"b\";s:14:\"view_customers\";s:1:\"c\";s:14:\"View Customers\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:14;a:5:{s:1:\"a\";i:16;s:1:\"b\";s:14:\"manage_refunds\";s:1:\"c\";s:14:\"Manage Refunds\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:15;a:5:{s:1:\"a\";i:21;s:1:\"b\";s:7:\"AddRole\";s:1:\"c\";s:7:\"AddRole\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:5:{s:1:\"a\";i:22;s:1:\"b\";s:7:\"add_fav\";s:1:\"c\";s:7:\"add_fav\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}i:17;a:5:{s:1:\"a\";i:32;s:1:\"b\";s:22:\"view_financial_reports\";s:1:\"c\";s:22:\"View Financial Reports\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:18;a:5:{s:1:\"a\";i:33;s:1:\"b\";s:15:\"manage_expenses\";s:1:\"c\";s:15:\"Manage Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:19;a:5:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"view_expenses\";s:1:\"c\";s:13:\"View Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:20;a:5:{s:1:\"a\";i:35;s:1:\"b\";s:12:\"manage_sales\";s:1:\"c\";s:12:\"Manage Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:21;a:5:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"manage_profit\";s:1:\"c\";s:13:\"Manage Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:22;a:5:{s:1:\"a\";i:37;s:1:\"b\";s:11:\"view_profit\";s:1:\"c\";s:11:\"View Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:23;a:5:{s:1:\"a\";i:38;s:1:\"b\";s:29:\"manage_financial_transactions\";s:1:\"c\";s:29:\"Manage Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:5:{s:1:\"a\";i:39;s:1:\"b\";s:27:\"view_financial_transactions\";s:1:\"c\";s:27:\"View Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:25;a:5:{s:1:\"a\";i:40;s:1:\"b\";s:14:\"request_refund\";s:1:\"c\";s:14:\"Request Refund\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}}s:5:\"roles\";a:5:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:5;s:1:\"b\";s:8:\"Supplier\";s:1:\"d\";s:3:\"web\";}i:2;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}i:3;a:3:{s:1:\"a\";i:4;s:1:\"b\";s:7:\"Manager\";s:1:\"d\";s:3:\"web\";}i:4;a:3:{s:1:\"a\";i:3;s:1:\"b\";s:8:\"Customer\";s:1:\"d\";s:3:\"web\";}}}', 1748142210);
+('spatie.permission.cache', 'a:3:{s:5:\"alias\";a:5:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:12:\"display_name\";s:1:\"d\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:26:{i:0;a:5:{s:1:\"a\";i:1;s:1:\"b\";s:12:\"add_products\";s:1:\"c\";s:12:\"Add Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:1;a:5:{s:1:\"a\";i:2;s:1:\"b\";s:13:\"edit_products\";s:1:\"c\";s:13:\"Edit Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:2;a:5:{s:1:\"a\";i:3;s:1:\"b\";s:15:\"delete_products\";s:1:\"c\";s:15:\"Delete Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:3;a:5:{s:1:\"a\";i:4;s:1:\"b\";s:10:\"show_users\";s:1:\"c\";s:10:\"Show Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:4;a:5:{s:1:\"a\";i:5;s:1:\"b\";s:10:\"edit_users\";s:1:\"c\";s:10:\"Edit Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:5;a:5:{s:1:\"a\";i:7;s:1:\"b\";s:12:\"delete_users\";s:1:\"c\";s:12:\"Delete Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:6;a:5:{s:1:\"a\";i:8;s:1:\"b\";s:11:\"admin_users\";s:1:\"c\";s:11:\"Admin Users\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:5:{s:1:\"a\";i:9;s:1:\"b\";s:13:\"view_products\";s:1:\"c\";s:13:\"View Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}}i:8;a:5:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"purchase_products\";s:1:\"c\";s:17:\"Purchase Products\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:3;}}i:9;a:5:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"manage_inventory\";s:1:\"c\";s:16:\"Manage Inventory\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:5;}}i:10;a:5:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"manage_promotions\";s:1:\"c\";s:17:\"Manage Promotions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:11;a:5:{s:1:\"a\";i:13;s:1:\"b\";s:10:\"view_sales\";s:1:\"c\";s:10:\"View Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:12;a:5:{s:1:\"a\";i:14;s:1:\"b\";s:22:\"manage_customer_credit\";s:1:\"c\";s:22:\"Manage Customer Credit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:13;a:5:{s:1:\"a\";i:15;s:1:\"b\";s:14:\"view_customers\";s:1:\"c\";s:14:\"View Customers\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:14;a:5:{s:1:\"a\";i:16;s:1:\"b\";s:14:\"manage_refunds\";s:1:\"c\";s:14:\"Manage Refunds\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:3:{i:0;i:1;i:1;i:2;i:2;i:4;}}i:15;a:5:{s:1:\"a\";i:21;s:1:\"b\";s:7:\"AddRole\";s:1:\"c\";s:7:\"AddRole\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:5:{s:1:\"a\";i:22;s:1:\"b\";s:7:\"add_fav\";s:1:\"c\";s:7:\"add_fav\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}i:17;a:5:{s:1:\"a\";i:32;s:1:\"b\";s:22:\"view_financial_reports\";s:1:\"c\";s:22:\"View Financial Reports\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:18;a:5:{s:1:\"a\";i:33;s:1:\"b\";s:15:\"manage_expenses\";s:1:\"c\";s:15:\"Manage Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:19;a:5:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"view_expenses\";s:1:\"c\";s:13:\"View Expenses\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:20;a:5:{s:1:\"a\";i:35;s:1:\"b\";s:12:\"manage_sales\";s:1:\"c\";s:12:\"Manage Sales\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:21;a:5:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"manage_profit\";s:1:\"c\";s:13:\"Manage Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:22;a:5:{s:1:\"a\";i:37;s:1:\"b\";s:11:\"view_profit\";s:1:\"c\";s:11:\"View Profit\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:23;a:5:{s:1:\"a\";i:38;s:1:\"b\";s:29:\"manage_financial_transactions\";s:1:\"c\";s:29:\"Manage Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:5:{s:1:\"a\";i:39;s:1:\"b\";s:27:\"view_financial_transactions\";s:1:\"c\";s:27:\"View Financial Transactions\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:4;}}i:25;a:5:{s:1:\"a\";i:40;s:1:\"b\";s:14:\"request_refund\";s:1:\"c\";s:14:\"Request Refund\";s:1:\"d\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:3;}}}s:5:\"roles\";a:5:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"d\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:5;s:1:\"b\";s:8:\"Supplier\";s:1:\"d\";s:3:\"web\";}i:2;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:8:\"Employee\";s:1:\"d\";s:3:\"web\";}i:3;a:3:{s:1:\"a\";i:4;s:1:\"b\";s:7:\"Manager\";s:1:\"d\";s:3:\"web\";}i:4;a:3:{s:1:\"a\";i:3;s:1:\"b\";s:8:\"Customer\";s:1:\"d\";s:3:\"web\";}}}', 1748194218);
 
 -- --------------------------------------------------------
 
@@ -204,7 +204,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '0001_01_01_000000_create_users_table', 1),
 (2, '0001_01_01_000001_create_cache_table', 1),
 (3, '0001_01_01_000002_create_jobs_table', 1),
-(4, '2025_03_10_185119_create_permission_tables', 2);
+(4, '2025_03_10_185119_create_permission_tables', 2),
+(5, '2025_05_21_201154_create_oauth_auth_codes_table', 3),
+(6, '2025_05_21_201155_create_oauth_access_tokens_table', 3),
+(7, '2025_05_21_201156_create_oauth_refresh_tokens_table', 3),
+(8, '2025_05_21_201157_create_oauth_clients_table', 3),
+(9, '2025_05_21_201158_create_oauth_personal_access_clients_table', 3);
 
 -- --------------------------------------------------------
 
@@ -269,6 +274,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (3, 'App\\Models\\User', 19),
 (3, 'App\\Models\\User', 22),
 (3, 'App\\Models\\User', 23),
+(3, 'App\\Models\\User', 30),
 (4, 'App\\Models\\User', 27),
 (4, 'App\\Models\\User', 29),
 (5, 'App\\Models\\User', 26),
@@ -288,6 +294,91 @@ CREATE TABLE `monthly_financial_summary` (
 ,`number_of_sales` bigint(21)
 ,`number_of_expenses` bigint(21)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_access_tokens`
+--
+
+CREATE TABLE `oauth_access_tokens` (
+  `id` varchar(100) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `client_id` char(36) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `scopes` text DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_auth_codes`
+--
+
+CREATE TABLE `oauth_auth_codes` (
+  `id` varchar(100) NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `scopes` text DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_clients`
+--
+
+CREATE TABLE `oauth_clients` (
+  `id` char(36) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `secret` varchar(100) DEFAULT NULL,
+  `provider` varchar(255) DEFAULT NULL,
+  `redirect` text NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_clients`
+--
+
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `provider`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+('9efd877a-b836-4227-98e8-ce714970c8c5', NULL, 'Laravel', '$2y$12$AktMNc7hwTR04YmxUyzI2.RsP/NRAjbTumRRuF4xhVgQBNVdPxUbO', 'users', '', 1, 0, 0, '2025-05-24 17:09:29', '2025-05-24 17:09:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_personal_access_clients`
+--
+
+CREATE TABLE `oauth_personal_access_clients` (
+  `client_id` char(36) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` varchar(100) NOT NULL,
+  `access_token_id` varchar(100) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -708,8 +799,10 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('nbeqwhYBKcCGWkIWUnOaNxac15bFbgYAWS4O8Qog', 23, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoia0twUjA3STB0bFVrd3pkTU91SFJvc0E5M2JucXRna3lidVRieVE2ayI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTI6Imh0dHBzOi8vcHJvZHVjdC1zdG9yZS50ZXN0L3VzZXJzLzIzL3B1cmNoYXNlLWhpc3RvcnkiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyMzt9', 1748056156),
-('xadqdFGdwjyOOChPvP5ngDq2Ty15NwZX1iqOXCEi', 29, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYkY5RFhaeE1XaHBZNWFIcldGVnRQVEt1T2s4eXJScW14MFE0dUVkTSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyNjoiaHR0cHM6Ly9wcm9kdWN0LXN0b3JlLnRlc3QiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo0NDoiaHR0cHM6Ly9wcm9kdWN0LXN0b3JlLnRlc3QvbWFuYWdlLWZpbmFuY2lhbHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyOTt9', 1748056185);
+('2IqjGzpCNDmTehURVJ4Y3FzNbw8aAqKAZlVf5wLb', 23, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZVRGZ0JaeWxaY2M3RzcxaFdjRnZtbk1tQmlxM3NHRmZXTkRGM3YyQyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHBzOi8va2VybmVscGFuaWMubG9jYWxob3N0LmNvbSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjIzO30=', 1748117110),
+('IJL7qZrlF7DALyYCvJqAuWBqCTlefg1CPRUHY1YV', 30, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVldRcUF4ODhvVFFaWHlFSUlBWlVGNjByWWc3RVJQYVJVU1dzV25QdiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHBzOi8va2VybmVscGFuaWMubG9jYWxob3N0LmNvbSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjMwO30=', 1748106467),
+('RvmCqBFZw8sXksMBttr3CjPddSsvCEJKuPKslMV0', 25, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTTF4aGlQTzQxZEtUNGhYMXFzdVp6aUtEVEo1NDcyNDZ0OXkzSWZiYyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDg6Imh0dHBzOi8va2VybmVscGFuaWMubG9jYWxob3N0LmNvbS9kYXNoYm9hcmQvZGF0YSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI1O30=', 1748106182),
+('SaTBBoH57wSH5eUNQTRocDbqGzGRgppUwy9uGwST', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibVVSakU2MTIzdWhLdTg1cTBmU3FIRklYbDBDQTdoemw4T2NTZDF0WSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHBzOi8va2VybmVscGFuaWMubG9jYWxob3N0LmNvbS9sb2dpbiI7fXM6NToic3RhdGUiO3M6NDA6IkdHRmtSWmpTWTN5RVVuRFJ3SEN0N295bHB6YVRFeUI2SVVERzdtVGgiO30=', 1748107198);
 
 -- --------------------------------------------------------
 
@@ -733,41 +826,30 @@ CREATE TABLE `users` (
   `currency` varchar(3) NOT NULL DEFAULT 'USD',
   `language` varchar(2) NOT NULL DEFAULT 'en',
   `theme` varchar(10) NOT NULL DEFAULT 'dark',
-  `data_sharing` tinyint(1) NOT NULL DEFAULT 0
+  `data_sharing` tinyint(1) NOT NULL DEFAULT 0,
+  `google_id` text DEFAULT NULL,
+  `google_token` text DEFAULT NULL,
+  `google_refresh_token` text DEFAULT NULL,
+  `github_id` varchar(255) DEFAULT NULL,
+  `github_token` text DEFAULT NULL,
+  `github_refresh_token` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `credit`, `created_at`, `updated_at`, `deleted_at`, `email_offers`, `order_updates`, `currency`, `language`, `theme`, `data_sharing`) VALUES
-(16, 'Ahmed Ali Said', 'malisobh2010@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 111111.00, '2025-03-11 05:32:37', '2025-03-18 01:54:30', NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(20, 'mohamed askar', 'huss44@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(21, 'yassin', 'yassin.shaher2005@gmail.com', '2025-05-18 16:24:50', '$2y$12$ChO03f.WxQk1OhH9hLrENOGgPOGSyWlIbJOm1HGQysx9Mr6IZuq7O', NULL, 100000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(23, 'yassin2', 'yassinchinco@gmail.com', '2025-05-18 16:52:12', '$2y$12$1ILE8oUIkgU02aPZEmcR8eAs8NBKPS7Ub/h/JEhEzdy9YiFQkirfO', NULL, 959000.00, NULL, NULL, NULL, 0, 1, 'USD', 'en', 'dark', 0),
-(25, 'Seif Waheed', 'seifwaheed559@gmail.com', '2025-05-19 13:26:33', '$2y$12$QNR0Isi7cPetqIDqE0mU8e5JCWmLemdOlEyPKN1h8XAIf0Ben/A2O', NULL, 975000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(26, 'ahmed essam', 'essam@gmail.com', NULL, '$2y$12$zUKKA3x1hAWYC6q8TSQSKeFZRj3vQdWf1EubQ4j9BCetrIVX8NxpK', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(27, '3assm', 'essm@gmail.com', NULL, '$2y$12$ZKxMawoG6/h5ArYVEJF9BOrMmhUXyL8hN1CB.nb0AoN4sbdTRhF9a', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(28, 'mohamed askar', 'f@gmail.com', '2025-05-23 19:50:58', '$2y$12$s..5dcKvc3ymb30.k19gpuZWiCQ7MHWpw2Xl1NkV9cMfPcIxs6KVe', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0),
-(29, 'manager', 'manager@gmail.com', '2025-05-22 21:00:00', '$2y$12$vKe5zQq52COQAkmvLF1vY.3PI9kd/lquM0inLjrNLwuOZsDwTBQI2', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0);
-
--- --------------------------------------------------------
-
---
--- Structure for view `daily_financial_summary`
---
-DROP TABLE IF EXISTS `daily_financial_summary`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `daily_financial_summary`  AS SELECT `p`.`date` AS `date`, `p`.`total_sales` AS `total_sales`, `p`.`total_expenses` AS `total_expenses`, `p`.`net_profit` AS `net_profit`, count(distinct `s`.`id`) AS `number_of_sales`, count(distinct `e`.`id`) AS `number_of_expenses` FROM ((`profit` `p` left join `sales` `s` on(`s`.`date` = `p`.`date`)) left join `expenses` `e` on(`e`.`date` = `p`.`date`)) GROUP BY `p`.`date` ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `monthly_financial_summary`
---
-DROP TABLE IF EXISTS `monthly_financial_summary`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `monthly_financial_summary`  AS SELECT date_format(`p`.`date`,'%Y-%m') AS `month`, sum(`p`.`total_sales`) AS `total_sales`, sum(`p`.`total_expenses`) AS `total_expenses`, sum(`p`.`net_profit`) AS `net_profit`, count(distinct `s`.`id`) AS `number_of_sales`, count(distinct `e`.`id`) AS `number_of_expenses` FROM ((`profit` `p` left join `sales` `s` on(`s`.`date` = `p`.`date`)) left join `expenses` `e` on(`e`.`date` = `p`.`date`)) GROUP BY date_format(`p`.`date`,'%Y-%m') ;
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `credit`, `created_at`, `updated_at`, `deleted_at`, `email_offers`, `order_updates`, `currency`, `language`, `theme`, `data_sharing`, `google_id`, `google_token`, `google_refresh_token`, `github_id`, `github_token`, `github_refresh_token`) VALUES
+(16, 'Ahmed Ali Said', 'malisobh2010@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 111111.00, '2025-03-11 05:32:37', '2025-03-18 01:54:30', NULL, 0, 0, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(20, 'mohamed askar', 'huss44@gmail.com', '2025-05-11 16:09:04', '$2y$12$M/Yzb7zC7rYhZ9tkKBGL1.NZ8PnR./kPtAwLlh.aflbSUwziZxtHS', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(21, 'yassin', 'yassin.shaher2005@gmail.com', '2025-05-18 16:24:50', '$2y$12$ChO03f.WxQk1OhH9hLrENOGgPOGSyWlIbJOm1HGQysx9Mr6IZuq7O', NULL, 100000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(23, 'yassin2', 'yassinchinco@gmail.com', '2025-05-18 16:52:12', '$2y$12$1ILE8oUIkgU02aPZEmcR8eAs8NBKPS7Ub/h/JEhEzdy9YiFQkirfO', NULL, 959000.00, NULL, NULL, NULL, 0, 1, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(25, 'Seif Waheed', 'seifwaheed559@gmail.com', '2025-05-24 14:41:14', '$2y$12$QNR0Isi7cPetqIDqE0mU8e5JCWmLemdOlEyPKN1h8XAIf0Ben/A2O', NULL, 975000.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, '104232143773565460081', 'ya29.a0AW4XtxgCeUBMEg_7YqtG3nORF5aom7p1blbvvGA6C2rAVbHF0kBBVP05IkfwjJNeApCXWvPLzWGpdosLdICmGV8RvqT7BgS2FQAWF9uwXA_Ah6NvLmJjC9MOFdmG-XZzNVojz5Lx9VUQZo0w_TtEh0sW50vEWBL0DsF9K2P4aCgYKAXoSARcSFQHGX2MiD9yTU_0EiGkFk12eUYn9Ag0175', NULL, '135646856', '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', NULL),
+(26, 'ahmed essam', 'essam@gmail.com', NULL, '$2y$12$zUKKA3x1hAWYC6q8TSQSKeFZRj3vQdWf1EubQ4j9BCetrIVX8NxpK', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(27, '3assm', 'essm@gmail.com', NULL, '$2y$12$ZKxMawoG6/h5ArYVEJF9BOrMmhUXyL8hN1CB.nb0AoN4sbdTRhF9a', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(28, 'mohamed askar', 'f@gmail.com', '2025-05-23 19:50:58', '$2y$12$s..5dcKvc3ymb30.k19gpuZWiCQ7MHWpw2Xl1NkV9cMfPcIxs6KVe', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(29, 'manager', 'manager@gmail.com', '2025-05-22 21:00:00', '$2y$12$vKe5zQq52COQAkmvLF1vY.3PI9kd/lquM0inLjrNLwuOZsDwTBQI2', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(30, 'Zayd Waheed', 'zaydwaheed123123@gmail.com', NULL, '$2y$12$/jVuZzBnasm0d5sgZ.tFUewp9JLg/TpmWerGCPykjLSa.w/48qluO', NULL, 0.00, NULL, NULL, NULL, 0, 0, 'USD', 'en', 'dark', 0, '105431708031989360413', 'ya29.a0AW4XtxheuLXK6nngT_fUjn3wRhf0V9FWzFt4ZZ6jlW3TfK6An51PXMozBpcSYz4ep4tpEdkd0bnzgZj9elS0XjB5V6rFSw9jRybWE2OmcpYNO8Ut5ykUpJgYD0uzWSwQPLwllCAT9x_jMtZtRmAIQ_y9eWZfvnDe1niGqUQaaCgYKAVcSARQSFQHGX2Mi-gcVGcDwFdolMQYYlC1Egg0175', NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -849,6 +931,40 @@ ALTER TABLE `model_has_permissions`
 ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_auth_codes_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`client_id`);
+
+--
+-- Indexes for table `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
 
 --
 -- Indexes for table `orders`
@@ -984,7 +1100,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1044,7 +1160,25 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `daily_financial_summary`
+--
+DROP TABLE IF EXISTS `daily_financial_summary`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `daily_financial_summary`  AS SELECT `p`.`date` AS `date`, `p`.`total_sales` AS `total_sales`, `p`.`total_expenses` AS `total_expenses`, `p`.`net_profit` AS `net_profit`, count(distinct `s`.`id`) AS `number_of_sales`, count(distinct `e`.`id`) AS `number_of_expenses` FROM ((`profit` `p` left join `sales` `s` on(`s`.`date` = `p`.`date`)) left join `expenses` `e` on(`e`.`date` = `p`.`date`)) GROUP BY `p`.`date` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `monthly_financial_summary`
+--
+DROP TABLE IF EXISTS `monthly_financial_summary`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `monthly_financial_summary`  AS SELECT date_format(`p`.`date`,'%Y-%m') AS `month`, sum(`p`.`total_sales`) AS `total_sales`, sum(`p`.`total_expenses`) AS `total_expenses`, sum(`p`.`net_profit`) AS `net_profit`, count(distinct `s`.`id`) AS `number_of_sales`, count(distinct `e`.`id`) AS `number_of_expenses` FROM ((`profit` `p` left join `sales` `s` on(`s`.`date` = `p`.`date`)) left join `expenses` `e` on(`e`.`date` = `p`.`date`)) GROUP BY date_format(`p`.`date`,'%Y-%m') ;
 
 --
 -- Constraints for dumped tables

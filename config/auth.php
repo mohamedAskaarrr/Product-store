@@ -36,6 +36,7 @@ return [
     */
 
     'guards' => [
+<<<<<<< Updated upstream
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -45,7 +46,19 @@ return [
         'driver' =>'passport',
         'provider'=>'users'  
     ]
+=======
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+
+    'api' => [
+        'driver' => 'passport',
+        'provider' => 'users',
+    ],
+>>>>>>> Stashed changes
 ],
+
 
 
     /*
@@ -117,5 +130,16 @@ return [
     */
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+
+    'guards' => [
+ 'web' => [
+ 'driver' => 'session',
+ 'provider' => 'users',
+ ],
+ 'api' => [
+ 'driver' => 'passport',
+ 'provider' => 'users',
+ ],
+],
 
 ];

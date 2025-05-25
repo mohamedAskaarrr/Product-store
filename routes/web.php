@@ -15,7 +15,24 @@ use App\Http\Controllers\Web\FinancialsController;
 use App\Http\Controllers\Auth\SocialAuthController;
 
 
+<<<<<<< Updated upstream
 Route::get('/', [ProductsController::class, 'index'])->name('home');
+=======
+Route::get('/', function () {
+    if (auth()->check()) {
+        $roles = auth()->user()->getRoleNames()->toArray();
+        if (in_array('Admin', $roles) || in_array('Manager', $roles)) {
+            return redirect()->route('dashboard');
+        }
+    }
+    // $email = emailFromLoginCertificate();
+    // if($email && !auth()->user()) {
+    //     $user = User::where('email', $email)->first();
+    //     if($user) Auth::login($user);
+    // }
+    return view('home');
+})->name('home');
+>>>>>>> Stashed changes
 
 
 
