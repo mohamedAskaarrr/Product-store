@@ -5,15 +5,17 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use DB;
-use Artisan;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationEmail;
 use App\Mail\PurchaseConfirmation;
-// use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
@@ -1237,6 +1239,154 @@ public function createNewRole()
         $user->email_verified_at = now();
         $user->save();
         return redirect()->back()->with('success', 'User verified successfully.');
+    }
+
+    public function submitCreditRequest(Request $request)
+    {
+        if (!auth()->user()) {
+            return redirect()->route('login');
+        }
+
+        $request->validate([
+            'amount' => 'required|numeric|min:1|max:100000',
+            'reason' => 'nullable|string|max:1000'
+        ]);
+
+        try {
+            // Generate a unique request ID for tracking
+            $requestId = 'CR-' . strtoupper(uniqid()) . '-' . auth()->id();
+
+            // Send email notification to admin
+            \Mail::to('yassin.shaher2005@gmail.com')->send(new \App\Mail\CreditRequestNotification(
+                auth()->user(),
+                $request->amount,
+                $request->reason,
+                $requestId
+            ));
+
+            return redirect()->back()->with('success', 'Credit request submitted successfully. Request ID: ' . $requestId . '. You will be notified once it is processed.');
+
+        } catch (\Exception $e) {
+            \Log::error('Credit request error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to submit credit request. Please try again.');
+        }
+    }
+
+    public function approveCreditRequest(Request $request)
+    {
+        if (!auth()->user() || !auth()->user()->hasPermissionTo('manage_customer_credit')) {
+            abort(403, 'Unauthorized');
+        }
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric|min:0.01',
+            'request_id' => 'required|string'
+        ]);
+
+        try {
+            \DB::beginTransaction();
+
+            // Add credit to user
+            \DB::table('users')
+                ->where('id', $request->user_id)
+                ->increment('credit', $request->amount);
+
+            \DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Credit approved and added to user account.',
+                'request_id' => $request->request_id
+            ]);
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            \Log::error('Credit approval error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to approve credit request.'
+            ], 500);
+        }
+    }
+
+    public function addCreditManually(Request $request)
+    {
+        if (!auth()->user() || !auth()->user()->hasPermissionTo('manage_customer_credit')) {
+            abort(403, 'Unauthorized');
+        }
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric|min:0.01'
+        ]);
+
+        try {
+            $user = User::findOrFail($request->user_id);
+            $user->increment('credit', $request->amount);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Credit added successfully!',
+                'new_balance' => number_format($user->fresh()->credit, 2)
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Manual credit add error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to add credit: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function approveCreditRequestViaEmail(Request $request)
+    {
+        // Validate the request parameters
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric|min:0.01|max:100000',
+            'request_id' => 'required|string'
+        ]);
+
+        try {
+            $user = User::findOrFail($request->user_id);
+            
+            // Add credit to the user account
+            $user->increment('credit', $request->amount);
+
+            // Return a success page or redirect with message
+            return view('admin.credit-request-result', [
+                'success' => true,
+                'message' => 'Credit request approved successfully!',
+                'user' => $user,
+                'amount' => $request->amount,
+                'request_id' => $request->request_id,
+                'new_balance' => number_format($user->fresh()->credit, 2)
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Credit approval via email error: ' . $e->getMessage());
+            return view('admin.credit-request-result', [
+                'success' => false,
+                'message' => 'Failed to approve credit request: ' . $e->getMessage(),
+                'request_id' => $request->request_id
+            ]);
+        }
+    }
+
+    public function rejectCreditRequestViaEmail(Request $request)
+    {
+        $request->validate([
+            'request_id' => 'required|string'
+        ]);
+
+        return view('admin.credit-request-result', [
+            'success' => true,
+            'message' => 'Credit request has been rejected.',
+            'request_id' => $request->request_id,
+            'rejected' => true
+        ]);
     }
 
 }

@@ -64,11 +64,19 @@
                             <a href="{{ route('purchase_history', $user->id) }}" class="btn btn-outline-gold">
                                 <i class="fas fa-history"></i> Purchase History
                             </a>
-                            @role('Admin')
                             <a href="{{ route('fav') }}" class="btn btn-outline-gold">
                                 <i class="fas fa-heart"></i> Favourites
                             </a>
-                            @endrole
+                            @if(auth()->id() == $user->id)
+                            <button type="button" class="btn btn-outline-gold" data-bs-toggle="modal" data-bs-target="#creditRequestModal">
+                                <i class="fas fa-credit-card"></i> Request Credit
+                            </button>
+                            @endif
+                            @if(auth()->user()->hasPermissionTo('manage_customer_credit'))
+                            <a href="{{ route('admin.credit.requests') }}" class="btn btn-outline-gold">
+                                <i class="fas fa-credit-card"></i> Manage Credit Requests
+                            </a>
+                            @endif
                         </div>
                         <h6 class="text-uppercase text-gold mb-2">Permissions</h6>
                         <div class="mb-2">
@@ -102,6 +110,50 @@
         </div>
     </div>
 </div>
+
+<!-- Credit Request Modal -->
+@if(auth()->id() == $user->id)
+<div class="modal fade" id="creditRequestModal" tabindex="-1" aria-labelledby="creditRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-gold">
+            <form method="POST" action="{{ route('credit.request.submit') }}">
+                @csrf
+                <div class="modal-header border-gold">
+                    <h5 class="modal-title" id="creditRequestModalLabel">
+                        <i class="fas fa-credit-card me-2"></i>Request Credit
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="amount" class="form-label text-gold">Amount ($)</label>
+                        <input type="number" class="form-control" id="amount" name="amount" 
+                               min="1" max="100000" step="0.01" required 
+                               placeholder="Enter amount (max $100,000)">
+                        <div class="form-text text-light">Current balance: ${{ number_format($user->credit, 2) }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reason" class="form-label text-gold">Reason (Optional)</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="3" 
+                                  maxlength="1000" placeholder="Please explain why you need this credit..."></textarea>
+                        <div class="form-text text-light">Help us understand your request better (optional)</div>
+                    </div>
+                    <div class="alert alert-info border-gold bg-transparent text-light">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Your request will be sent to the admin for review. You will be notified once it's processed.
+                    </div>
+                </div>
+                <div class="modal-footer border-gold">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-gold">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endif
 
 <style>
 @keyframes fadeIn {
@@ -217,6 +269,36 @@ body, .profile-card, .container {
     background: #1e1e1e !important;
     color: #D4AF37 !important;
     border: 1.5px solid #D4AF37;
+}
+
+/* Modal Styles */
+.modal-content {
+    background-color: #2c1e1e !important;
+    border: 1px solid #D4AF37;
+}
+.modal-header {
+    border-bottom-color: #D4AF37;
+}
+.modal-footer {
+    border-top-color: #D4AF37;
+}
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+.form-control {
+    background-color: #2c1e1e !important;
+    border-color: #D4AF37 !important;
+    color: #f5f5f5 !important;
+    transition: all 0.3s ease;
+}
+.form-control:focus {
+    background-color: #3a2a2a !important;
+    border-color: #D4AF37 !important;
+    color: #f5f5f5 !important;
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+}
+.border-gold {
+    border-color: #D4AF37 !important;
 }
 </style>
 @endsection

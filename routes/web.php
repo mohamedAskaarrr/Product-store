@@ -103,6 +103,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/{user}/purchase-history', [UsersController::class, 'purchaseHistory'])->name('purchase_history');
     Route::post('/purchases/{purchase}/refund', [UsersController::class, 'refundPurchase'])->name('purchase.refund');
     Route::post('users/{user}/verify', [UsersController::class, 'adminVerify'])->name('users.admin_verify');
+    
+    // Credit Request Routes
+    Route::post('/credit-request', [UsersController::class, 'submitCreditRequest'])->name('credit.request.submit');
+    Route::get('/admin/credit/approve', [UsersController::class, 'approveCreditRequestViaEmail'])->name('admin.credit.approve.email');
+    Route::get('/admin/credit/reject', [UsersController::class, 'rejectCreditRequestViaEmail'])->name('admin.credit.reject.email');
+    Route::post('/admin/credit/approve', [UsersController::class, 'approveCreditRequest'])->name('admin.credit.approve');
+    Route::post('/admin/credit/add-manual', [UsersController::class, 'addCreditManually'])->name('admin.credit.add.manual');
 });
 
 /*
