@@ -1390,9 +1390,3 @@ public function createNewRole()
     }
 
 }
-
-
-
-
-
-

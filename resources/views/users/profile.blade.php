@@ -72,11 +72,6 @@
                                 <i class="fas fa-credit-card"></i> Request Credit
                             </button>
                             @endif
-                            @if(auth()->user()->hasPermissionTo('manage_customer_credit'))
-                            <a href="{{ route('admin.credit.requests') }}" class="btn btn-outline-gold">
-                                <i class="fas fa-credit-card"></i> Manage Credit Requests
-                            </a>
-                            @endif
                         </div>
                         <h6 class="text-uppercase text-gold mb-2">Permissions</h6>
                         <div class="mb-2">
