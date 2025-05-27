@@ -36,7 +36,6 @@ return [
     */
 
     'guards' => [
-<<<<<<< Updated upstream
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -45,8 +44,8 @@ return [
     'api' =>[
         'driver' =>'passport',
         'provider'=>'users'  
-    ]
-=======
+    ],
+
     'web' => [
         'driver' => 'session',
         'provider' => 'users',
@@ -56,7 +55,6 @@ return [
         'driver' => 'passport',
         'provider' => 'users',
     ],
->>>>>>> Stashed changes
 ],
 
 
