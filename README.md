@@ -1,8 +1,5 @@
 # 🛒 Product Store - Advanced Laravel E-commerce Platform
 
-![Dashboard Preview](store.png) 
-## The first model look
-
 A comprehensive e-commerce platform built with Laravel 11, featuring multi-role management, advanced authentication, and complete business operations management.
 
 ## ✨ Features
